@@ -1,0 +1,95 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion versions.compileSdk
+
+    defaultConfig {
+        applicationId constants.applicationId
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+
+        versionCode versions.versionCode
+        versionName versions.versionName
+
+        buildConfigField("String", "APP_DATABASE_NAME", constants.dataBaseName)
+        buildConfigField("String", "APP_REQUEST_PREFERECES_NAME", constants.preferencesForRequestName)
+
+        buildConfigField("String", "PARTNERS_URL", constants.partnersUrl)
+        buildConfigField("String", "SUPPORT_URL", constants.supportUrl)
+        buildConfigField("String", "IMAGE_URL", constants.urlApiImage)
+
+        buildConfigField("String", "GOOGLE_MAPS_KEY", constants.googleMapDebugKey)
+        buildConfigField "String", "URL_GOOGLE_API", constants.googleApi
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            // Release Closed Key
+            def googleKey = constants.googleMapReleaseKey
+            manifestPlaceholders = [GOOGLE_MAPS_KEY: googleKey]
+            buildConfigField("String", "GOOGLE_MAPS_KEY", "\"${googleKey}\"")
+        }
+
+        debug {
+            minifyEnabled false
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-debug'
+
+            // Open Key
+            def googleKey = constants.googleMapDebugKey
+            manifestPlaceholders = [GOOGLE_MAPS_KEY: googleKey]
+            buildConfigField("String", "GOOGLE_MAPS_KEY", "\"${googleKey}\"")
+        }
+
+        applicationVariants.all { variant ->
+            variant.outputs.all { output ->
+                def date = new Date()
+                def formattedDate = date.format('dd.MM.yyyy')
+                outputFileName = "Companies-${formattedDate}-v${defaultConfig.versionName}-${buildType.name}.apk"
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility versions.sourceCompat
+        targetCompatibility versions.targetCompat
+    }
+
+    lintOptions {
+        disable 'ParcelCreator', 'RestrictedApi'
+        abortOnError true
+    }
+
+    testOptions {
+        unitTests.all {
+            testLogging {
+                events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation project(includes.core)
+
+    implementation 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
+    kapt dependendency.google.daggerProcessor
+    kapt dependendency.android.roomCompiler
+}
+
+kapt {
+    generateStubs = true
+}
+
+androidExtensions {
+    experimental = true
+}

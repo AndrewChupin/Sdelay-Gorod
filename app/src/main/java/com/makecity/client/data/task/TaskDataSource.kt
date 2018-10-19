@@ -1,0 +1,50 @@
+package com.makecity.client.data.task
+
+import com.makecity.client.data.comments.Comment
+import com.makecity.client.data.comments.CommentsAuthorMapperDtoToPersistence
+import com.makecity.client.data.comments.CommentsAuthorMapperPersistenceToCommon
+import com.makecity.client.data.problem.ProblemDetail
+import io.reactivex.Single
+import io.reactivex.functions.BiFunction
+import javax.inject.Inject
+
+
+interface ProblemDataSource {
+	fun getProblems(cityId: Long): Single<List<Task>>
+	fun getProblemComments(problemId: Long): Single<ProblemDetail>
+}
+
+class ProblemDataSourceRemote @Inject constructor(
+	private val problemService: ProblemService,
+	private val mapperProblemDto: ProblemMapperDtoToPersistence,
+	private val mapperProblemPersist: ProblemMapperPersistenceToCommon,
+	private val mapperCommentsDto: CommentsAuthorMapperDtoToPersistence,
+	private val mapperCommentsPersist: CommentsAuthorMapperPersistenceToCommon
+): ProblemDataSource {
+
+	private var tasks: List<Task> = emptyList()
+
+	override fun getProblems(cityId: Long): Single<List<Task>> = Single.defer {
+		if (tasks.isEmpty()) {
+			problemService.requestLoadProblems(LoadTaskRequest(cityId))
+				.map(mapperProblemDto::transformAll)
+				.map(mapperProblemPersist::transformAll)
+				.doOnSuccess { tasks = it }
+		} else {
+			Single.fromCallable { tasks }
+		}
+	}
+
+	override fun getProblemComments(problemId: Long): Single<ProblemDetail> = Single.defer {
+		val task = Single.just(tasks.find { it.id == problemId }!!) // TODO
+		Single.zip(getComments(problemId), task, BiFunction<List<Comment>, Task, ProblemDetail> { t1, t2 ->
+			ProblemDetail(t2, t1)
+		})
+	}
+
+	private fun getComments(problemId: Long): Single<List<Comment>> = Single.defer {
+		problemService.requestLoadComments(LoadCommentsRequest(problemId))
+			.map(mapperCommentsDto::transformAll)
+			.map(mapperCommentsPersist::transformAll)
+	}
+}

@@ -1,0 +1,59 @@
+<resources>
+
+    <string name="app_name">Сделай город</string>
+
+    <!-- Titles -->
+    <string name="feed">Проблемы</string>
+    <string name="notifications">Уведомления</string>
+    <string name="menu">Меню</string>
+    <string name="auth">Авторизация</string>
+
+    <!-- Menu -->
+    <string name="profile">Профиль</string>
+    <string name="settings">Настройки</string>
+    <string name="exit">Выход</string>
+    <string name="help">Помощь</string>
+    <string name="support_project">Поддержать проект</string>
+    <string name="about_project">О проекте</string>
+    <string name="partners">Партнеры</string>
+    <string name="archive_problems">Архив проблем</string>
+    <string name="sign_in">Авторизация</string>
+
+    <!-- Splash Screen -->
+    <string name="splash_retry">Попробовать снова</string>
+    <string name="splash_search_connection">Идет поиск сети</string>
+
+    <!-- Map Screen -->
+    <string name="map_points_not_connection">Нет соединения</string>
+
+    <string name="map_points_error_find_location">Ваше местоположение не найдено</string>
+    <string name="map_points_loading">Загрузка</string>
+    <string name="map_points_wait_loading">Ожидайте загрузку данных</string>
+
+    <!-- About -->
+    <string name="about_content"><![CDATA["Сделай город" - это интерактивная карта города, где каждый может оставить идею или предложение по улучшению городской среды.
+\n\nОн носит исключительно информационно рекомендательный характер и призван для:
+\n\n1. Выявления и обсуждения городских проблем.
+\n2. Повышения заинтересованности и вовлечения жителей в процесс преобразования города.
+\n3. Освещения в СМИ проблем городской среды Для того чтобы оставить своё предложение нужно просто указать место на карте города.
+\n\nДля того, чтобы ваше предложение заинтересовало большее количество горожан и было рассмотрено вы можете:
+\n\n1. Указать более подробный адрес предложения.
+\n2. Прикрепить до 2х фотографий с места.
+\n3. Прикрепить видео о предложении.
+\n4. Рассказать друзьям.
+\n\nЕсли вам нравится наш проект, вы можете <a href=\"http://yasobe.ru/na/sdelaigorodru\">поддержать его</a>.]]></string>
+
+    <!-- Auth -->
+    <string name="auth_sms_title">SMS отправлено на номер <![CDATA[<b>%1$s</b>]]></string>
+    <string name="auth_sms_description">Повторная отправка кода в SMS возможна через 60 секунд</string>
+    <string name="auth_phone_description">Проходя процедуру авторизации вы соглашайтесь с политикой конфиденциальности</string>
+    <string name="auth_phone_title">Войдите, чтобы получить новые возможности</string>
+    <string name="input_phone">Введите телефон</string>
+    <string name="input_code">Введите код</string>
+    <string name="input_password">Введите пароль</string>
+    <string name="location">Местоположение</string>
+    <string name="images">Изображения</string>
+    <string name="show_more">Показать еще</string>
+    <string name="comments">Комментарии</string>
+
+</resources>

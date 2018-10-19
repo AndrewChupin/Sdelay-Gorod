@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/space_base"
+    android:paddingEnd="@dimen/space_base"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/problem_photo_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Информация"
+        android:paddingTop="@dimen/space_base_greater_half"
+        android:fontFamily="@font/roboto_bold"
+        android:textAllCaps="true"
+        android:textColor="@color/text_dark_secondary"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/space_base"
+        android:paddingBottom="@dimen/space_base_lower_half"
+        android:drawableLeft="@drawable/ic_language_gray_24dp"
+        android:drawablePadding="@dimen/space_base_lower_half"
+        android:autoLink="web"
+        android:text="Веб-сайт: https://habr.com/post/270121/"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/space_base_lower_half"
+        android:paddingBottom="@dimen/space_base_lower_half"
+        android:drawableLeft="@drawable/ic_archive_gray_24dp"
+        android:drawablePadding="@dimen/space_base_lower_half"
+        android:autoLink="web"
+        android:text="Заказчик: Александр Петров"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/space_base_lower_half"
+        android:paddingBottom="@dimen/space_base_lower_half"
+        android:drawableLeft="@drawable/ic_group_gray_24dp"
+        android:drawablePadding="@dimen/space_base_lower_half"
+        android:autoLink="web"
+        android:text="Дата создания: 12 августа 2018"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/space_base_lower_half"
+        android:paddingBottom="@dimen/space_base_lower_half"
+        android:drawableLeft="@drawable/ic_group_gray_24dp"
+        android:drawablePadding="@dimen/space_base_lower_half"
+        android:autoLink="web"
+        android:text="Статус: Новая"/>
+
+</LinearLayout>
+

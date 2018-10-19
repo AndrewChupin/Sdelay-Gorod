@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/problem_photo_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/comments"
+    android:paddingTop="@dimen/space_base_greater_half"
+    android:fontFamily="@font/roboto_bold"
+    android:textAllCaps="true"
+    android:textColor="@color/text_dark_secondary"
+    android:textSize="15sp"
+    android:paddingStart="@dimen/space_base"
+    android:paddingEnd="@dimen/space_base" />

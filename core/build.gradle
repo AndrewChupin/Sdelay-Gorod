@@ -1,0 +1,92 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion versions.compileSdk
+
+    defaultConfig {
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            buildConfigField "String", "URL_API", constants.urlApiRelease
+        }
+
+        debug {
+            minifyEnabled false
+
+            buildConfigField "String", "URL_API", constants.urlApiDebug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility versions.sourceCompat
+        targetCompatibility versions.targetCompat
+    }
+
+    lintOptions {
+        disable 'ParcelCreator', 'RestrictedApi'
+        abortOnError true
+    }
+
+    testOptions {
+        unitTests.all {
+            testLogging {
+                events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+            }
+        }
+    }
+}
+
+dependencies {
+    api dependendency.support.appCompat
+    api dependendency.support.recyclerView
+    api dependendency.support.cardView
+    api dependendency.support.support
+    api dependendency.support.constraint
+    api dependendency.support.design
+
+    api dependendency.android.lifecycleExt
+    api dependendency.android.lifecycleCommon
+    api dependendency.android.roomRuntime
+
+    api dependendency.kotlin.stdlib
+
+    api dependendency.reactivex.rxJava
+    api dependendency.reactivex.rxAndroid
+
+    api dependendency.google.map
+    api dependendency.google.location
+    api dependendency.google.dagger
+
+    kapt dependendency.google.daggerProcessor
+
+    api dependendency.square.retrofit
+    api dependendency.square.okhttp
+    api dependendency.square.okhttpLogging
+    api dependendency.square.retrofitRxAdapter
+    api dependendency.square.moshiConverter
+
+    api dependendency.terrakok.cicerone
+    api dependendency.tbruyelle.rxPermissions
+
+    api dependendency.bumptech.glide
+
+    api dependendency.facebook.stetho
+}
+
+kapt {
+    generateStubs = true
+}
+
+androidExtensions {
+    experimental = true
+}

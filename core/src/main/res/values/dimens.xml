@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="space_base_quarter">4dp</dimen>
+    <dimen name="space_base_lower_half">8dp</dimen>
+    <dimen name="space_base_lower_quarter">12dp</dimen>
+    <dimen name="space_base">16dp</dimen>
+    <dimen name="space_base_greater_quarter">20dp</dimen>
+    <dimen name="space_base_greater_half">24dp</dimen>
+    <dimen name="space_base_greater_single">32dp</dimen>
+
+    <dimen name="large_title">32sp</dimen>
+    <dimen name="several_title">24sp</dimen>
+    <dimen name="text_description">14sp</dimen>
+</resources>

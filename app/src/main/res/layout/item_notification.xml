@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_background_main_light_to_secondary"
+    android:foreground="@drawable/ripple_main_light_secondary"
+    android:padding="@dimen/space_base">
+
+    <TextView
+        android:id="@+id/notification_item_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_dark_main"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="In this exercise, you will implement linear regression and get to see it work on data" />
+
+    <TextView
+        android:id="@+id/notification_item_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_base"
+        android:drawableStart="@drawable/ic_date_range_gray_24dp"
+        android:drawablePadding="@dimen/space_base_lower_half"
+        android:textColor="@color/text_dark_secondary"
+        android:gravity="center"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/notification_item_addressee"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notification_item_content"
+        android:text="11 Мар 2018, 21:42" />
+
+    <TextView
+        android:id="@+id/notification_item_addressee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_base"
+        android:drawableStart="@drawable/ic_notifications_red_24dp"
+        android:drawablePadding="@dimen/space_base_lower_half"
+        android:textColor="@color/text_dark_secondary"
+        android:gravity="center"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/notification_item_date"
+        app:layout_constraintTop_toBottomOf="@+id/notification_item_content"
+        android:text="от Sdelaigorod.ru" />
+
+</android.support.constraint.ConstraintLayout>
