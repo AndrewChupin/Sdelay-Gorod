@@ -1,5 +1,6 @@
 package com.makecity.client.presentation.profile
 
+import com.makecity.client.app.AppScreens
 import com.makecity.core.data.Presentation
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.plugin.connection.ConnectionState
@@ -22,7 +23,9 @@ data class ProfileViewState(
 
 
 // Action
-class ProfileAction: ActionView
+sealed class ProfileAction: ActionView {
+	object ShowEditProfile: ProfileAction()
+}
 
 
 // Reducer
@@ -38,8 +41,8 @@ class ProfileViewModel(
 
 	override val viewState: StateLiveData<ProfileViewState> = StateLiveData.create(ProfileViewState())
 
-	override fun reduce(action: ProfileAction) {
-
+	override fun reduce(action: ProfileAction) = when (action) {
+		is ProfileAction.ShowEditProfile -> router.navigateTo(AppScreens.EDIT_PROFILE_SCREEN_KEY)
 	}
 
 	// IMPLEMENT - ConnectionPlugin

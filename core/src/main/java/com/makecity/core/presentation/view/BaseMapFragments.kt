@@ -5,33 +5,31 @@ import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.view.View
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.makecity.core.presentation.viewmodel.ActionView
 import com.makecity.core.presentation.viewmodel.BaseReducer
 import com.makecity.core.presentation.viewmodel.StatementReducer
 import com.makecity.core.presentation.state.ViewState
+import com.makecity.core.presentation.view.map.BaseMapView
 import javax.inject.Inject
 
 
 abstract class BaseMapFragment: BaseFragment(), OnMapReadyCallback {
 
-	private lateinit var mapViews: List<MapView>
+	private lateinit var mapView: BaseMapView
 	lateinit var googleMap: GoogleMap
+	protected var savedMapState: Bundle? = null
 
-	abstract fun setupMapView(): List<MapView>
-
-	fun addMapView(mapView: MapView) {
-		mapViews = mapViews.plus(mapView)
-	}
+	abstract fun setupMapView(): BaseMapView
 
 	@CallSuper
-	override fun onViewCreated(view: android.view.View, savedInstanceState: Bundle?) {
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		mapViews = setupMapView()
-		mapViews.forEach {
-			it.onCreate(savedInstanceState)
-		}
+		mapView = setupMapView()
+
+		mapView.onCreate(savedInstanceState)
+		mapView.restoreCameraState(savedMapState)
+		savedMapState = null
 	}
 
 	override fun onMapReady(map: GoogleMap) {
@@ -39,51 +37,40 @@ abstract class BaseMapFragment: BaseFragment(), OnMapReadyCallback {
 	}
 
 	@CallSuper
-	override fun onStart() {
-		super.onStart()
-		mapViews.forEach {
-			it.onStart()
-		}
-	}
-
-	@CallSuper
 	override fun onResume() {
 		super.onResume()
-		mapViews.forEach {
-			it.onResume()
-		}
+		mapView.onResume()
 	}
 
 	@CallSuper
 	override fun onPause() {
-		mapViews.forEach {
-			it.onPause()
-		}
+		mapView.onPause()
 		super.onPause()
 	}
 
 	@CallSuper
-	override fun onStop() {
-		mapViews.forEach {
-			it.onStop()
-		}
-		super.onStop()
+	override fun onDestroy() {
+		mapView.onDestroy()
+		super.onDestroy()
 	}
 
 	@CallSuper
 	override fun onDestroyView() {
-		mapViews.forEach {
-			it.onDestroy()
-		}
 		super.onDestroyView()
+		savedMapState = Bundle()
+		mapView.storeCameraState(savedMapState)
 	}
 
 	@CallSuper
 	override fun onLowMemory() {
-		mapViews.forEach {
-			it.onLowMemory()
-		}
+		mapView.onLowMemory()
 		super.onLowMemory()
+	}
+
+	@CallSuper
+	override fun onSaveInstanceState(outState: Bundle) {
+		mapView.onSaveInstanceState(outState)
+		super.onSaveInstanceState(outState)
 	}
 }
 

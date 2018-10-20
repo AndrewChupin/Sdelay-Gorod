@@ -7,15 +7,11 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.makecity.client.R
-import com.makecity.client.data.common.MapPoint
 import com.makecity.client.data.task.Task
 import com.makecity.core.data.entity.Location
 import com.makecity.core.extenstion.addMarker
 import com.makecity.core.presentation.view.map.BaseMapView
-import android.content.res.Resources.NotFoundException
 import com.google.android.gms.maps.model.MapStyleOptions
-
-
 
 
 class MapPointsView: BaseMapView, GoogleMap.OnMarkerClickListener {
@@ -29,7 +25,7 @@ class MapPointsView: BaseMapView, GoogleMap.OnMarkerClickListener {
 	// Markers
 	private var markers: MutableList<Marker> = mutableListOf()
 
-	var pointClickListener: ((MapPoint) -> Boolean)? = null
+	var pointClickListener: ((Task) -> Boolean)? = null
 
 	init {
 		getMapAsync(this)
@@ -55,8 +51,8 @@ class MapPointsView: BaseMapView, GoogleMap.OnMarkerClickListener {
 	override fun onMarkerClick(marker: Marker?): Boolean {
 		pointClickListener?.let { listener ->
 			marker?.let {
-				if (it.tag is MapPoint) {
-					return listener(it.tag as MapPoint)
+				if (it.tag is Task) {
+					return listener(it.tag as Task)
 				}
 			}
 		}

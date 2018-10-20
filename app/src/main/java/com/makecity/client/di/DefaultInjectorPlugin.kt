@@ -11,6 +11,7 @@ import com.makecity.client.presentation.map.MapPointsFragment
 import com.makecity.client.presentation.menu.MenuFragment
 import com.makecity.client.presentation.notification.NotificationFragment
 import com.makecity.client.presentation.auth.AuthFragment
+import com.makecity.client.presentation.edit_profile.EditProfileFragment
 import com.makecity.client.presentation.problem.ProblemData
 import com.makecity.client.presentation.problem.ProblemFragment
 import com.makecity.client.presentation.profile.ProfileFragment
@@ -130,6 +131,14 @@ object DefaultInjectorPlugin : InjectorPlugin {
 		fragment: ProfileFragment
 	): ProfileComponent = mainComponent
 		.profileComponent()
+		.withFragment(fragment)
+		.build()
+
+	override fun representEditProfileFragment(
+		mainComponent: MainComponent,
+		fragment: EditProfileFragment
+	): EditProfileComponent = mainComponent
+		.editProfileComponent()
 		.withFragment(fragment)
 		.build()
 }

@@ -7,7 +7,7 @@ import com.makecity.client.app.AppInjector
 import com.makecity.core.presentation.screen.ToolbarConfig
 import com.makecity.core.presentation.screen.ToolbarScreen
 import com.makecity.core.presentation.view.StatementFragment
-import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 typealias ProfileStatement = StatementFragment<ProfileReducer, ProfileViewState, ProfileAction>
 
@@ -29,6 +29,10 @@ class ProfileFragment : ProfileStatement(), ToolbarScreen {
 			title = getString(R.string.profile),
 			isDisplayHomeButton = true
 		))
+
+		profile_edit_profile_button.setOnClickListener {
+			reducer.reduce(ProfileAction.ShowEditProfile)
+		}
 	}
 
 	override fun render(state: ProfileViewState) {

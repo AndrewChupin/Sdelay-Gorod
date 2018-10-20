@@ -1,24 +1,22 @@
 package com.makecity.core.presentation.view
 
-import android.os.Build
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.LayoutRes
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import com.makecity.core.R
-import com.makecity.core.presentation.navigation.BackNavigationConsumer
-import com.makecity.core.presentation.navigation.BackNavigationDelegate
+import com.makecity.core.presentation.navigation.FragmentConsumer
+import com.makecity.core.presentation.navigation.FragmentDelegate
 import com.makecity.core.presentation.viewmodel.ActionView
 import com.makecity.core.presentation.viewmodel.BaseReducer
 import javax.inject.Inject
 
 
-abstract class BaseActivity: AppCompatActivity(), BackNavigationConsumer {
+abstract class BaseActivity: AppCompatActivity(), FragmentConsumer {
 
     @LayoutRes
     open val layoutId: Int? = null
-    override var backButtonDelegate: BackNavigationDelegate? = null
+    override var fragmentelegate: FragmentDelegate? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +34,8 @@ abstract class BaseActivity: AppCompatActivity(), BackNavigationConsumer {
     }
 
     override fun onBackPressed() {
-        val isReturn = backButtonDelegate?.let {
-            backButtonDelegate = null
+        val isReturn = fragmentelegate?.let {
+            fragmentelegate = null
             it.onBackClick()
         } ?: run {
             super.onBackPressed()
@@ -46,6 +44,13 @@ abstract class BaseActivity: AppCompatActivity(), BackNavigationConsumer {
 
         if (isReturn) return
         super.onBackPressed()
+    }
+
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        fragmentelegate?.onScreenResult(requestCode, resultCode, data)
     }
 }
 

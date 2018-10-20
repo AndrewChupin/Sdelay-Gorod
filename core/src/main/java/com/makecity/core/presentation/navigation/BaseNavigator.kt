@@ -29,12 +29,12 @@ abstract class BaseNavigator(
             fragmentTransaction: FragmentTransaction?
     ) {
         currentFragment?.let {
-           /* fragmentTransaction?.setCustomAnimations(
+            fragmentTransaction?.setCustomAnimations(
                 R.anim.enter_scale,
                 R.anim.exit_scale,
                 R.anim.pop_enter_scale,
                 R.anim.pop_exit_scale
-            )*/
+            )
         }
     }
 }

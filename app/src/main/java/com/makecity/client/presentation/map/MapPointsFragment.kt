@@ -5,7 +5,6 @@ import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView.HORIZONTAL
 import android.view.View
-import com.google.android.gms.maps.MapView
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
 import com.makecity.core.extenstion.calculateDiffs
@@ -18,10 +17,11 @@ import com.makecity.core.presentation.view.MapStatementFragment
 import kotlinx.android.synthetic.main.bottom_sheet_problems.*
 import kotlinx.android.synthetic.main.fragment_map.*
 import android.support.v7.widget.LinearSnapHelper
-import android.util.Log
+import com.makecity.client.presentation.feed.ShowProblemDetails
 import com.makecity.core.data.entity.Location
 import com.makecity.core.presentation.list.snap.OnSnapPositionChangeListener
 import com.makecity.core.presentation.list.snap.SnapOnScrollListener
+import com.makecity.core.presentation.view.map.BaseMapView
 
 
 typealias MapStatement = MapStatementFragment<MapPointsReducer, MapPointsViewState, MapPointsAction>
@@ -41,12 +41,14 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 		AppInjector.inject(this)
 	}
 
-	override fun setupMapView(): List<MapView> = listOf(map_view)
+	override fun setupMapView(): BaseMapView = map_view
 
 	override fun onViewCreatedBeforeRender(savedInstanceState: Bundle?) {
 		bottomSheetBehavior = initBottomState(bottom_problems)
-		problemsMapAdapter = ProblemsMapAdapter {
 
+
+		problemsMapAdapter = ProblemsMapAdapter {
+			reducer.reduce(ShowDetails(it.id))
 		}
 		bottom_problems_list.layoutManager = LinearLayoutManager(requireContext(), HORIZONTAL, false)
 		bottom_problems_list.adapter = problemsMapAdapter
@@ -57,6 +59,29 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 
 		snapHelper.attachToRecyclerView(bottom_problems_list)
 		bottom_problems_list.addOnScrollListener(snapOnScrollListener)
+
+		bottom_hide_button.setOnClickListener {
+			bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+		}
+
+		map_view.pointClickListener = {
+			reducer.state.tasks
+				.forEachIndexed { index, task ->
+					if (task.id == it.id) {
+						bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+						bottom_problems_list.smoothScrollToPosition(index)
+					}
+				}
+			true
+		}
+
+		map_show_as_list.setOnClickListener {
+			reducer.reduce(ShowProblemsAsList)
+		}
+
+		map_menu_button.setOnClickListener {
+			reducer.reduce(ShowMenu)
+		}
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -81,7 +106,6 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 				map_view.updatePoints(state.tasks)
 				map_group_message.hideWithScale()
 				problemsMapAdapter.calculateDiffs(state.tasks)
-				bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
 			}
 			is PrimaryViewState.Loading -> map_group_message.showWithScale()
 		}
@@ -94,7 +118,18 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 
 	private fun initBottomState(view: View): BottomSheetBehavior<View> {
 		val bottomSheetBehavior = BottomSheetBehavior.from(view)
-		bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+		bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+		bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+			override fun onSlide(p0: View, p1: Float) {}
+
+			override fun onStateChanged(p0: View, state: Int) {
+				when (state) {
+					BottomSheetBehavior.STATE_HIDDEN -> map_fab_add_task.show()
+					BottomSheetBehavior.STATE_EXPANDED -> map_fab_add_task.hide()
+				}
+			}
+
+		})
 		return bottomSheetBehavior
 	}
 }

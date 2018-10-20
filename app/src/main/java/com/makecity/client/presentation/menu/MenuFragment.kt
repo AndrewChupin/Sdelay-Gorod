@@ -31,7 +31,7 @@ class MenuFragment: MenuStatement(), ToolbarScreen {
 	override fun onViewCreatedBeforeRender(savedInstanceState: Bundle?) {
 		setupToolbarWith(requireActivity(), ToolbarConfig(
 			title = getString(R.string.app_name),
-			isDisplayHomeButton = false
+			isDisplayHomeButton = true
 		))
 
 		Glide.with(menu_profile_image)
@@ -46,6 +46,9 @@ class MenuFragment: MenuStatement(), ToolbarScreen {
 		context?.let {
 			menu_container_main.addView(MenuView(it, R.string.settings, R.drawable.ic_settings_gray_24dp) {
 				reducer.reduce(MenuAction.ItemSelected(MenuType.SETTINGS))
+			})
+			menu_container_main.addView(MenuView(it, R.string.notifications, R.drawable.ic_notifications_gray_24dp) {
+				reducer.reduce(MenuAction.ItemSelected(MenuType.NOTIFICATIONS))
 			})
 			menu_container_main.addView(MenuView(it, R.string.partners, R.drawable.ic_group_gray_24dp) {
 				reducer.reduce(MenuAction.ItemSelected(MenuType.PARTNERS))
@@ -62,6 +65,10 @@ class MenuFragment: MenuStatement(), ToolbarScreen {
 			menu_container_main.addView(MenuView(it, R.string.about_project, R.drawable.ic_info_gray_24dp) {
 				reducer.reduce(MenuAction.ItemSelected(MenuType.ABOUT_PROJECT))
 			})
+		}
+
+		menu_profile_cell.setOnClickListener {
+			reducer.reduce(MenuAction.ShowProfile)
 		}
 	}
 

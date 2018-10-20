@@ -2,11 +2,13 @@ package com.makecity.client.utils
 
 import com.makecity.client.BuildConfig
 import com.makecity.core.data.entity.Location
+import com.makecity.core.utils.ScreenUtils
 
 object GoogleApiHelper {
 	//
 	fun createStaticUrl(location: Location): String {
 		// TODO
+		ScreenUtils.screenWidth
 		var width = ScreenUtils.screenWidth - ScreenUtils.convertDpToPixel(32f)
 		var height = ScreenUtils.convertDpToPixel(150f)
 

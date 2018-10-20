@@ -17,6 +17,7 @@ import com.makecity.core.presentation.screen.ToolbarConfig
 import com.makecity.core.presentation.screen.ToolbarScreen
 import com.makecity.core.presentation.state.PrimaryViewState
 import com.makecity.core.presentation.view.MapStatementFragment
+import com.makecity.core.presentation.view.map.BaseMapView
 import com.makecity.core.utils.Symbols.EMPTY
 import com.makecity.core.utils.image.ImageManager
 import kotlinx.android.synthetic.main.fragment_problem.*
@@ -44,7 +45,7 @@ class ProblemFragment : ProblemStatement(), ToolbarScreen {
 
 	override fun getToolbar(): Toolbar = toolbar
 
-	override fun setupMapView(): List<MapView> = listOf(problem_map)
+	override fun setupMapView(): BaseMapView = problem_map
 
 	override fun onViewCreatedBeforeRender(savedInstanceState: Bundle?) {
 		setupToolbarWith(requireActivity(), ToolbarConfig(

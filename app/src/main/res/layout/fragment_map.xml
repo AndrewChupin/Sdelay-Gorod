@@ -8,6 +8,8 @@
     android:orientation="vertical"
     tools:context=".presentation.main.MainActivity">
 
+
+
     <android.support.constraint.ConstraintLayout
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -16,7 +18,22 @@
         <com.makecity.client.presentation.map.MapPointsView
             android:id="@+id/map_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/map_show_as_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_view_day_gray_24dp"
+            app:fabSize="mini"
+            app:useCompatPadding="true"
+            app:backgroundTint="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text_map_connection"
@@ -88,6 +105,14 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.5" />
     </android.support.constraint.ConstraintLayout>
+
+    <ImageButton
+        android:id="@+id/map_menu_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:padding="@dimen/space_base"
+        android:src="@drawable/ic_menu_gray_24dp" />
 
     <include
         android:id="@+id/bottom_problems"

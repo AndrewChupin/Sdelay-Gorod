@@ -13,6 +13,7 @@ fun GoogleMap.addMarker(location: Location, @DrawableRes resId: Int, tag: Any? =
 	val marker = addMarker(MarkerOptions()
 		.position(LatLng(location.latitude, location.longitude))
 		.icon(BitmapDescriptorFactory.fromResource(resId))
+		.rotation(0f)
 	)
 	marker.tag = tag
 	return marker

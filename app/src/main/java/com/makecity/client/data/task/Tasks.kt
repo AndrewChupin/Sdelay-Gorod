@@ -12,7 +12,7 @@ import com.squareup.moshi.Json
 // REMOTE MODELS
 @Dto
 data class TaskRemote(
-	@Json(name = "id") val id: Long,
+	@Json(name = "problemId") val id: Long,
 	@Json(name = "title") val title: String?,
 	@Json(name = "text") val text: String?,
 	@Json(name = "created_at") val createdTime: Long,
@@ -36,7 +36,7 @@ data class TaskRemote(
 
 @Dto
 data class StatusRemote(
-	@Json(name = "id") val id: Long,
+	@Json(name = "problemId") val id: Long,
 	@Json(name = "name") val name: String?
 )
 

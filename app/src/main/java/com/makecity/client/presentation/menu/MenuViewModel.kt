@@ -30,10 +30,11 @@ data class MenuViewState(
 // Action
 sealed class MenuAction: ActionView {
 	data class ItemSelected(val item: MenuType): MenuAction()
+	object ShowProfile: MenuAction()
 }
 
 enum class MenuType {
-	ADD_ACCOUNT, SETTINGS, PARTNERS, SUPPORT, ARCHIVE, HELP, ABOUT_PROJECT
+	ADD_ACCOUNT, SETTINGS, PARTNERS, SUPPORT, ARCHIVE, HELP, ABOUT_PROJECT, NOTIFICATIONS
 }
 
 // Reducer
@@ -51,6 +52,7 @@ class MenuViewModel(
 
 	override fun reduce(action: MenuAction) = when (action) {
 		is MenuAction.ItemSelected -> reduceItem(action.item)
+		is MenuAction.ShowProfile -> router.navigateTo(AppScreens.PROFILE_SCREEN_KEY)
 	}
 
 	private fun reduceItem(type: MenuType) = when (type) {
@@ -61,8 +63,9 @@ class MenuViewModel(
 		MenuType.SUPPORT -> router.navigateTo(AppScreens.WEB_SCREEN_KEY,
 			WebData(BuildConfig.SUPPORT_URL, EMPTY))
 		MenuType.ARCHIVE -> {}
-		MenuType.HELP -> router.navigateTo(AppScreens.PROFILE_SCREEN_KEY)
+		MenuType.HELP -> {}
 		MenuType.ABOUT_PROJECT -> router.navigateTo(AppScreens.ABOUT_SCREEN_KEY)
+		MenuType.NOTIFICATIONS -> router.navigateTo(AppScreens.NOTIFICATION_SCREEN_KEY)
 	}
 
 	// IMPLEMENT - ConnectionPlugin

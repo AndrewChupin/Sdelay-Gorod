@@ -1,7 +1,9 @@
 package com.makecity.client.presentation.map
 
+import com.makecity.client.app.AppScreens
 import com.makecity.client.data.task.Task
 import com.makecity.client.domain.map.TaskPointsInteractor
+import com.makecity.client.presentation.problem.ProblemData
 import com.makecity.core.data.Presentation
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.plugin.connection.ConnectionState
@@ -33,6 +35,11 @@ data class MapPointsViewState(
 // Action
 sealed class MapPointsAction: ActionView
 object LoadMapPoints : MapPointsAction()
+object ShowProblemsAsList : MapPointsAction()
+object ShowMenu : MapPointsAction()
+data class ShowDetails(
+	val problemId: Long
+): MapPointsAction()
 
 
 // Reducer
@@ -61,13 +68,16 @@ class MapPointsViewModel(
 
 	// OVERRIDE - Reducer
 	override fun reduce(action: MapPointsAction) {
-		if (action is LoadMapPoints) {
-			mapPointsInteractor
+		when (action) {
+			is LoadMapPoints -> mapPointsInteractor
 				.loadProblems()
 				.bindSubscribe(
 					onSuccess = ::reduceLoadTasksSuccess,
 					onError = Throwable::printStackTrace
 				)
+			is ShowProblemsAsList -> router.navigateTo(AppScreens.FEED_SCREEN_KEY)
+			is ShowMenu -> router.navigateTo(AppScreens.MENU_SCREEN_KEY)
+			is ShowDetails -> router.navigateTo(AppScreens.PROBLEM_SCREEN_KEY, ProblemData(action.problemId))
 		}
 	}
 

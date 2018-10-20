@@ -39,6 +39,7 @@ interface MainComponent{
 	fun phoneComponent(): AuthComponent.Builder
 	fun problemComponent(): ProblemComponent.Builder
 	fun profileComponent(): ProfileComponent.Builder
+	fun editProfileComponent(): EditProfileComponent.Builder
 
 	@Subcomponent.Builder
 	interface Builder {

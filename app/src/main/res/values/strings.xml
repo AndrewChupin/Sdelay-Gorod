@@ -7,6 +7,7 @@
     <string name="notifications">Уведомления</string>
     <string name="menu">Меню</string>
     <string name="auth">Авторизация</string>
+    <string name="title_edit_profile">Редактирование профиля</string>
 
     <!-- Menu -->
     <string name="profile">Профиль</string>

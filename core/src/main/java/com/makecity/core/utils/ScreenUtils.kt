@@ -1,4 +1,4 @@
-package com.makecity.client.utils
+package com.makecity.core.utils
 
 import android.content.res.Resources
 

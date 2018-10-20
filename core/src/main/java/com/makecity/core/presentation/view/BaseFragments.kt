@@ -3,6 +3,7 @@ package com.makecity.core.presentation.view
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.annotation.CallSuper
@@ -11,8 +12,8 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.makecity.core.presentation.navigation.BackNavigationConsumer
-import com.makecity.core.presentation.navigation.BackNavigationDelegate
+import com.makecity.core.presentation.navigation.FragmentConsumer
+import com.makecity.core.presentation.navigation.FragmentDelegate
 import com.makecity.core.presentation.navigation.ParentScreenDelegate
 import com.makecity.core.presentation.viewmodel.ActionView
 import com.makecity.core.presentation.viewmodel.BaseReducer
@@ -22,7 +23,7 @@ import kotlinx.android.synthetic.*
 import javax.inject.Inject
 
 
-abstract class BaseFragment: Fragment(), BackNavigationDelegate {
+abstract class BaseFragment: Fragment(), FragmentDelegate {
 
     abstract val layoutId: Int
 
@@ -32,16 +33,16 @@ abstract class BaseFragment: Fragment(), BackNavigationDelegate {
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (activity is BackNavigationConsumer) {
-            (activity as BackNavigationConsumer).backButtonDelegate = this
+        if (activity is FragmentConsumer) {
+            (activity as FragmentConsumer).fragmentelegate = this
         }
     }
 
     @CallSuper
     override fun onDestroyView() {
         super.onDestroyView()
-        if (activity is BackNavigationConsumer) {
-            (activity as BackNavigationConsumer).backButtonDelegate = null
+        if (activity is FragmentConsumer) {
+            (activity as FragmentConsumer).fragmentelegate = null
         }
         clearFindViewByIdCache()
     }
@@ -49,6 +50,8 @@ abstract class BaseFragment: Fragment(), BackNavigationDelegate {
     override fun onBackClick(): Boolean {
         return false
     }
+
+    override fun onScreenResult(requestCode: Int, resultCode: Int, data: Intent?) {}
 
     protected fun showMessage(message: String, contextView: View? = view) {
         contextView?.let {

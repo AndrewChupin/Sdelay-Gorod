@@ -39,7 +39,7 @@ class FeedFragment : FeedStatement(), ToolbarScreen {
 	override fun onViewCreatedBeforeRender(savedInstanceState: Bundle?) {
 		setupToolbarWith(requireActivity(), ToolbarConfig(
 			title = getString(R.string.feed),
-			isDisplayHomeButton = false
+			isDisplayHomeButton = true
 		))
 
 		feed_recycler.layoutManager = LinearLayoutManager(context)

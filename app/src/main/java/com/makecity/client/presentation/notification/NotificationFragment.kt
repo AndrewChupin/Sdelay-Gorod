@@ -34,7 +34,7 @@ class NotificationFragment : NotificationStatement(), ToolbarScreen {
 	override fun onViewCreatedBeforeRender(savedInstanceState: Bundle?) {
 		setupToolbarWith(requireActivity(), ToolbarConfig(
 			title = getString(R.string.notifications),
-			isDisplayHomeButton = false
+			isDisplayHomeButton = true
 		))
 
 		notification_recycler.setHasFixedSize(false)

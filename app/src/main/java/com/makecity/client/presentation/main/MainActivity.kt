@@ -1,5 +1,6 @@
 package com.makecity.client.presentation.main
 
+import android.content.Intent
 import android.os.Bundle
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
@@ -26,11 +27,7 @@ class MainActivity : MainView(), ParentScreenDelegate {
 
 	private lateinit var mainComponent: MainComponent
 
-	override var isFillScreenChild: Boolean
-		get() = !main_bottom_navigation.isVisible
-		set(value) {
-			main_bottom_navigation.isVisible = !value
-		}
+	override var isFillScreenChild: Boolean = false // TODO
 
 	override fun onInject() {
 		mainComponent = AppInjector.injectMain(this, supportFragmentManager, R.id.main_container)
@@ -40,19 +37,19 @@ class MainActivity : MainView(), ParentScreenDelegate {
 		super.onCreate(savedInstanceState)
 
 		if (savedInstanceState == null) {
-			reducer.reduce(ShowFeedAction)
+			reducer.reduce(ShowMapAction)
 		}
 
-		main_bottom_navigation.setOnNavigationItemSelectedListener {
+		/*main_bottom_navigation.setOnNavigationItemSelectedListener {
 			when(it.itemId) {
-				R.id.main_navigation_feed -> reducer.reduce(ShowFeedAction)
-				R.id.main_navigation_map -> reducer.reduce(ShowMapAction)
-				R.id.main_navigation_notification -> reducer.reduce(ShowNotificationsAction)
-				R.id.main_navigation_menu -> reducer.reduce(ShowMenuAction)
+				R.problemId.main_navigation_feed -> reducer.reduce(ShowFeedAction)
+				R.problemId.main_navigation_map -> reducer.reduce(ShowMapAction)
+				R.problemId.main_navigation_notification -> reducer.reduce(ShowNotificationsAction)
+				R.problemId.main_navigation_menu -> reducer.reduce(ShowMenuAction)
 				else -> return@setOnNavigationItemSelectedListener false
 			}
 			true
-		}
+		}*/
 	}
 
 	override fun onResumeFragments() {
