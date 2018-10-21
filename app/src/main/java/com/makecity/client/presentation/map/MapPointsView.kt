@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.util.AttributeSet
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.makecity.client.R
@@ -12,6 +13,7 @@ import com.makecity.core.data.entity.Location
 import com.makecity.core.extenstion.addMarker
 import com.makecity.core.presentation.view.map.BaseMapView
 import com.google.android.gms.maps.model.MapStyleOptions
+import com.makecity.client.data.task.ProblemStatus
 
 
 class MapPointsView: BaseMapView, GoogleMap.OnMarkerClickListener {
@@ -69,11 +71,22 @@ class MapPointsView: BaseMapView, GoogleMap.OnMarkerClickListener {
 
 		points.forEach { point ->
 			markers.find {
-				it.tag == it
+				it.tag == point
 			}?.let {
 				it.position = LatLng(point.latitude, point.longitude)
+				if (it.tag is Task && (it.tag as Task).statusType != point.statusType) {
+					if (point.statusType == ProblemStatus.DONE || point.statusType == ProblemStatus.CANCELED) {
+						it.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.green))
+					} else {
+						it.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.red))
+					}
+				}
 			} ?: map?.run {
-				val marker = this.addMarker(Location(point.latitude, point.longitude), R.drawable.pin, point)
+				val marker = if (point.statusType == ProblemStatus.DONE || point.statusType == ProblemStatus.CANCELED) {
+					this.addMarker(Location(point.latitude, point.longitude), R.drawable.green, point)
+				} else {
+					this.addMarker(Location(point.latitude, point.longitude), R.drawable.red, point)
+				}
 				markers.add(marker)
 			}
 		}

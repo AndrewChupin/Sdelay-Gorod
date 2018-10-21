@@ -63,11 +63,18 @@ class ProblemMapperPersistenceToCommon @Inject constructor(): Mapper<TaskPersist
 			likeCounts = likeCounts,
 			address = address,
 			isLiked = isLiked,
+			statusType = when (status.id) {
+				1L -> ProblemStatus.NEW
+				2L -> ProblemStatus.IN_PROGRESS
+				3L -> ProblemStatus.DONE
+				4L -> ProblemStatus.CANCELED
+				else -> throw IllegalStateException("Status with id ${status.id} not existing")
+			},
 			author = Author(
 				author.userName,
 				author.role,
 				author.phone,
-				author.image
+				concatImage(BuildConfig.IMAGE_URL, author.image)
 			)
 		)
 	}

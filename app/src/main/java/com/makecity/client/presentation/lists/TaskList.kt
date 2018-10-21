@@ -4,13 +4,10 @@ import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.makecity.client.BuildConfig
 import com.makecity.client.R
 import com.makecity.client.data.task.Task
 import com.makecity.client.utils.DateHelper
 import com.makecity.core.extenstion.checkNotEmpty
-import com.makecity.core.extenstion.isVisible
-import com.makecity.core.extenstion.joinPath
 import com.makecity.core.presentation.list.BaseMultiplyAdapter
 import com.makecity.core.presentation.list.BaseViewHolder
 import com.makecity.core.presentation.list.ClickableViewHolder
@@ -18,7 +15,6 @@ import com.makecity.core.utils.image.CommonImageRules
 import com.makecity.core.utils.image.ImageManager
 import kotlinx.android.synthetic.main.item_feed_new.*
 import java.util.*
-
 
 class TaskAdapter(
 	private val imageManager: ImageManager,
@@ -67,22 +63,27 @@ class TaskViewHolder(
 			feed_item_like.text = likeCounts.toString()
 			feed_item_comments.text = commentsCount.toString()
 			feed_item_status.text = status
+			feed_item_author_name.text = author.userName
 			changeLikeSelectable(isLiked)
 
+			author.image.checkNotEmpty {
+				imageManager.apply(CommonImageRules(feed_item_author_photo, it, R.drawable.placeholder_face, true))
+			}
+
 			imageFirst.checkNotEmpty {
-				feed_item_image.isVisible = true
+				// TODO feed_item_image.isVisible = true
 				imageManager.apply(CommonImageRules(feed_item_image, it, null, false))
 			}
 		}
 	}
 
 	private fun changeLikeSelectable(isLiked: Boolean) {
-		if (isLiked) {
-			val image = ContextCompat.getDrawable(containerView.context, R.drawable.ic_favorite_border_gray_24dp)
-			feed_item_like.setCompoundDrawablesWithIntrinsicBounds(image, null, null, null)
+		val image = if (isLiked) {
+			ContextCompat.getDrawable(containerView.context, R.drawable.ic_favorite_red_24dp)
 		} else {
-			val image = ContextCompat.getDrawable(containerView.context, R.drawable.ic_favorite_red_24dp)
-			feed_item_like.setCompoundDrawablesWithIntrinsicBounds(image, null, null, null)
+			ContextCompat.getDrawable(containerView.context, R.drawable.ic_favorite_border_gray_24dp)
 		}
+
+		feed_item_like.setCompoundDrawablesWithIntrinsicBounds(image, null, null, null)
 	}
 }

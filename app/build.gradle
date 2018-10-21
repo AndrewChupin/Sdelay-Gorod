@@ -81,7 +81,7 @@ android {
 dependencies {
     implementation project(includes.core)
 
-    implementation 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
+    implementation dependendency.tinkoff.decoro
     kapt dependendency.google.daggerProcessor
     kapt dependendency.android.roomCompiler
 }

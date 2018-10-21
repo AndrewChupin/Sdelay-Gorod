@@ -8,11 +8,15 @@ import com.makecity.core.data.Dto
 import com.makecity.core.data.Persistence
 import com.squareup.moshi.Json
 
+enum class ProblemStatus {
+	NEW, IN_PROGRESS, DONE, CANCELED
+}
+
 
 // REMOTE MODELS
 @Dto
 data class TaskRemote(
-	@Json(name = "problemId") val id: Long,
+	@Json(name = "id") val id: Long,
 	@Json(name = "title") val title: String?,
 	@Json(name = "text") val text: String?,
 	@Json(name = "created_at") val createdTime: Long,
@@ -36,7 +40,7 @@ data class TaskRemote(
 
 @Dto
 data class StatusRemote(
-	@Json(name = "problemId") val id: Long,
+	@Json(name = "id") val id: Long,
 	@Json(name = "name") val name: String?
 )
 
@@ -82,6 +86,7 @@ data class Task(
 	val text: String?,
 	val createdTime: Long,
 	val updatedTime: Long,
+	val statusType: ProblemStatus,
 	val latitude: Double,
 	val longitude: Double,
 	val address: String,

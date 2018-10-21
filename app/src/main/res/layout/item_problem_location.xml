@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <TextView
@@ -39,14 +39,14 @@
                 android:id="@+id/item_problem_location_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ул. Ленина, 84"
                 android:textColor="@color/text_light_main"
                 android:background="@color/colorAccent"
                 android:paddingStart="@dimen/space_base"
                 android:paddingTop="@dimen/space_base_lower_quarter"
                 android:paddingEnd="@dimen/space_base"
                 android:paddingBottom="@dimen/space_base_lower_quarter"
-                app:layout_constraintBottom_toBottomOf="@+id/item_problem_location_image" />
+                app:layout_constraintBottom_toBottomOf="@+id/item_problem_location_image"
+                tools:text="ул. Ленина, 84" />
 
         </LinearLayout>
 

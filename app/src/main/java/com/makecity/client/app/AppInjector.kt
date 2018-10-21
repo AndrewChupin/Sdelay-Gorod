@@ -2,9 +2,10 @@ package com.makecity.client.app
 
 import android.support.v4.app.FragmentManager
 import com.makecity.client.di.AppComponent
-import com.makecity.client.di.InjectorPlugin
+import com.makecity.client.di.common.InjectorPlugin
 import com.makecity.client.di.MainComponent
 import com.makecity.client.presentation.about.AboutFragment
+import com.makecity.client.presentation.address.AddressFragment
 import com.makecity.client.presentation.auth.AuthData
 import com.makecity.client.presentation.city.CityFragment
 import com.makecity.client.presentation.feed.FeedFragment
@@ -13,10 +14,16 @@ import com.makecity.client.presentation.map.MapPointsFragment
 import com.makecity.client.presentation.menu.MenuFragment
 import com.makecity.client.presentation.notification.NotificationFragment
 import com.makecity.client.presentation.auth.AuthFragment
+import com.makecity.client.presentation.create_problem.CreateProblemFragment
+import com.makecity.client.presentation.edit_problem.EditProblemFragment
 import com.makecity.client.presentation.edit_profile.EditProfileFragment
+import com.makecity.client.presentation.filter.ProblemFilterFragment
+import com.makecity.client.presentation.map_address.MapAddressFragment
+import com.makecity.client.presentation.own_problems.OwnProblemsFragment
 import com.makecity.client.presentation.problem.ProblemData
 import com.makecity.client.presentation.problem.ProblemFragment
 import com.makecity.client.presentation.profile.ProfileFragment
+import com.makecity.client.presentation.settings.SettingsFragment
 import com.makecity.client.presentation.splash.SplashFragment
 import com.makecity.client.presentation.web.WebData
 import com.makecity.client.presentation.web.WebFragment
@@ -141,7 +148,7 @@ object AppInjector {
 				.inject(fragment)
 			return
 		}
-		throw IllegalStateException("MainComponent must be initialized before ProblemComponent")
+		throw IllegalStateException("MainComponent must be initialized before AuthComponent")
 	}
 
 	fun inject(fragment: ProfileFragment) {
@@ -150,7 +157,7 @@ object AppInjector {
 				.inject(fragment)
 			return
 		}
-		throw IllegalStateException("MainComponent must be initialized before ProblemComponent")
+		throw IllegalStateException("MainComponent must be initialized before ProfileComponent")
 	}
 
 	fun inject(fragment: EditProfileFragment) {
@@ -159,6 +166,69 @@ object AppInjector {
 				.inject(fragment)
 			return
 		}
-		throw IllegalStateException("MainComponent must be initialized before ProblemComponent")
+		throw IllegalStateException("MainComponent must be initialized before EditProfileComponent")
+	}
+
+	fun inject(fragment: AddressFragment) {
+		mainComponent.get()?.let {
+			injectorPlugin.representAddressFragment(it, fragment)
+				.inject(fragment)
+			return
+		}
+		throw IllegalStateException("MainComponent must be initialized before AddressComponent")
+	}
+
+	fun inject(fragment: CreateProblemFragment) {
+		mainComponent.get()?.let {
+			injectorPlugin.representCreateProblemFragment(it, fragment)
+				.inject(fragment)
+			return
+		}
+		throw IllegalStateException("MainComponent must be initialized before CreateProblemComponent")
+	}
+
+	fun inject(fragment: MapAddressFragment) {
+		mainComponent.get()?.let {
+			injectorPlugin.representMapAddressFragment(it, fragment)
+				.inject(fragment)
+			return
+		}
+		throw IllegalStateException("MainComponent must be initialized before MapAddressComponent")
+	}
+
+	fun inject(fragment: OwnProblemsFragment) {
+		mainComponent.get()?.let {
+			injectorPlugin.representOwnProblemsFragment(it, fragment)
+				.inject(fragment)
+			return
+		}
+		throw IllegalStateException("MainComponent must be initialized before OwnProblemsComponent")
+	}
+
+	fun inject(fragment: ProblemFilterFragment) {
+		mainComponent.get()?.let {
+			injectorPlugin.representProblemFilterFragment(it, fragment)
+				.inject(fragment)
+			return
+		}
+		throw IllegalStateException("MainComponent must be initialized before ProblemFilterComponent")
+	}
+
+	fun inject(fragment: EditProblemFragment) {
+		mainComponent.get()?.let {
+			injectorPlugin.representEditProblemFragment(it, fragment)
+				.inject(fragment)
+			return
+		}
+		throw IllegalStateException("MainComponent must be initialized before SettingsComponent")
+	}
+
+	fun inject(fragment: SettingsFragment) {
+		mainComponent.get()?.let {
+			injectorPlugin.representSettingsFragment(it, fragment)
+				.inject(fragment)
+			return
+		}
+		throw IllegalStateException("MainComponent must be initialized before SettingsComponent")
 	}
 }

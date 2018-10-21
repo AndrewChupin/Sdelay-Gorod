@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import com.makecity.client.app.AppScreens
 import com.makecity.client.presentation.about.AboutFragment
+import com.makecity.client.presentation.address.AddressFragment
 import com.makecity.client.presentation.auth.AuthData
 import com.makecity.client.presentation.city.CityFragment
 import com.makecity.client.presentation.feed.FeedFragment
@@ -15,10 +16,15 @@ import com.makecity.client.presentation.map.MapPointsFragment
 import com.makecity.client.presentation.menu.MenuFragment
 import com.makecity.client.presentation.notification.NotificationFragment
 import com.makecity.client.presentation.auth.AuthFragment
+import com.makecity.client.presentation.create_problem.CreateProblemFragment
 import com.makecity.client.presentation.edit_profile.EditProfileFragment
+import com.makecity.client.presentation.filter.ProblemFilterFragment
+import com.makecity.client.presentation.map_address.MapAddressFragment
+import com.makecity.client.presentation.own_problems.OwnProblemsFragment
 import com.makecity.client.presentation.problem.ProblemData
 import com.makecity.client.presentation.problem.ProblemFragment
 import com.makecity.client.presentation.profile.ProfileFragment
+import com.makecity.client.presentation.settings.SettingsFragment
 import com.makecity.client.presentation.splash.SplashFragment
 import com.makecity.client.presentation.web.WebData
 import com.makecity.client.presentation.web.WebFragment
@@ -48,6 +54,13 @@ class MainNavigator @Inject constructor(
 			AppScreens.CITY_SCREEN_KEY -> CityFragment.newInstance()
 			AppScreens.PROFILE_SCREEN_KEY -> ProfileFragment.newInstance()
 			AppScreens.EDIT_PROFILE_SCREEN_KEY -> EditProfileFragment.newInstance()
+			AppScreens.ADDRESS_SCREEN_KEY -> AddressFragment.newInstance()
+			AppScreens.CREATE_PROBLEM_SCREEN_KEY -> CreateProblemFragment.newInstance()
+			AppScreens.EDIT_PROBLEM_SCREEN_KEY -> EditProfileFragment.newInstance()
+			AppScreens.FILTER_PROBLEM_SCREEN_KEY -> ProblemFilterFragment.newInstance()
+			AppScreens.MAP_ADDRESS_SCREEN_KEY -> MapAddressFragment.newInstance()
+			AppScreens.OWN_PROBLEMS_SCREEN_KEY -> OwnProblemsFragment.newInstance()
+			AppScreens.SETTINGS_SCREEN_KEY -> SettingsFragment.newInstance()
 			AppScreens.AUTH_SCREEN_KEY ->  {
 				if (data != null && data !is AuthData) {
 					throw IllegalArgumentException("data is null or type not AuthData")
@@ -84,6 +97,7 @@ class MainNavigator @Inject constructor(
 		if (command != null && command.screenKey == AppScreens.IMAGE_PICKER_SCREEN_KEY) {
 			val activityIntent = createActivityIntent(activity, command.screenKey, command.transitionData)
 			activity.startActivityForResult(activityIntent, PHOTO_REQ_CODE)
+			return
 		}
 
 		super.forward(command)

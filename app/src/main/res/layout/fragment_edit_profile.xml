@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -21,9 +22,9 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/space_base"
+        android:layout_marginTop="@dimen/space_base"
+        android:layout_marginBottom="@dimen/space_base"
         app:contentPadding="@dimen/space_base"
-        app:cardElevation="8dp"
         app:cardCornerRadius="@dimen/space_base">
 
             <LinearLayout
@@ -39,10 +40,11 @@
 
                     <ImageView
                         android:id="@+id/edit_profile_photo"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
                         android:src="@drawable/placeholder_face"
                         android:layout_margin="@dimen/space_base"
+                        android:scaleType="centerCrop"
                         android:layout_gravity="center"/>
 
                     <TextView
@@ -51,7 +53,6 @@
                         android:paddingBottom="@dimen/space_base"
                         android:text="Сменить фото"
                         android:textSize="16sp"
-                        android:fontFamily="@font/roboto_bold"
                         android:textColor="@color/colorAccent"
                         android:gravity="center"/>
 
@@ -68,6 +69,7 @@
                     android:text="Полное имя"/>
 
                 <EditText
+                    android:id="@+id/edit_profile_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/space_base"
@@ -85,6 +87,7 @@
                     android:text="Телефон"/>
 
                 <EditText
+                    android:id="@+id/edit_profile_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/space_base"
@@ -101,6 +104,7 @@
                     android:text="Город"/>
 
                 <EditText
+                    android:id="@+id/edit_profile_city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/space_base"
@@ -115,30 +119,59 @@
                     android:fontFamily="@font/roboto_bold"
                     android:paddingBottom="@dimen/space_base_lower_half"
                     android:textSize="14sp"
+                    android:visibility="gone"
                     android:text="Пол"/>
 
                 <RadioGroup
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/space_base"
+                    android:layout_gravity="center"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     android:weightSum="2">
 
-                    <android.support.v7.widget.AppCompatRadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="16sp"
-                        android:text="Мужчина"/>
+                        <android.support.v7.widget.AppCompatRadioButton
+                            android:id="@+id/appCompatRadioButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Мужчина"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/appCompatRadioButton2"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                    <android.support.v7.widget.AppCompatRadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="16sp"
-                        android:text="Женщина"/>
+                    <Space
+                        android:layout_width="@dimen/space_base"
+                        android:layout_height="match_parent" />
+
+                        <android.support.v7.widget.AppCompatRadioButton
+                            android:id="@+id/appCompatRadioButton2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Женщина"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/appCompatRadioButton"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                 </RadioGroup>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:textColor="@color/text_light_main"
+                    android:background="@drawable/selector_circle_accent"
+                    android:foreground="@drawable/ripple_accent"
+                    android:layout_marginBottom="@dimen/space_base"
+                    android:layout_marginTop="@dimen/space_base"
+                    android:text="Сохранить"/>
 
             </LinearLayout>
 

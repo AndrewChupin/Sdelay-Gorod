@@ -12,22 +12,44 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/main_light_bg"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
+        android:background="@color/main_light_bg">
+
+        <ImageView
+            android:id="@+id/problem_item_author_photo"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder_face"
+            app:layout_constraintEnd_toStartOf="@+id/problem_item_author_name"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/problem_item_author_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_base"
+            android:text="Andrew Chupin"
+            android:textColor="@color/main_dark_description_bg"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/problem_item_author_photo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/problem_item_author_photo" />
 
         <TextView
             android:id="@+id/task_item_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/roboto_bold"
             android:textColor="@color/text_dark_main"
             android:textSize="22sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toTopOf="@+id/task_item_time"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/problem_item_author_photo"
             tools:text="Починить велопарк" />
 
         <TextView
@@ -39,6 +61,8 @@
             android:fontFamily="@font/roboto_light"
             android:textColor="@color/text_dark_description"
             android:textSize="14sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toTopOf="@+id/task_item_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,10 +78,28 @@
             tools:text="Велосипедисты-энтузиасты построили на этом месте памп-трек - грунтовую велосипедную закольцованную трассу, представляющую собой чередование ям, кочек и контруклонов."
             android:textColor="@color/text_dark_main"
             android:textSize="16sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toTopOf="@+id/task_item_time"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/task_item_time" />
+
+
+        <TextView
+            android:id="@+id/problem_item_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_favorite_red_24dp"
+            android:drawablePadding="@dimen/space_base_lower_half"
+            android:gravity="center"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="16dp"
+            tools:text="532"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/task_item_content" />
 
         <TextView
             android:id="@+id/task_item_status"
@@ -70,6 +112,8 @@
             tools:text="В работе"
             android:textColor="@color/text_light_main"
             android:textSize="12sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/task_item_content" />

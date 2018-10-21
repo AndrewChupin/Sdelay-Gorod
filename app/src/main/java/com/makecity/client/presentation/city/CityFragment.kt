@@ -9,6 +9,7 @@ import com.makecity.core.presentation.view.StatementFragment
 import kotlinx.android.synthetic.main.fragment_city.*
 import kotlinx.android.synthetic.main.toolbar.*
 
+
 typealias CityStatement = StatementFragment<CityReducer, CityViewState, CityAction>
 
 

@@ -2,6 +2,7 @@ package com.makecity.client.presentation.auth
 
 import android.os.Bundle
 import android.support.transition.TransitionManager
+import android.support.v4.view.ViewCompat
 import android.support.v7.widget.Toolbar
 import android.text.InputFilter
 import com.makecity.client.R
@@ -13,8 +14,12 @@ import com.makecity.core.presentation.screen.KeyboardScreen
 import com.makecity.core.presentation.screen.ToolbarConfig
 import com.makecity.core.presentation.screen.ToolbarScreen
 import com.makecity.core.presentation.view.StatementFragment
+import com.makecity.core.utils.ScreenUtils
 import com.makecity.core.utils.Symbols.EMPTY
 import kotlinx.android.synthetic.main.fragment_auth.*
+import ru.tinkoff.decoro.MaskImpl
+import ru.tinkoff.decoro.slots.PredefinedSlots
+import ru.tinkoff.decoro.watchers.MaskFormatWatcher
 
 typealias AuthStatement = StatementFragment<AuthReducer, AuthViewState, AuthAction>
 
@@ -41,6 +46,9 @@ class AuthFragment : AuthStatement(), ToolbarScreen, KeyboardScreen {
 		))
 		trySetupContentSize(true)
 		auth_input_field.requestFocus()
+
+		ViewCompat.setElevation(auth_input_container, ScreenUtils.convertDpToPixel(8f))
+
 		showKeyboard()
 
 		auth_next_button.setOnClickListener {
@@ -62,6 +70,11 @@ class AuthFragment : AuthStatement(), ToolbarScreen, KeyboardScreen {
 		AuthType.PHONE -> {
 			auth_input_field.setHint(R.string.input_phone)
 			auth_input_field.filters = arrayOf()
+
+			val mask = MaskImpl(PredefinedSlots.RUS_PHONE_NUMBER, true)
+			mask.isHideHardcodedHead = true
+			val watcher = MaskFormatWatcher(mask)
+			watcher.installOn(auth_input_field)
 
 			auth_info_title.text = getString(R.string.auth_phone_title)
 			auth_info_description.text = getString(R.string.auth_phone_description)

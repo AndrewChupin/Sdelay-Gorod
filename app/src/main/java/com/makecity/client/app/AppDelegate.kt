@@ -4,7 +4,7 @@ import android.app.Application
 import com.facebook.stetho.Stetho
 import com.makecity.client.BuildConfig
 import com.makecity.client.di.AppComponent
-import com.makecity.client.di.DefaultInjectorPlugin
+import com.makecity.client.di.common.DefaultInjectorPlugin
 
 
 class AppDelegate: Application() {

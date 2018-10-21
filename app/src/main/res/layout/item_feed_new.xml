@@ -22,12 +22,35 @@
             android:layout_height="wrap_content"
             android:background="@color/main_light_bg">
 
+            <ImageView
+                android:id="@+id/feed_item_author_photo"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="@dimen/space_base"
+                android:layout_marginEnd="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder_face"
+                app:layout_constraintEnd_toStartOf="@+id/feed_item_author_name"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/feed_item_author_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space_base"
+                android:text="Andrew Chupin"
+                android:textColor="@color/main_dark_description_bg"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/feed_item_author_photo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/feed_item_author_photo" />
+
             <TextView
                 android:id="@+id/feed_item_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/roboto_bold"
                 tools:text="Починить велопарк"
@@ -36,7 +59,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/feed_item_time"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/feed_item_image" />
+                app:layout_constraintTop_toBottomOf="@+id/feed_item_author_photo" />
 
             <TextView
                 android:id="@+id/feed_item_time"
@@ -52,13 +75,15 @@
                 app:layout_constraintBottom_toTopOf="@+id/feed_item_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/feed_item_title" />
+                app:layout_constraintTop_toBottomOf="@+id/feed_item_title"
+                tools:text="12 января 2018 в 12:23" />
 
             <ImageView
                 android:id="@+id/feed_item_image"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

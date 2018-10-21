@@ -40,6 +40,13 @@ interface MainComponent{
 	fun problemComponent(): ProblemComponent.Builder
 	fun profileComponent(): ProfileComponent.Builder
 	fun editProfileComponent(): EditProfileComponent.Builder
+	fun addressComponent(): AddressComponent.Builder
+	fun createProblemComponent(): CreateProblemComponent.Builder
+	fun editProblemComponent(): EditProblemComponent.Builder
+	fun mapAddressComponent(): MapAddressComponent.Builder
+	fun ownProblemsComponent(): OwnProblemsComponent.Builder
+	fun problemFilterComponent(): ProblemFilterComponent.Builder
+	fun settingsComponent(): SettingsComponent.Builder
 
 	@Subcomponent.Builder
 	interface Builder {

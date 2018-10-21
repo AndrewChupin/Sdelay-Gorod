@@ -51,7 +51,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:fontFamily="@font/proxima_nova_regular"
                         android:textColor="@color/text_dark_main"
                         android:textSize="18sp"
                         android:text="Andrew Chupin"/>

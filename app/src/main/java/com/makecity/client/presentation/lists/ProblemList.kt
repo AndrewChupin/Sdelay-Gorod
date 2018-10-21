@@ -1,5 +1,6 @@
 package com.makecity.client.presentation.lists
 
+import android.support.design.R.id.image
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
@@ -52,7 +53,8 @@ class TaskDetailAdapter(
 	): BaseViewHolder<*> = when (type) {
 		R.layout.item_problem_content -> ProblemViewHolder(
 			containerView = LayoutInflater.from(parent.context).inflate(R.layout.item_problem_content, parent, false),
-			itemClickDelegate = problemDelegate
+			itemClickDelegate = problemDelegate,
+			imageManager = imageManager
 		)
 		R.layout.item_problem_location -> LocationViewHolder(
 			containerView = LayoutInflater.from(parent.context).inflate(R.layout.item_problem_location, parent, false),
@@ -133,10 +135,15 @@ class TaskDetailAdapter(
 
 class ProblemViewHolder(
 	containerView: View,
-	override val itemClickDelegate: (Task) -> Unit
+	override val itemClickDelegate: (Task) -> Unit,
+	private val imageManager: ImageManager
 ) : ClickableViewHolder<Task>(containerView, itemClickDelegate) {
 
 	override lateinit var item: Task
+
+	init {
+		problem_item_like.setOnClickListener {  }
+	}
 
 	override fun bind(item: Task) {
 		super.bind(item)
@@ -146,16 +153,24 @@ class ProblemViewHolder(
 			task_item_time.text = DateHelper.convertDateToFormat(Date(updatedTime))
 			task_item_content.text = text
 			task_item_status.text = status
+			problem_item_like.text = likeCounts.toString()
+			problem_item_author_name.text = author.userName
 			changeLikeSelectable(isLiked)
+
+			author.image.checkNotEmpty {
+				imageManager.apply(CommonImageRules(problem_item_author_photo, it, R.drawable.placeholder_face, true))
+			}
 		}
 	}
 
 	private fun changeLikeSelectable(isLiked: Boolean) {
-		if (isLiked) {
-			val image = ContextCompat.getDrawable(containerView.context, R.drawable.ic_favorite_border_gray_24dp)
+		val image = if (isLiked) {
+			ContextCompat.getDrawable(containerView.context, R.drawable.ic_favorite_red_24dp)
 		} else {
-			val image = ContextCompat.getDrawable(containerView.context, R.drawable.ic_favorite_red_24dp)
+			ContextCompat.getDrawable(containerView.context, R.drawable.ic_favorite_border_gray_24dp)
 		}
+
+		problem_item_like.setCompoundDrawablesWithIntrinsicBounds(image, null, null, null)
 	}
 }
 
@@ -176,6 +191,7 @@ class LocationViewHolder(
 			return
 		}
 
+		item_problem_location_address.text = item.address
 		val location = Location(item.latitude, item.longitude)
 		val rules = CommonImageRules(item_problem_location_image, GoogleApiHelper.createStaticUrl(location))
 		imageManager.apply(rules)

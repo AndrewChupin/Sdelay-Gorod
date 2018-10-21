@@ -9,7 +9,7 @@ import com.squareup.moshi.Json
 // REMOTE MODELS
 @Dto
 data class CommentRemote(
-	@Json(name = "problemId") val id: Long,
+	@Json(name = "id") val id: Long,
 	@Json(name = "text") val text: String?,
 	@Json(name = "created_at") val createdTime: Long,
 	@Json(name = "updated_at") val updatedTime: Long,

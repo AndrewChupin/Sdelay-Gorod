@@ -17,13 +17,14 @@ import com.makecity.core.presentation.screen.ToolbarConfig
 import com.makecity.core.presentation.screen.ToolbarScreen
 import com.makecity.core.presentation.state.PrimaryViewState
 import com.makecity.core.presentation.view.MapStatementFragment
+import com.makecity.core.presentation.view.StatementFragment
 import com.makecity.core.presentation.view.map.BaseMapView
 import com.makecity.core.utils.Symbols.EMPTY
 import com.makecity.core.utils.image.ImageManager
 import kotlinx.android.synthetic.main.fragment_problem.*
 import javax.inject.Inject
 
-typealias ProblemStatement = MapStatementFragment<ProblemReducer, ProblemViewState, ProblemAction>
+typealias ProblemStatement = StatementFragment<ProblemReducer, ProblemViewState, ProblemAction>
 
 
 class ProblemFragment : ProblemStatement(), ToolbarScreen {
@@ -44,8 +45,6 @@ class ProblemFragment : ProblemStatement(), ToolbarScreen {
 	override fun onInject() = AppInjector.inject(this, getArgument(ARGUMENT_PROBLEM_DATA))
 
 	override fun getToolbar(): Toolbar = toolbar
-
-	override fun setupMapView(): BaseMapView = problem_map
 
 	override fun onViewCreatedBeforeRender(savedInstanceState: Bundle?) {
 		setupToolbarWith(requireActivity(), ToolbarConfig(
@@ -75,10 +74,6 @@ class ProblemFragment : ProblemStatement(), ToolbarScreen {
 
 		trySetupContentSize(true)
 		reducer.reduce(LoadProblemAction)
-
-		problem_map.mapInteractionReady = {
-			problem_map.setCamera(Location(56.8589678,53.2050771), 15f)
-		}
 	}
 
 	override fun onDestroyView() {

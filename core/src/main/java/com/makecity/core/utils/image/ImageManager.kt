@@ -1,5 +1,7 @@
 package com.makecity.core.utils.image
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -28,23 +30,22 @@ class CommonImageManager @Inject constructor(): ImageManager {
 		else -> throw IllegalStateException("rules with class ${rules.javaClass.canonicalName} unsupported")
 	}
 
+	@SuppressLint("CheckResult")
 	private fun loadGlideImage(rules: CommonImageRules) {
 		var request = Glide
 			.with(rules.image)
 			.load(rules.url)
+		val options = RequestOptions()
 
 		if (rules.withCircle) {
-			request = request.apply(RequestOptions.circleCropTransform())
+			options.circleCrop()
 		}
 
 		rules.placeholder?.let {
-			val placeholder = RequestOptions
-				.placeholderOf(it)
-				.centerCrop()
-
-			request = request.apply(placeholder)
+			options.placeholder(it)
 		}
 
+		request = request.apply(options)
 		request.into(rules.image)
 	}
 }
