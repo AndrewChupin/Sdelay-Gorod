@@ -87,16 +87,22 @@
 
         </LinearLayout>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/map_fab_add_task"
+        <Button
+            android:id="@+id/map_button_add_task"
+            style="@style/BaseMapButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_white_24dp"
-            app:backgroundTint="@color/colorAccent"
-            app:fabSize="normal"
+            android:layout_marginBottom="24dp"
+            android:textColor="@color/text_dark_secondary"
+            android:foreground="@drawable/ripple_main_light_secondary"
+            android:fontFamily="@font/roboto_bold"
+            android:background="@drawable/shape_white_corner_big"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:text="Добавить"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:useCompatPadding="true" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline_center_horizontal"

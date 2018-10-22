@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import com.makecity.client.presentation.camera.CameraFragment
 import com.makecity.client.presentation.camera.CameraReducer
 import com.makecity.client.presentation.camera.CameraViewModel
+import com.makecity.client.presentation.category.CategoryData
 import com.makecity.core.di.scope.FragmentScope
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.presentation.viewmodel.ViewModelFactory

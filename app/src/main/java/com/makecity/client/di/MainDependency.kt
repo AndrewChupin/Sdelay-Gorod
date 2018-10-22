@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.support.annotation.IdRes
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
+import com.makecity.client.data.auth.*
 import com.makecity.client.data.category.*
 import com.makecity.client.data.comments.*
 import com.makecity.client.data.common.Api
@@ -22,7 +23,7 @@ import javax.inject.Singleton
 
 
 @ActivityScope
-@Subcomponent(modules = [MainModule::class, TaskMapperModule::class])
+@Subcomponent(modules = [MainModule::class, MapperModule::class, AuthDefaultModule::class])
 interface MainComponent{
 
 	// Injects
@@ -50,6 +51,7 @@ interface MainComponent{
 	fun settingsComponent(): SettingsComponent.Builder
 	fun cameraComponent(): CameraComponent.Builder
 	fun categoryComponent(): CategoryComponent.Builder
+	fun descriptionComponent(): DescriptionComponent.Builder
 
 	@Subcomponent.Builder
 	interface Builder {
@@ -70,7 +72,7 @@ interface MainComponent{
 
 
 @Module
-interface TaskMapperModule {
+interface MapperModule {
 
 	@Singleton
 	@Binds
@@ -97,6 +99,31 @@ interface TaskMapperModule {
 	@Singleton
 	@Binds
 	fun provideCategoryMapperPersistenceToCommon(mapper: CategoryMapperPersistToCommon): Mapper<CategoryPersistence, Category>
+
+	@Singleton
+	@Binds
+	fun provideAuthNextStepMapper(mapper: AuthNextStepMapper): Mapper<String, NextAuthStep>
+}
+
+
+@Module
+class AuthDefaultModule {
+
+	@Provides
+	@ActivityScope
+	fun provideAuthService(authServiceDefault: AuthServiceDefault): AuthService = authServiceDefault
+
+	@Provides
+	@ActivityScope
+	fun provideAuthStorage(authStorage: AuthStoragePreferences): AuthStorage = authStorage
+
+	@Provides
+	@ActivityScope
+	fun provideAuthDataSource(
+		authService: AuthService,
+		authStorage: AuthStorage,
+		mapper: AuthNextStepMapper
+	): AuthDataSource = AuthDataSourceDefault(authService, authStorage, mapper)
 }
 
 

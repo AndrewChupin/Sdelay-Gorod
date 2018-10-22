@@ -1,6 +1,5 @@
 package com.makecity.core.utils.resources
 
-
 /**
  * Interface wrapper for access resources
  * </br>

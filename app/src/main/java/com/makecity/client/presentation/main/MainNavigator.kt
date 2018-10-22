@@ -10,18 +10,20 @@ import com.makecity.client.app.AppScreens
 import com.makecity.client.presentation.about.AboutFragment
 import com.makecity.client.presentation.address.AddressFragment
 import com.makecity.client.presentation.auth.AuthData
-import com.makecity.client.presentation.city.CityFragment
-import com.makecity.client.presentation.feed.FeedFragment
-import com.makecity.client.presentation.map.MapPointsFragment
-import com.makecity.client.presentation.menu.MenuFragment
-import com.makecity.client.presentation.notification.NotificationFragment
 import com.makecity.client.presentation.auth.AuthFragment
 import com.makecity.client.presentation.camera.CameraFragment
+import com.makecity.client.presentation.category.CategoryData
 import com.makecity.client.presentation.category.CategoryFragment
+import com.makecity.client.presentation.city.CityFragment
 import com.makecity.client.presentation.create_problem.CreateProblemFragment
+import com.makecity.client.presentation.description.DescriptionFragment
 import com.makecity.client.presentation.edit_profile.EditProfileFragment
+import com.makecity.client.presentation.feed.FeedFragment
 import com.makecity.client.presentation.filter.ProblemFilterFragment
+import com.makecity.client.presentation.map.MapPointsFragment
 import com.makecity.client.presentation.map_address.MapAddressFragment
+import com.makecity.client.presentation.menu.MenuFragment
+import com.makecity.client.presentation.notification.NotificationFragment
 import com.makecity.client.presentation.own_problems.OwnProblemsFragment
 import com.makecity.client.presentation.problem.ProblemData
 import com.makecity.client.presentation.problem.ProblemFragment
@@ -64,7 +66,13 @@ class MainNavigator @Inject constructor(
 			AppScreens.OWN_PROBLEMS_SCREEN_KEY -> OwnProblemsFragment.newInstance()
 			AppScreens.SETTINGS_SCREEN_KEY -> SettingsFragment.newInstance()
 			AppScreens.CAMERA_SCREEN_KEY -> CameraFragment.newInstance()
-			AppScreens.CATEGORY_SCREEN_KEY -> CategoryFragment.newInstance()
+			AppScreens.DESCRIPTION_SCREEN_KEY -> DescriptionFragment.newInstance()
+			AppScreens.CATEGORY_SCREEN_KEY -> {
+				if (data != null && data !is CategoryData) {
+					throw IllegalArgumentException("data is null or type not CategoryData")
+				}
+				CategoryFragment.newInstance(data as CategoryData)
+			}
 			AppScreens.AUTH_SCREEN_KEY ->  {
 				if (data != null && data !is AuthData) {
 					throw IllegalArgumentException("data is null or type not AuthData")

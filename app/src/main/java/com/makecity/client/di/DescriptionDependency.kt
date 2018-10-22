@@ -2,9 +2,9 @@ package com.makecity.client.di
 
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
-import com.makecity.client.presentation.profile.ProfileFragment
-import com.makecity.client.presentation.profile.ProfileReducer
-import com.makecity.client.presentation.profile.ProfileViewModel
+import com.makecity.client.presentation.description.DescriptionFragment
+import com.makecity.client.presentation.description.DescriptionReducer
+import com.makecity.client.presentation.description.DescriptionViewModel
 import com.makecity.core.di.scope.FragmentScope
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.presentation.viewmodel.ViewModelFactory
@@ -16,35 +16,35 @@ import ru.terrakok.cicerone.Router
 
 
 @FragmentScope
-@Subcomponent(modules = [ProfileModule::class])
-interface ProfileComponent {
+@Subcomponent(modules = [DescriptionModule::class])
+interface DescriptionComponent {
 
-	fun inject(fragment: ProfileFragment)
+	fun inject(fragment: DescriptionFragment)
 
 	@Subcomponent.Builder
 	interface Builder {
 		@BindsInstance
 		fun withFragment(fragment: Fragment): Builder
-		fun build(): ProfileComponent
+		fun build(): DescriptionComponent
 	}
 
 }
 
 
 @Module
-open class ProfileModule {
+open class DescriptionModule {
 
 	@Provides
 	@FragmentScope
 	fun provideViewModelFactory(
 		router: Router,
 		connectionProvider: ConnectionProvider
-	): ProfileViewModel = ProfileViewModel(router, connectionProvider)
+	): DescriptionViewModel = DescriptionViewModel(router, connectionProvider)
 
 	@Provides
 	@FragmentScope
 	fun provideContract(
 		fragment: Fragment,
-		factory: ViewModelFactory<ProfileViewModel>
-	): ProfileReducer = ViewModelProviders.of(fragment, factory).get(ProfileViewModel::class.java)
+		factory: ViewModelFactory<DescriptionViewModel>
+	): DescriptionReducer = ViewModelProviders.of(fragment, factory).get(DescriptionViewModel::class.java)
 }

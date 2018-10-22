@@ -2,16 +2,13 @@ package com.makecity.client.presentation.create_problem
 
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
+import android.widget.ArrayAdapter
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
 import com.makecity.core.presentation.screen.ToolbarScreen
 import com.makecity.core.presentation.view.StatementFragment
 import kotlinx.android.synthetic.main.fragment_create_problem.*
 import kotlinx.android.synthetic.main.toolbar.*
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-
-
 
 
 typealias CreateProblemStatement = StatementFragment<CreateProblemReducer, CreateProblemViewState, CreateProblemAction>

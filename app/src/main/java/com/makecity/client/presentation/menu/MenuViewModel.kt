@@ -2,16 +2,16 @@ package com.makecity.client.presentation.menu
 
 import com.makecity.client.BuildConfig
 import com.makecity.client.app.AppScreens
+import com.makecity.client.data.auth.AuthType
 import com.makecity.client.presentation.auth.AuthData
-import com.makecity.client.presentation.auth.AuthType
 import com.makecity.client.presentation.web.WebData
 import com.makecity.core.data.Presentation
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.plugin.connection.ConnectionState
 import com.makecity.core.plugin.connection.ReducerPluginConnection
 import com.makecity.core.presentation.state.PrimaryViewState
-import com.makecity.core.presentation.state.ViewState
 import com.makecity.core.presentation.state.StateLiveData
+import com.makecity.core.presentation.state.ViewState
 import com.makecity.core.presentation.viewmodel.ActionView
 import com.makecity.core.presentation.viewmodel.BaseViewModel
 import com.makecity.core.presentation.viewmodel.StatementReducer

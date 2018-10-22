@@ -54,7 +54,8 @@ class MapAddressFragment : MapAddressStatement(), ToolbarScreen {
 		}
 
 		when (state.locationState) {
-			is LocationState.Founded -> map_addres_view.setCamera(state.locationState.location, withAnimation = true)
+			is LocationState.Founded ->
+				map_addres_view.setCamera(state.locationState.location, withZoom = 17f)
 		}
 
 		when (state.screenState) {

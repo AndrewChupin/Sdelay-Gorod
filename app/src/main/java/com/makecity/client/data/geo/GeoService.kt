@@ -2,6 +2,7 @@ package com.makecity.client.data.geo
 
 import com.makecity.client.data.common.Api
 import io.reactivex.Single
+import javax.inject.Inject
 
 
 interface GeoService {
@@ -13,7 +14,7 @@ interface GeoService {
 }
 
 
-class GeoServiceRetrofit(
+class GeoServiceRetrofit @Inject constructor (
 	private val api: Api
 ): GeoService {
 

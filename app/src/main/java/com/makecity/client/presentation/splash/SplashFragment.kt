@@ -38,14 +38,14 @@ class SplashFragment: SplashStatement() {
 			showMessage(state.screenState.error)
 			changeState(isVisibleRetry = true)
 		}
-		is PrimaryViewState.Data -> reducer.reduce(ShowMapAction)
+		else -> Unit
 	}
 
 	private fun applyConnectionState(connectionState: ConnectionState) = when (connectionState) {
 		is ConnectionState.Connect -> {
 			val isWaitingConnection = linear_connection_loading.isVisible
 			if (isWaitingConnection) {
-				reducer.reduce(PreparePartnerAction)
+				reducer.reduce(SplashAction.PrepareData)
 			}
 			changeState(isVisibleLoading = false)
 		}
@@ -55,7 +55,7 @@ class SplashFragment: SplashStatement() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		reducer.reduce(PreparePartnerAction)
+		reducer.reduce(SplashAction.PrepareData)
 	}
 
 	private fun changeState(isVisibleLoading: Boolean = false, isVisibleRetry: Boolean = false) {

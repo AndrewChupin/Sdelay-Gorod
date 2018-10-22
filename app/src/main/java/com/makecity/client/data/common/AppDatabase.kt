@@ -4,10 +4,14 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
 import com.makecity.client.data.geo.GeoPointDao
 import com.makecity.client.data.geo.GeoPointPersistence
+import com.makecity.client.data.temp_problem.TempProblemDao
+import com.makecity.client.data.temp_problem.TempProblemPersistence
 
 @Database(entities = [
-	GeoPointPersistence::class
+	GeoPointPersistence::class,
+	TempProblemPersistence::class
 ], version = 1, exportSchema = true)
 abstract class AppDatabase: RoomDatabase() {
 	abstract fun getGeoPointDao(): GeoPointDao
+	abstract fun getTempProblemDao(): TempProblemDao
 }

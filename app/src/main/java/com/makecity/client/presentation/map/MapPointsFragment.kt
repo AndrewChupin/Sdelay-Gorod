@@ -3,25 +3,25 @@ package com.makecity.client.presentation.map
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView.HORIZONTAL
 import android.view.View
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
+import com.makecity.core.data.entity.Location
 import com.makecity.core.extenstion.calculateDiffs
 import com.makecity.core.extenstion.hideWithScale
 import com.makecity.core.extenstion.showWithScale
 import com.makecity.core.plugin.connection.ConnectionState
 import com.makecity.core.plugin.location.LocationState
-import com.makecity.core.presentation.state.PrimaryViewState
-import com.makecity.core.presentation.view.MapStatementFragment
-import kotlinx.android.synthetic.main.bottom_sheet_problems.*
-import kotlinx.android.synthetic.main.fragment_map.*
-import android.support.v7.widget.LinearSnapHelper
-import com.makecity.core.data.entity.Location
 import com.makecity.core.presentation.list.snap.OnSnapPositionChangeListener
 import com.makecity.core.presentation.list.snap.SnapOnScrollListener
+import com.makecity.core.presentation.state.PrimaryViewState
+import com.makecity.core.presentation.view.MapStatementFragment
 import com.makecity.core.presentation.view.map.BaseMapView
 import com.makecity.core.utils.ScreenUtils
+import kotlinx.android.synthetic.main.bottom_sheet_problems.*
+import kotlinx.android.synthetic.main.fragment_map.*
 
 
 typealias MapStatement = MapStatementFragment<MapPointsReducer, MapPointsViewState, MapPointsAction>
@@ -64,7 +64,7 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 			bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 		}
 
-		map_fab_add_task.setOnClickListener {
+		map_button_add_task.setOnClickListener {
 			reducer.reduce(MapPointsAction.ShowMapAddress)
 		}
 
@@ -129,8 +129,8 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 
 			override fun onStateChanged(p0: View, state: Int) {
 				when (state) {
-					BottomSheetBehavior.STATE_HIDDEN -> map_fab_add_task.show()
-					BottomSheetBehavior.STATE_EXPANDED -> map_fab_add_task.hide()
+					BottomSheetBehavior.STATE_HIDDEN -> map_button_add_task.showWithScale()
+					BottomSheetBehavior.STATE_EXPANDED -> map_button_add_task.hideWithScale()
 				}
 			}
 

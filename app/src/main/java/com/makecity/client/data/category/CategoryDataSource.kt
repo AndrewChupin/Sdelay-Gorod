@@ -7,6 +7,7 @@ import javax.inject.Inject
 
 interface CategoryDataSource {
 	fun getCategories(): Single<List<Category>>
+	fun getCategoty(categoryId: Long): Single<Category>
 }
 
 
@@ -23,8 +24,15 @@ class CategoryDataSourceDefault @Inject constructor(
 			categoryService.loadCategories()
 				.map(categoryMapperDtoToPersist::transformAll)
 				.map(categoryMapperPersistToCommon::transformAll)
+				.doOnSuccess { categories = it }
 		} else {
 			Single.just(categories)
+		}
+	}
+
+	override fun getCategoty(categoryId: Long): Single<Category> = Single.defer {
+		getCategories().map { list ->
+			list.find { it.id == categoryId }
 		}
 	}
 }

@@ -12,10 +12,10 @@ import com.makecity.core.utils.image.CommonImageRules
 import com.makecity.core.utils.image.ImageManager
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
 import kotlinx.android.synthetic.main.toolbar.*
-import javax.inject.Inject
-import ru.tinkoff.decoro.slots.PredefinedSlots
 import ru.tinkoff.decoro.MaskImpl
+import ru.tinkoff.decoro.slots.PredefinedSlots
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher
+import javax.inject.Inject
 
 
 typealias EditProfileStatement = StatementFragment<EditProfileReducer, EditProfileViewState, EditProfileAction>

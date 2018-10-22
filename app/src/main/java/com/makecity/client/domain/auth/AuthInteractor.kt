@@ -32,7 +32,7 @@ class AuthInteractorDefault @Inject constructor (
 	}
 
 	override fun sendDataData(content: String, authType: AuthType): Single<NextAuthStep> = when (authType) {
-		AuthType.PHONE -> authDataSource.getCode(content)
+		AuthType.PHONE -> authDataSource.getCode(content, 56) // TODO
 		AuthType.SMS -> authDataSource.saveCode(content)
 		else -> Single.error(IllegalStateException())
 	}

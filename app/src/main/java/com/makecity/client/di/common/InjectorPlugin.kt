@@ -6,20 +6,22 @@ import com.makecity.client.di.*
 import com.makecity.client.presentation.about.AboutFragment
 import com.makecity.client.presentation.address.AddressFragment
 import com.makecity.client.presentation.auth.AuthData
-import com.makecity.client.presentation.city.CityFragment
-import com.makecity.client.presentation.feed.FeedFragment
-import com.makecity.client.presentation.main.MainActivity
-import com.makecity.client.presentation.map.MapPointsFragment
-import com.makecity.client.presentation.menu.MenuFragment
-import com.makecity.client.presentation.notification.NotificationFragment
 import com.makecity.client.presentation.auth.AuthFragment
 import com.makecity.client.presentation.camera.CameraFragment
+import com.makecity.client.presentation.category.CategoryData
 import com.makecity.client.presentation.category.CategoryFragment
+import com.makecity.client.presentation.city.CityFragment
 import com.makecity.client.presentation.create_problem.CreateProblemFragment
+import com.makecity.client.presentation.description.DescriptionFragment
 import com.makecity.client.presentation.edit_problem.EditProblemFragment
 import com.makecity.client.presentation.edit_profile.EditProfileFragment
+import com.makecity.client.presentation.feed.FeedFragment
 import com.makecity.client.presentation.filter.ProblemFilterFragment
+import com.makecity.client.presentation.main.MainActivity
+import com.makecity.client.presentation.map.MapPointsFragment
 import com.makecity.client.presentation.map_address.MapAddressFragment
+import com.makecity.client.presentation.menu.MenuFragment
+import com.makecity.client.presentation.notification.NotificationFragment
 import com.makecity.client.presentation.own_problems.OwnProblemsFragment
 import com.makecity.client.presentation.problem.ProblemData
 import com.makecity.client.presentation.problem.ProblemFragment
@@ -149,6 +151,12 @@ interface InjectorPlugin {
 
 	fun representCategoryFragment(
 		mainComponent: MainComponent,
-		fragment: CategoryFragment
+		fragment: CategoryFragment,
+		categoryData: CategoryData
 	): CategoryComponent
+
+	fun representDescriptionFragment(
+		mainComponent: MainComponent,
+		fragment: DescriptionFragment
+	): DescriptionComponent
 }

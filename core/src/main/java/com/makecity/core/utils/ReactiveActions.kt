@@ -34,7 +34,7 @@ interface ReactiveActions {
      */
     fun <T> Single<T>.bindSubscribe(scheduler: Scheduler = Schedulers.io(),
                                          onSuccess: (T) -> Unit = {},
-                                         onError: (Throwable) -> Unit = {})
+                                         onError: (Throwable) -> Unit = Throwable::printStackTrace)
             = subscribeOn(scheduler)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(onSuccess, onError)

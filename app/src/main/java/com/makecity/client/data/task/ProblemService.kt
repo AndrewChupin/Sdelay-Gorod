@@ -1,6 +1,5 @@
 package com.makecity.client.data.task
 
-import com.makecity.client.data.comments.Comment
 import com.makecity.client.data.comments.CommentRemote
 import com.makecity.client.data.common.Api
 import io.reactivex.Single

@@ -35,4 +35,12 @@ interface ToolbarScreen {
 			getToolbar().title = it
 		}
 	}
+
+	fun setToolbarTitle(activity: Activity, title: String) {
+		if (activity is AppCompatActivity) {
+			activity.supportActionBar?.apply {
+				setTitle(title)
+			}
+		}
+	}
 }

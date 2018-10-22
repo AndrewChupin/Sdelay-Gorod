@@ -10,7 +10,6 @@ import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.presentation.viewmodel.ViewModelFactory
 import com.makecity.core.utils.permission.AndroidPermissionManager
 import com.makecity.core.utils.permission.PermissionManager
-import com.makecity.core.utils.resources.ResourceManager
 import com.tbruyelle.rxpermissions2.RxPermissions
 import dagger.BindsInstance
 import dagger.Module

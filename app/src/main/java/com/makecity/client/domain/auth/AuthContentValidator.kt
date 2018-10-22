@@ -3,6 +3,7 @@ package com.makecity.client.domain.auth
 import com.makecity.client.app.AppConst
 import com.makecity.client.data.auth.AuthType
 import com.makecity.core.domain.Validator
+import javax.inject.Inject
 
 
 data class AuthValidationRequest(
@@ -17,7 +18,7 @@ data class AuthValidationResponse(
 )
 
 
-interface AuthContentValidator: Validator<AuthValidationRequest, AuthValidationResponse> {
+class AuthContentValidator @Inject constructor() : Validator<AuthValidationRequest, AuthValidationResponse> {
 	override fun validate(vararg requests: AuthValidationRequest): AuthValidationResponse {
 		requests.forEach {
 			when (it.authType) {

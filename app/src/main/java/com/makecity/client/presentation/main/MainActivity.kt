@@ -1,14 +1,11 @@
 package com.makecity.client.presentation.main
 
-import android.content.Intent
 import android.os.Bundle
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
 import com.makecity.client.di.MainComponent
-import com.makecity.core.extenstion.isVisible
 import com.makecity.core.presentation.navigation.ParentScreenDelegate
 import com.makecity.core.presentation.view.ReducibleViewActivity
-import kotlinx.android.synthetic.main.activity_main.*
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import javax.inject.Inject
@@ -37,13 +34,13 @@ class MainActivity : MainView(), ParentScreenDelegate {
 		super.onCreate(savedInstanceState)
 
 		if (savedInstanceState == null) {
-			reducer.reduce(ShowMapAction)
+			reducer.reduce(ShowSplash)
 		}
 
 		/*main_bottom_navigation.setOnNavigationItemSelectedListener {
 			when(it.itemId) {
 				R.problemId.main_navigation_feed -> reducer.reduce(ShowFeedAction)
-				R.problemId.main_navigation_map -> reducer.reduce(ShowMapAction)
+				R.problemId.main_navigation_map -> reducer.reduce(ShowMap)
 				R.problemId.main_navigation_notification -> reducer.reduce(ShowNotificationsAction)
 				R.problemId.main_navigation_menu -> reducer.reduce(ShowMenuAction)
 				else -> return@setOnNavigationItemSelectedListener false

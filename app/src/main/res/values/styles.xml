@@ -21,7 +21,7 @@
 
     <style name="CollapsingToolbarExpandedTextStyleCommon" parent="AppTheme">
         <item name="android:textSize">24sp</item>
-        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:maxLines">2</item>
         <item name="android:lines">2</item>
     </style>

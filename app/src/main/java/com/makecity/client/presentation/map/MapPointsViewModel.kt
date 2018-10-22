@@ -3,6 +3,8 @@ package com.makecity.client.presentation.map
 import com.makecity.client.app.AppScreens
 import com.makecity.client.data.task.Task
 import com.makecity.client.domain.map.TaskPointsInteractor
+import com.makecity.client.presentation.category.CategoryData
+import com.makecity.client.presentation.category.CategoryType
 import com.makecity.client.presentation.problem.ProblemData
 import com.makecity.core.data.Presentation
 import com.makecity.core.plugin.connection.ConnectionProvider
@@ -11,8 +13,8 @@ import com.makecity.core.plugin.connection.ReducerPluginConnection
 import com.makecity.core.plugin.connection.ViewStatePluginConnection
 import com.makecity.core.plugin.location.*
 import com.makecity.core.presentation.state.PrimaryViewState
-import com.makecity.core.presentation.state.ViewState
 import com.makecity.core.presentation.state.StateLiveData
+import com.makecity.core.presentation.state.ViewState
 import com.makecity.core.presentation.viewmodel.ActionView
 import com.makecity.core.presentation.viewmodel.BaseViewModel
 import com.makecity.core.presentation.viewmodel.StatementReducer
@@ -80,7 +82,8 @@ class MapPointsViewModel(
 			is MapPointsAction.ShowProblemsAsList -> router.navigateTo(AppScreens.FEED_SCREEN_KEY)
 			is MapPointsAction.ShowMenu -> router.navigateTo(AppScreens.MENU_SCREEN_KEY)
 			is MapPointsAction.ShowDetails -> router.navigateTo(AppScreens.PROBLEM_SCREEN_KEY, ProblemData(action.problemId))
-			is MapPointsAction.ShowMapAddress -> router.navigateTo(AppScreens.CATEGORY_SCREEN_KEY)
+			is MapPointsAction.ShowMapAddress ->
+				router.navigateTo(AppScreens.CATEGORY_SCREEN_KEY, CategoryData(CategoryType.CATEGORY))
 		}
 	}
 

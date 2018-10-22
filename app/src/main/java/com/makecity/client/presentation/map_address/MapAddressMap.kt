@@ -26,7 +26,7 @@ class MapAddressMap: BaseMapView {
 		try {
 			googleMap.setMapStyle(
 				MapStyleOptions.loadRawResourceStyle(
-					context, R.raw.uber_style)) // TODO CHECK SUCCESS
+					context, R.raw.sdelay_gorod_style)) // TODO CHECK SUCCESS
 
 		} catch (e: Resources.NotFoundException) {
 			e.printStackTrace()

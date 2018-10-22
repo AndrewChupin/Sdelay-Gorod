@@ -31,6 +31,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
+            multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             // Release Closed Key
@@ -41,6 +42,7 @@ android {
 
         debug {
             minifyEnabled false
+            multiDexEnabled true
             applicationIdSuffix '.debug'
             versionNameSuffix '-debug'
 
@@ -80,7 +82,7 @@ android {
 
 dependencies {
     implementation project(includes.core)
-
+    implementation 'com.android.support:multidex:1.0.3'
     implementation dependendency.tinkoff.decoro
     kapt dependendency.google.daggerProcessor
     kapt dependendency.android.roomCompiler

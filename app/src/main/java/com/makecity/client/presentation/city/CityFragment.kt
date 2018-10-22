@@ -6,7 +6,6 @@ import com.makecity.client.R
 import com.makecity.client.app.AppInjector
 import com.makecity.core.presentation.screen.ToolbarScreen
 import com.makecity.core.presentation.view.StatementFragment
-import kotlinx.android.synthetic.main.fragment_city.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 

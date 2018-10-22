@@ -1,8 +1,13 @@
 package com.makecity.client.presentation.category
 
-import com.makecity.client.data.category.Category
+import android.os.Parcelable
+import com.makecity.client.R
+import com.makecity.client.app.AppScreens
 import com.makecity.client.data.category.CategoryDataSource
+import com.makecity.client.data.temp_problem.TempProblem
+import com.makecity.client.data.temp_problem.TempProblemDataSource
 import com.makecity.core.data.Presentation
+import com.makecity.core.extenstion.blockingCompletable
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.plugin.connection.ConnectionState
 import com.makecity.core.plugin.connection.ReducerPluginConnection
@@ -12,21 +17,40 @@ import com.makecity.core.presentation.state.ViewState
 import com.makecity.core.presentation.viewmodel.ActionView
 import com.makecity.core.presentation.viewmodel.BaseViewModel
 import com.makecity.core.presentation.viewmodel.StatementReducer
+import com.makecity.core.utils.resources.ResourceManager
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.parcel.Parcelize
 import ru.terrakok.cicerone.Router
+
+
+// Data
+@Parcelize
+data class CategoryData(
+	val categoryType: CategoryType
+): Parcelable
+
+
+enum class CategoryType {
+	CATEGORY, OPTION, COMPANY
+}
 
 
 // State
 @Presentation
 data class CategoryViewState(
 	override val screenState: PrimaryViewState = PrimaryViewState.Loading,
-	val categories: List<Category> = emptyList()
+	val entries: List<Pair<Long, String>> = emptyList(),
+	val title: String
 ) : ViewState
 
 
 // Action
 sealed class CategoryAction: ActionView {
-	object LoadCategories: CategoryAction()
+	object LoadData: CategoryAction()
+
+	data class SelectItem(
+		val id: Long
+	): CategoryAction()
 }
 
 
@@ -37,25 +61,88 @@ interface CategoryReducer: StatementReducer<CategoryViewState, CategoryAction>
 // ViewModel
 class CategoryViewModel(
 	private val router: Router,
+	private val categoryData: CategoryData,
 	override val connectionProvider: ConnectionProvider,
+	resourceManager: ResourceManager,
 	private val categoryDataSource: CategoryDataSource,
+	private val tempProblemDataSource: TempProblemDataSource,
 	override val disposables: CompositeDisposable = CompositeDisposable()
 ) : BaseViewModel(), CategoryReducer, ReducerPluginConnection {
 
-	override val viewState: StateLiveData<CategoryViewState> = StateLiveData.create(CategoryViewState())
+	override val viewState: StateLiveData<CategoryViewState>
+		= StateLiveData.create(CategoryViewState(title = resourceManager.getString(R.string.loading_data)))
 
 	override fun reduce(action: CategoryAction) {
 		when (action) {
-			is CategoryAction.LoadCategories -> categoryDataSource.getCategories()
-				.bindSubscribe(onSuccess = {
-					viewState.updateValue {
-						copy(screenState = PrimaryViewState.Data, categories = it)
-					}
-				}, onError = {
-					it.printStackTrace()
-				})
+			is CategoryAction.LoadData -> when (categoryData.categoryType) {
+				CategoryType.CATEGORY -> loadCategory()
+				CategoryType.OPTION -> loadOptions()
+				CategoryType.COMPANY -> loadOptions() // TODO
+			}
+
+			is CategoryAction.SelectItem ->  when (categoryData.categoryType) {
+				CategoryType.CATEGORY -> saveCategory(action.id)
+				CategoryType.OPTION -> saveOption(action.id)
+				CategoryType.COMPANY -> loadOptions() // TODO
+			}
 		}
 	}
+
+
+	// MARK - CategoryAction.SelectItem
+	private fun saveCategory(categoryId: Long) {
+		tempProblemDataSource.getTempProblem()
+			.map { it.copy(categoryId = categoryId) }
+			.blockingCompletable(tempProblemDataSource::saveTempProblem)
+			.ignoreElement()
+			.bindSubscribe(onSuccess = {
+				router.navigateTo(AppScreens.CATEGORY_SCREEN_KEY, CategoryData(CategoryType.OPTION))
+			})
+	}
+
+	private fun saveOption(optionId: Long) {
+		tempProblemDataSource.getTempProblem()
+			.map { it.copy(optionId = optionId) }
+			.blockingCompletable(tempProblemDataSource::saveTempProblem)
+			.ignoreElement()
+			.bindSubscribe(onSuccess = {
+				router.navigateTo(AppScreens.DESCRIPTION_SCREEN_KEY)
+			})
+	}
+
+
+	// MARK - CategoryAction.LoadData
+	private fun loadCategory() {
+		categoryDataSource.getCategories()
+			.bindSubscribe(onSuccess = { data ->
+				viewState.updateValue {
+					copy(
+						screenState = PrimaryViewState.Data,
+						title = "Выбрать категорию",
+						entries = data.map { Pair(it.id, it.name.capitalize()) }
+					)
+				}
+			})
+	}
+
+
+	private fun loadOptions() {
+		tempProblemDataSource.getTempProblem()
+			.map(TempProblem::categoryId)
+			.flatMap(categoryDataSource::getCategoty)
+			.bindSubscribe(onSuccess = { data ->
+				viewState.updateValue {
+					copy(
+						screenState = PrimaryViewState.Data,
+						title = data.name.capitalize(),
+						entries = data.options.map { Pair(it.id, it.name.capitalize()) }
+					)
+				}
+			}, onError = {
+				it.printStackTrace()
+			})
+	}
+
 
 	// IMPLEMENT - ConnectionPlugin
 	override fun onChangeConnection(connectionState: ConnectionState) {

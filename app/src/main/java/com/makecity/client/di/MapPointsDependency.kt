@@ -4,11 +4,11 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.support.v4.app.Fragment
 import com.makecity.client.data.task.ProblemDataSource
-import com.makecity.client.domain.map.TaskPointsInteractor
 import com.makecity.client.domain.map.TaskInteractorReactive
+import com.makecity.client.domain.map.TaskPointsInteractor
 import com.makecity.client.presentation.map.MapPointsFragment
-import com.makecity.client.presentation.map.MapPointsViewModel
 import com.makecity.client.presentation.map.MapPointsReducer
+import com.makecity.client.presentation.map.MapPointsViewModel
 import com.makecity.core.di.scope.FragmentScope
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.plugin.location.GoogleLocationProvider

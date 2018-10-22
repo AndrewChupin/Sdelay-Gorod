@@ -2,10 +2,12 @@ package com.makecity.client.di
 
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
+import com.makecity.client.data.geo.*
 import com.makecity.client.presentation.splash.SplashFragment
 import com.makecity.client.presentation.splash.SplashReducer
 import com.makecity.client.presentation.splash.SplashViewModel
 import com.makecity.core.di.scope.FragmentScope
+import com.makecity.core.domain.Mapper
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.presentation.viewmodel.ViewModelFactory
 import com.makecity.core.utils.resources.ResourceManager
@@ -28,7 +30,6 @@ interface SplashComponent {
 		fun withFragment(fragment: Fragment): Builder
 		fun build(): SplashComponent
 	}
-
 }
 
 
@@ -37,11 +38,45 @@ open class SplashModule {
 
 	@Provides
 	@FragmentScope
+	fun provideGeoPointRemoteToPersist(
+		mapper: GeoPointRemoteToPersist
+	): Mapper<GeoPointRemote, GeoPointPersistence> = mapper
+
+	@Provides
+	@FragmentScope
+	fun provideGeoPointPersistToCommon(
+		mapper: GeoPointPersistToCommon
+	): Mapper<GeoPointPersistence, GeoPoint> = mapper
+
+	@Provides
+	@FragmentScope
+	fun provideGeoService(
+		geoServiceRetrofit: GeoServiceRetrofit
+	): GeoService = geoServiceRetrofit
+
+	@Provides
+	@FragmentScope
+	fun provideGeoPointStorage(
+		geoPointStoragePreference: GeoPointStoragePreference
+	): GeoPointStorage = geoPointStoragePreference
+
+	@Provides
+	@FragmentScope
+	fun provideGeoPointDataSource(
+		geoService: GeoService,
+		geoPointStorage: GeoPointStorage,
+		mapperRemoteToPersist: GeoPointRemoteToPersist,
+		mapperPersistToCommon: GeoPointPersistToCommon
+	): GeoDataSource = GeoDataSourceDefault(geoService, geoPointStorage, mapperRemoteToPersist, mapperPersistToCommon)
+
+	@Provides
+	@FragmentScope
 	fun provideViewModelFactory(
 		router: Router,
+		geoDataSource: GeoDataSource,
 		resourceManager: ResourceManager,
 		connectionProvider: ConnectionProvider
-	): SplashViewModel = SplashViewModel(router, resourceManager, connectionProvider)
+	): SplashViewModel = SplashViewModel(router, geoDataSource, resourceManager, connectionProvider)
 
 	@Provides
 	@FragmentScope

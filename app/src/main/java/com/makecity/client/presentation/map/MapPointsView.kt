@@ -8,14 +8,14 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.Marker
 import com.makecity.client.R
+import com.makecity.client.data.task.ProblemStatus
 import com.makecity.client.data.task.Task
 import com.makecity.core.data.entity.Location
 import com.makecity.core.extenstion.addMarker
 import com.makecity.core.presentation.view.map.BaseMapView
-import com.google.android.gms.maps.model.MapStyleOptions
-import com.makecity.client.data.task.ProblemStatus
 
 
 class MapPointsView: BaseMapView, GoogleMap.OnMarkerClickListener {
@@ -41,7 +41,7 @@ class MapPointsView: BaseMapView, GoogleMap.OnMarkerClickListener {
 		try {
 			googleMap.setMapStyle(
 				MapStyleOptions.loadRawResourceStyle(
-					context, R.raw.uber_style)) // TODO CHECK SUCCESS
+					context, R.raw.sdelay_gorod_style)) // TODO CHECK SUCCESS
 
 		} catch (e: Resources.NotFoundException) {
 			e.printStackTrace()

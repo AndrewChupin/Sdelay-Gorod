@@ -1,7 +1,6 @@
 package com.makecity.client.presentation.auth
 
 import android.os.Bundle
-import android.support.transition.TransitionManager
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.Toolbar
 import android.text.InputFilter
@@ -10,7 +9,6 @@ import com.makecity.client.app.AppInjector
 import com.makecity.client.data.auth.AuthType
 import com.makecity.core.extenstion.addOnTextChangeListener
 import com.makecity.core.extenstion.fromHtml
-import com.makecity.core.extenstion.isVisible
 import com.makecity.core.extenstion.withArguments
 import com.makecity.core.presentation.screen.KeyboardScreen
 import com.makecity.core.presentation.screen.ToolbarConfig

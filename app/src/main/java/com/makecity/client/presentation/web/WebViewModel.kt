@@ -5,8 +5,8 @@ import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.plugin.connection.ConnectionState
 import com.makecity.core.plugin.connection.ReducerPluginConnection
 import com.makecity.core.presentation.state.PrimaryViewState
-import com.makecity.core.presentation.state.ViewState
 import com.makecity.core.presentation.state.StateLiveData
+import com.makecity.core.presentation.state.ViewState
 import com.makecity.core.presentation.viewmodel.ActionView
 import com.makecity.core.presentation.viewmodel.BaseViewModel
 import com.makecity.core.presentation.viewmodel.StatementReducer

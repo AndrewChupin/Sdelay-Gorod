@@ -64,7 +64,7 @@
     <string name="show_more">Показать еще</string>
     <string name="comments">Комментарии</string>
 
-
-
-
+    <!-- CreateProblem -->
+    <string name="loading_data">Загрузка данных...</string>
+    <string name="description">Описание проблемы</string>
 </resources>

@@ -5,7 +5,6 @@ import com.makecity.client.data.comments.Author
 import com.makecity.client.data.comments.AuthorPersistence
 import com.makecity.client.utils.ImageHelper.concatImage
 import com.makecity.core.domain.Mapper
-import com.makecity.core.extenstion.joinPath
 import com.makecity.core.utils.Symbols
 import com.makecity.core.utils.Symbols.EMPTY
 import javax.inject.Inject

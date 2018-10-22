@@ -2,25 +2,27 @@ package com.makecity.client.app
 
 import android.support.v4.app.FragmentManager
 import com.makecity.client.di.AppComponent
-import com.makecity.client.di.common.InjectorPlugin
 import com.makecity.client.di.MainComponent
+import com.makecity.client.di.common.InjectorPlugin
 import com.makecity.client.presentation.about.AboutFragment
 import com.makecity.client.presentation.address.AddressFragment
 import com.makecity.client.presentation.auth.AuthData
-import com.makecity.client.presentation.city.CityFragment
-import com.makecity.client.presentation.feed.FeedFragment
-import com.makecity.client.presentation.main.MainActivity
-import com.makecity.client.presentation.map.MapPointsFragment
-import com.makecity.client.presentation.menu.MenuFragment
-import com.makecity.client.presentation.notification.NotificationFragment
 import com.makecity.client.presentation.auth.AuthFragment
 import com.makecity.client.presentation.camera.CameraFragment
+import com.makecity.client.presentation.category.CategoryData
 import com.makecity.client.presentation.category.CategoryFragment
+import com.makecity.client.presentation.city.CityFragment
 import com.makecity.client.presentation.create_problem.CreateProblemFragment
+import com.makecity.client.presentation.description.DescriptionFragment
 import com.makecity.client.presentation.edit_problem.EditProblemFragment
 import com.makecity.client.presentation.edit_profile.EditProfileFragment
+import com.makecity.client.presentation.feed.FeedFragment
 import com.makecity.client.presentation.filter.ProblemFilterFragment
+import com.makecity.client.presentation.main.MainActivity
+import com.makecity.client.presentation.map.MapPointsFragment
 import com.makecity.client.presentation.map_address.MapAddressFragment
+import com.makecity.client.presentation.menu.MenuFragment
+import com.makecity.client.presentation.notification.NotificationFragment
 import com.makecity.client.presentation.own_problems.OwnProblemsFragment
 import com.makecity.client.presentation.problem.ProblemData
 import com.makecity.client.presentation.problem.ProblemFragment
@@ -243,12 +245,21 @@ object AppInjector {
 		throw IllegalStateException("MainComponent must be initialized before CameraComponent")
 	}
 
-	fun inject(fragment: CategoryFragment) {
+	fun inject(fragment: CategoryFragment, categoryData: CategoryData) {
 		mainComponent.get()?.let {
-			injectorPlugin.representCategoryFragment(it, fragment)
+			injectorPlugin.representCategoryFragment(it, fragment, categoryData)
 				.inject(fragment)
 			return
 		}
 		throw IllegalStateException("MainComponent must be initialized before CategoryComponent")
+	}
+
+	fun inject(fragment: DescriptionFragment) {
+		mainComponent.get()?.let {
+			injectorPlugin.representDescriptionFragment(it, fragment)
+				.inject(fragment)
+			return
+		}
+		throw IllegalStateException("MainComponent must be initialized before DescriptionComponent")
 	}
 }

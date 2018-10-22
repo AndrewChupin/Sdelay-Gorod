@@ -2,9 +2,10 @@ package com.makecity.client.data.geo
 
 import com.makecity.core.domain.Mapper
 import com.makecity.core.utils.Symbols.EMPTY
+import javax.inject.Inject
 
 
-class GeoPointRemoteToPersist: Mapper<GeoPointRemote, GeoPointPersistence> {
+class GeoPointRemoteToPersist @Inject constructor() : Mapper<GeoPointRemote, GeoPointPersistence> {
 
 	override fun transform(entity: GeoPointRemote): GeoPointPersistence = entity.run {
 		GeoPointPersistence(
@@ -22,7 +23,7 @@ class GeoPointRemoteToPersist: Mapper<GeoPointRemote, GeoPointPersistence> {
 }
 
 
-class GeoPointPersistToCommon: Mapper<GeoPointPersistence, GeoPoint> {
+class GeoPointPersistToCommon @Inject constructor() : Mapper<GeoPointPersistence, GeoPoint> {
 
 	override fun transform(entity: GeoPointPersistence): GeoPoint = entity.run {
 		GeoPoint(

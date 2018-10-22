@@ -1,6 +1,5 @@
 package com.makecity.client.presentation.lists
 
-import android.support.design.R.id.image
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
@@ -22,9 +21,9 @@ import com.makecity.core.utils.diff.SingleDiffUtil
 import com.makecity.core.utils.image.CommonImageRules
 import com.makecity.core.utils.image.ImageManager
 import kotlinx.android.synthetic.main.item_comment.*
-import kotlinx.android.synthetic.main.item_problem_photo.*
 import kotlinx.android.synthetic.main.item_problem_content.*
 import kotlinx.android.synthetic.main.item_problem_location.*
+import kotlinx.android.synthetic.main.item_problem_photo.*
 import java.util.*
 
 

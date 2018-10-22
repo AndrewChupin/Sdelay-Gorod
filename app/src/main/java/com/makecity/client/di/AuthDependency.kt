@@ -2,11 +2,13 @@ package com.makecity.client.di
 
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
+import com.makecity.client.domain.auth.*
 import com.makecity.client.presentation.auth.AuthData
 import com.makecity.client.presentation.auth.AuthFragment
 import com.makecity.client.presentation.auth.AuthReducer
 import com.makecity.client.presentation.auth.AuthViewModel
 import com.makecity.core.di.scope.FragmentScope
+import com.makecity.core.domain.Validator
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.presentation.viewmodel.ViewModelFactory
 import dagger.BindsInstance
@@ -41,11 +43,20 @@ open class AuthModule {
 
 	@Provides
 	@FragmentScope
+	fun provideValidator(validator: AuthContentValidator): Validator<AuthValidationRequest, AuthValidationResponse> = validator
+
+	@Provides
+	@FragmentScope
+	fun provideAuthInteractor(authInteractorDefault: AuthInteractorDefault): AuthInteractor = authInteractorDefault
+
+	@Provides
+	@FragmentScope
 	fun provideViewModelFactory(
 		router: Router,
 		authData: AuthData,
-		connectionProvider: ConnectionProvider
-	): AuthViewModel = AuthViewModel(router, authData, connectionProvider)
+		connectionProvider: ConnectionProvider,
+		authInteractorDefault: AuthInteractorDefault
+	): AuthViewModel = AuthViewModel(router, authData, authInteractorDefault, connectionProvider)
 
 	@Provides
 	@FragmentScope

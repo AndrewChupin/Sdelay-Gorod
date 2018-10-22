@@ -13,7 +13,7 @@
         android:layout_height="120dp">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/category_coordinator"
+            android:id="@+id/category_collapse_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"

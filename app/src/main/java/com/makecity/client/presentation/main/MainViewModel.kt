@@ -13,7 +13,7 @@ import javax.inject.Inject
 sealed class MainAction: ActionView
 object ShowFeedAction: MainAction()
 object ShowCityAction: MainAction()
-object ShowMapAction: MainAction()
+object ShowSplash: MainAction()
 object ShowNotificationsAction: MainAction()
 object ShowMenuAction: MainAction()
 
@@ -30,7 +30,7 @@ class MainViewModel @Inject constructor(
 	override fun reduce(action: MainAction) = when (action) {
 		is ShowCityAction -> router.newRootScreen(AppScreens.CITY_SCREEN_KEY)
 		is ShowFeedAction -> router.newRootScreen(AppScreens.FEED_SCREEN_KEY)
-		is ShowMapAction -> router.newRootScreen(AppScreens.MAP_SCREEN_KEY)
+		is ShowSplash -> router.newRootScreen(AppScreens.SPLASH_SCREEN_KEY)
 		is ShowNotificationsAction -> router.newRootScreen(AppScreens.NOTIFICATION_SCREEN_KEY)
 		is ShowMenuAction -> router.newRootScreen(AppScreens.MENU_SCREEN_KEY)
 	}

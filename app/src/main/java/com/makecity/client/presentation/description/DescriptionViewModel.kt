@@ -1,4 +1,4 @@
-package com.makecity.client.presentation.notification
+package com.makecity.client.presentation.description
 
 import com.makecity.core.data.Presentation
 import com.makecity.core.plugin.connection.ConnectionProvider
@@ -13,32 +13,31 @@ import com.makecity.core.presentation.viewmodel.StatementReducer
 import io.reactivex.disposables.CompositeDisposable
 import ru.terrakok.cicerone.Router
 
-
 // State
 @Presentation
-data class NotificationViewState(
+data class DescriptionViewState(
 	override val screenState: PrimaryViewState = PrimaryViewState.Loading
 ) : ViewState
 
 
 // Action
-class NotificationAction: ActionView
+class DescriptionAction: ActionView
 
 
 // Reducer
-interface NotificationReducer: StatementReducer<NotificationViewState, NotificationAction>
+interface DescriptionReducer: StatementReducer<DescriptionViewState, DescriptionAction>
 
 
 // ViewModel
-class NotificationViewModel(
+class DescriptionViewModel(
 	private val router: Router,
 	override val connectionProvider: ConnectionProvider,
 	override val disposables: CompositeDisposable = CompositeDisposable()
-) : BaseViewModel(), NotificationReducer, ReducerPluginConnection {
+) : BaseViewModel(), DescriptionReducer, ReducerPluginConnection {
 
-	override val viewState: StateLiveData<NotificationViewState> = StateLiveData.create(NotificationViewState())
+	override val viewState: StateLiveData<DescriptionViewState> = StateLiveData.create(DescriptionViewState())
 
-	override fun reduce(action: NotificationAction) {
+	override fun reduce(action: DescriptionAction) {
 
 	}
 
