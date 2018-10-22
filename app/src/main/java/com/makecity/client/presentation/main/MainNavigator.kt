@@ -16,6 +16,8 @@ import com.makecity.client.presentation.map.MapPointsFragment
 import com.makecity.client.presentation.menu.MenuFragment
 import com.makecity.client.presentation.notification.NotificationFragment
 import com.makecity.client.presentation.auth.AuthFragment
+import com.makecity.client.presentation.camera.CameraFragment
+import com.makecity.client.presentation.category.CategoryFragment
 import com.makecity.client.presentation.create_problem.CreateProblemFragment
 import com.makecity.client.presentation.edit_profile.EditProfileFragment
 import com.makecity.client.presentation.filter.ProblemFilterFragment
@@ -61,6 +63,8 @@ class MainNavigator @Inject constructor(
 			AppScreens.MAP_ADDRESS_SCREEN_KEY -> MapAddressFragment.newInstance()
 			AppScreens.OWN_PROBLEMS_SCREEN_KEY -> OwnProblemsFragment.newInstance()
 			AppScreens.SETTINGS_SCREEN_KEY -> SettingsFragment.newInstance()
+			AppScreens.CAMERA_SCREEN_KEY -> CameraFragment.newInstance()
+			AppScreens.CATEGORY_SCREEN_KEY -> CategoryFragment.newInstance()
 			AppScreens.AUTH_SCREEN_KEY ->  {
 				if (data != null && data !is AuthData) {
 					throw IllegalArgumentException("data is null or type not AuthData")

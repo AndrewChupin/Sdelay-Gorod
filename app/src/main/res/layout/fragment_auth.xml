@@ -71,6 +71,7 @@
             android:maxLines="1"
             android:inputType="phone|textVisiblePassword"
             android:textColor="@color/text_dark_main"
+            android:fontFamily="@font/roboto_light"
             android:textSize="24sp"
             app:backgroundTint="@color/main_light_bg"
             tools:hint="@string/input_phone"

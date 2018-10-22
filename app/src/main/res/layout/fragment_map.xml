@@ -47,7 +47,7 @@
             android:gravity="center"
             android:scaleX="0"
             android:scaleY="0"
-            android:text="@string/map_points_not_connection"
+            android:text="@string/map_not_connection"
             android:textColor="@color/text_dark_main"
             android:textSize="@dimen/several_title"
             app:layout_constraintBottom_toTopOf="@id/map_group_message"
@@ -71,7 +71,7 @@
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
-                android:text="@string/map_points_loading"
+                android:text="@string/map_loading"
                 android:textColor="@color/text_dark_main"
                 android:textSize="@dimen/large_title" />
 
@@ -79,10 +79,10 @@
                 android:id="@+id/text_map_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:gravity="center"
-                android:text="@string/map_points_wait_loading"
+                android:fontFamily="@font/roboto_bold"
                 android:textColor="@color/text_dark_secondary"
+                android:gravity="center"
+                android:text="@string/map_wait_loading"
                 android:textSize="@dimen/text_description" />
 
         </LinearLayout>

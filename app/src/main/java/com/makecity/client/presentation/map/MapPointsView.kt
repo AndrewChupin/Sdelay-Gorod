@@ -2,7 +2,9 @@ package com.makecity.client.presentation.map
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Point
 import android.util.AttributeSet
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -89,6 +91,36 @@ class MapPointsView: BaseMapView, GoogleMap.OnMarkerClickListener {
 				}
 				markers.add(marker)
 			}
+		}
+	}
+
+	fun animateCameraOffset(location: Location, offset: Int) {
+		animateLatLngZoom(LatLng(
+			location.latitude,
+			location.longitude
+		), 15, 0, offset)
+	}
+
+	private fun animateLatLngZoom(latlng: LatLng, reqZoom: Int, offsetX: Int, offsetY: Int) {
+		// Move temporarily camera zoom
+		map?.let {
+			it.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, reqZoom.toFloat()), object : GoogleMap.CancelableCallback {
+				override fun onFinish() {
+					val pointInScreen = it.projection.toScreenLocation(latlng)
+
+					val newPoint = Point()
+					newPoint.x = pointInScreen.x + offsetX
+					newPoint.y = pointInScreen.y + offsetY
+
+					val newCenterLatLng = it.projection.fromScreenLocation(newPoint)
+
+
+					// Animate a camera with new latlng center and required zoom.
+					it.animateCamera(CameraUpdateFactory.newLatLngZoom(newCenterLatLng, reqZoom.toFloat()))
+				}
+
+				override fun onCancel() {}
+			})
 		}
 	}
 }

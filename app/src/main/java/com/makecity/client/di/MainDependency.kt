@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.support.annotation.IdRes
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
+import com.makecity.client.data.category.*
 import com.makecity.client.data.comments.*
 import com.makecity.client.data.common.Api
 import com.makecity.client.data.task.*
@@ -47,6 +48,8 @@ interface MainComponent{
 	fun ownProblemsComponent(): OwnProblemsComponent.Builder
 	fun problemFilterComponent(): ProblemFilterComponent.Builder
 	fun settingsComponent(): SettingsComponent.Builder
+	fun cameraComponent(): CameraComponent.Builder
+	fun categoryComponent(): CategoryComponent.Builder
 
 	@Subcomponent.Builder
 	interface Builder {
@@ -85,6 +88,15 @@ interface TaskMapperModule {
 	@Singleton
 	@Binds
 	fun provideCommentsAuthorMapperPersistenceToCommon(mapper: CommentsAuthorMapperPersistenceToCommon): Mapper<CommentPersistence, Comment>
+
+
+	@Singleton
+	@Binds
+	fun provideCategoryMapperDtoToPersistence(mapper: CategoryMapperDtoToPersist): Mapper<CategoryRemote, CategoryPersistence>
+
+	@Singleton
+	@Binds
+	fun provideCategoryMapperPersistenceToCommon(mapper: CategoryMapperPersistToCommon): Mapper<CategoryPersistence, Category>
 }
 
 

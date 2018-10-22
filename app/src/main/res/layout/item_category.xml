@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_category_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="32dp"
+    android:paddingRight="32dp"
+    android:paddingTop="@dimen/space_base"
+    android:paddingBottom="@dimen/space_base"
+    android:background="@drawable/selector_background_main_light_to_secondary"
+    android:foreground="@drawable/ripple_main_light_secondary"
+    android:textColor="@color/text_dark_main"
+    android:textSize="20sp"
+    android:fontFamily="@font/roboto_light"
+    android:text="Hello" />

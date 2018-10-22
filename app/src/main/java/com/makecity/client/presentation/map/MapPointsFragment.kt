@@ -17,11 +17,11 @@ import com.makecity.core.presentation.view.MapStatementFragment
 import kotlinx.android.synthetic.main.bottom_sheet_problems.*
 import kotlinx.android.synthetic.main.fragment_map.*
 import android.support.v7.widget.LinearSnapHelper
-import com.makecity.client.presentation.feed.ShowProblemDetails
 import com.makecity.core.data.entity.Location
 import com.makecity.core.presentation.list.snap.OnSnapPositionChangeListener
 import com.makecity.core.presentation.list.snap.SnapOnScrollListener
 import com.makecity.core.presentation.view.map.BaseMapView
+import com.makecity.core.utils.ScreenUtils
 
 
 typealias MapStatement = MapStatementFragment<MapPointsReducer, MapPointsViewState, MapPointsAction>
@@ -48,7 +48,7 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 
 
 		problemsMapAdapter = ProblemsMapAdapter {
-			reducer.reduce(ShowDetails(it.id))
+			reducer.reduce(MapPointsAction.ShowDetails(it.id))
 		}
 		bottom_problems_list.layoutManager = LinearLayoutManager(requireContext(), HORIZONTAL, false)
 		bottom_problems_list.adapter = problemsMapAdapter
@@ -64,6 +64,10 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 			bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 		}
 
+		map_fab_add_task.setOnClickListener {
+			reducer.reduce(MapPointsAction.ShowMapAddress)
+		}
+
 		map_view.pointClickListener = {
 			reducer.state.tasks
 				.forEachIndexed { index, task ->
@@ -76,18 +80,18 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 		}
 
 		map_show_as_list.setOnClickListener {
-			reducer.reduce(ShowProblemsAsList)
+			reducer.reduce(MapPointsAction.ShowProblemsAsList)
 		}
 
 		map_menu_button.setOnClickListener {
-			reducer.reduce(ShowMenu)
+			reducer.reduce(MapPointsAction.ShowMenu)
 		}
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		map_view.mapInteractionReady = {
-			reducer.reduce(LoadMapPoints)
+			reducer.reduce(MapPointsAction.LoadMapPoints)
 		}
 	}
 
@@ -113,7 +117,8 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 
 	override fun onSnapPositionChange(position: Int) {
 		val task = reducer.state.tasks[position]
-		map_view.setCamera(Location(task.latitude, task.longitude), withAnimation = true)
+		val screenQuarterWidth = ScreenUtils.screenWidth / 4
+		map_view.animateCameraOffset(Location(task.latitude, task.longitude), screenQuarterWidth)
 	}
 
 	private fun initBottomState(view: View): BottomSheetBehavior<View> {

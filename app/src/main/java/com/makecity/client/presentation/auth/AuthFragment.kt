@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar
 import android.text.InputFilter
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
+import com.makecity.client.data.auth.AuthType
+import com.makecity.core.extenstion.addOnTextChangeListener
 import com.makecity.core.extenstion.fromHtml
 import com.makecity.core.extenstion.isVisible
 import com.makecity.core.extenstion.withArguments
@@ -40,19 +42,26 @@ class AuthFragment : AuthStatement(), ToolbarScreen, KeyboardScreen {
 	override fun getToolbar(): Toolbar = auth_toolbar
 
 	override fun onViewCreatedBeforeRender(savedInstanceState: Bundle?) {
+		// Toolbar
 		setupToolbarWith(requireActivity(), ToolbarConfig(
 			title = EMPTY,
 			isDisplayHomeButton = true
 		))
-		trySetupContentSize(true)
-		auth_input_field.requestFocus()
 
 		ViewCompat.setElevation(auth_input_container, ScreenUtils.convertDpToPixel(8f))
 
+		// Keyboard and focus
+		auth_input_field.addOnTextChangeListener { text ->
+			text?.let {
+				reducer.reduce(AuthAction.ResearchContent(it))
+			}
+		}
+
+		auth_input_field.requestFocus()
 		showKeyboard()
 
 		auth_next_button.setOnClickListener {
-			reducer.reduce(ShowNextStep)
+			reducer.reduce(AuthAction.ShowNextStep)
 		}
 	}
 

@@ -13,6 +13,8 @@ import com.makecity.client.presentation.map.MapPointsFragment
 import com.makecity.client.presentation.menu.MenuFragment
 import com.makecity.client.presentation.notification.NotificationFragment
 import com.makecity.client.presentation.auth.AuthFragment
+import com.makecity.client.presentation.camera.CameraFragment
+import com.makecity.client.presentation.category.CategoryFragment
 import com.makecity.client.presentation.create_problem.CreateProblemFragment
 import com.makecity.client.presentation.edit_problem.EditProblemFragment
 import com.makecity.client.presentation.edit_profile.EditProfileFragment
@@ -203,6 +205,23 @@ object DefaultInjectorPlugin : InjectorPlugin {
 		fragment: SettingsFragment
 	): SettingsComponent = mainComponent
 		.settingsComponent()
+		.withFragment(fragment)
+		.build()
+
+
+	override fun representCameraFragment(
+		mainComponent: MainComponent,
+		fragment: CameraFragment
+	): CameraComponent = mainComponent
+		.cameraComponent()
+		.withFragment(fragment)
+		.build()
+
+	override fun representCategoryFragment(
+		mainComponent: MainComponent,
+		fragment: CategoryFragment
+	): CategoryComponent = mainComponent
+		.categoryComponent()
 		.withFragment(fragment)
 		.build()
 }

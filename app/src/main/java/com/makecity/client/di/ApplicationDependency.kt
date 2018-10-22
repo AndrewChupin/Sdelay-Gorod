@@ -1,12 +1,14 @@
 package com.makecity.client.di
 
 import android.app.Application
+import android.arch.persistence.room.Room
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import com.makecity.client.BuildConfig
 import com.makecity.client.app.AppDelegate
 import com.makecity.client.data.common.Api
+import com.makecity.client.data.common.AppDatabase
 import com.makecity.core.di.module.NavigationModule
 import com.makecity.core.di.module.NetworkModule
 import com.makecity.core.di.module.ResourceModule
@@ -50,11 +52,11 @@ interface AppComponent{
 @Module
 open class DataModule {
 
-   /* @Provides
+    @Provides
     @Singleton
     open fun provideDatabase(application: Application): AppDatabase =
             Room.databaseBuilder(application, AppDatabase::class.java, BuildConfig.APP_DATABASE_NAME)
-                    .build()*/
+                    .build()
 
     @Provides
     @Singleton
@@ -63,7 +65,7 @@ open class DataModule {
 
     @Provides
     @Singleton
-    fun provideTinkoffApi(retrofit: Retrofit): Api = retrofit.create(Api::class.java)
+    fun provideApi(retrofit: Retrofit): Api = retrofit.create(Api::class.java)
 
     @Provides
     @Singleton

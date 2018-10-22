@@ -1,6 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <com.makecity.client.presentation.map_address.MapAddressMap
+        android:id="@+id/map_addres_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_map_address_connection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_base_lower_half"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="@dimen/space_base_lower_half"
+        android:layout_marginBottom="@dimen/space_base_lower_half"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="center"
+        android:scaleX="0"
+        android:scaleY="0"
+        android:text="@string/map_not_connection"
+        android:textColor="@color/text_dark_main"
+        android:textSize="@dimen/several_title"
+        app:layout_constraintBottom_toTopOf="@+id/text_map_address_status"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/map_addres_view"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/text_map_address_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/text_dark_main"
+        android:layout_marginBottom="8dp"
+        android:textSize="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/text_map_address_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_map_address_connection"
+        tools:text="Загрузка" />
+
+    <TextView
+        android:id="@+id/text_map_address_description"
+        android:layout_width="match_parent"
+        android:layout_height="21dp"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/text_dark_secondary"
+        android:gravity="center"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_map_address_status"
+        tools:text="Выберите место" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/marker"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_next"
+        style="@style/BaseMapButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/space_base"
+        android:textColor="@color/text_dark_secondary"
+        android:foreground="@drawable/ripple_main_light_secondary"
+        android:fontFamily="@font/roboto_bold"
+        android:background="@drawable/shape_white_corner_big"
+        android:scaleX="1"
+        android:scaleY="1"
+        android:text="ДАЛЕЕ"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_zoom_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:src="@drawable/ic_add_gray_24dp"
+        app:backgroundTint="@android:color/white"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_zoom_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:src="@drawable/ic_remove_gray_24dp"
+        app:backgroundTint="@android:color/white"
+        app:fabSize="mini"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline_center_horizontal" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_my_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_base_lower_half"
+        android:src="@drawable/ic_near_me_gray_24dp"
+        app:backgroundTint="@android:color/white"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@id/button_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fab_zoom_out" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_base"
+        android:src="@drawable/ic_arrow_back_black_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

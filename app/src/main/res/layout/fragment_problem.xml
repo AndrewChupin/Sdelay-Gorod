@@ -57,7 +57,7 @@
                 android:id="@+id/problem_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/shape_corner"
+                android:background="@drawable/shape_corner_top"
                 android:clipToPadding="false"
                 android:paddingTop="@dimen/space_base" />
 

@@ -40,7 +40,7 @@ interface EditProfileReducer: StatementReducer<EditProfileViewState, EditProfile
 class EditProfileViewModel(
 	private val router: Router,
 	override val connectionProvider: ConnectionProvider,
-	val permissionManager: PermissionManager,
+	private val permissionManager: PermissionManager,
 	override val disposables: CompositeDisposable = CompositeDisposable()
 ) : BaseViewModel(), EditProfileReducer, ReducerPluginConnection {
 

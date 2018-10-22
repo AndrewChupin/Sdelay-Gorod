@@ -2,7 +2,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -13,8 +12,6 @@
         layout="@layout/toolbar"/>
 
     <ScrollView
-        android:paddingTop="@dimen/space_base"
-        android:paddingBottom="@dimen/space_base"
         android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -65,7 +62,7 @@
                     android:paddingTop="@dimen/space_base_lower_half"
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/text_dark_main"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:text="Полное имя"/>
 
                 <EditText
@@ -83,7 +80,7 @@
                     android:paddingTop="@dimen/space_base_lower_half"
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/text_dark_main"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:text="Телефон"/>
 
                 <EditText
@@ -100,7 +97,7 @@
                     android:paddingTop="@dimen/space_base_lower_half"
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/text_dark_main"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:text="Город"/>
 
                 <EditText

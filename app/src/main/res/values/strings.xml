@@ -25,11 +25,18 @@
     <string name="splash_search_connection">Идет поиск сети</string>
 
     <!-- Map Screen -->
-    <string name="map_points_not_connection">Нет соединения</string>
+    <string name="map_not_connection">Нет соединения</string>
 
-    <string name="map_points_error_find_location">Ваше местоположение не найдено</string>
-    <string name="map_points_loading">Загрузка</string>
-    <string name="map_points_wait_loading">Ожидайте загрузку данных</string>
+    <string name="map_error_find_location">Ваше местоположение не найдено</string>
+
+    <string name="map_loading">Загрузка</string>
+    <string name="map_wait_loading">Указать вручную</string>
+
+    <string name="map_define">Определяем</string>
+    <string name="map_choose_place">Выберите место</string>
+
+    <string name="map_too_far">Слишком далеко</string>
+    <string name="map_specify">Указать вручную</string>
 
     <!-- About -->
     <string name="about_content"><![CDATA["Сделай город" - это интерактивная карта города, где каждый может оставить идею или предложение по улучшению городской среды.
@@ -56,5 +63,8 @@
     <string name="images">Изображения</string>
     <string name="show_more">Показать еще</string>
     <string name="comments">Комментарии</string>
+
+
+
 
 </resources>

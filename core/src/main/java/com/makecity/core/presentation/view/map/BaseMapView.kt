@@ -116,11 +116,15 @@ open class BaseMapView : MapView, OnMapReadyCallback {
 
     fun setCamera(location: Location, withZoom: Float = DEFAULT_ZOOM_LEVEL, withAnimation: Boolean = false) {
         if (withAnimation) {
-            val screenQuarterWidth = ScreenUtils.screenWidth / 4
-            animateLatLngZoom(LatLng(
-                location.latitude,
-                location.longitude
-            ), 15, 0, screenQuarterWidth)
+            map?.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(
+                        location.latitude,
+                        location.longitude
+                    ),
+                    withZoom
+                )
+            )
         } else {
             map?.moveCamera(
                 CameraUpdateFactory.newLatLngZoom(
@@ -148,32 +152,5 @@ open class BaseMapView : MapView, OnMapReadyCallback {
             val zoom = bundle.getFloat(ARGUMENT_ZOOM_VALUE)
             savedPosition = CameraPosition.fromLatLngZoom(latLon, zoom)
         }
-    }
-
-    private fun animateLatLngZoom(latlng: LatLng, reqZoom: Int, offsetX: Int, offsetY: Int) {
-        // Move temporarily camera zoom
-        map?.let {
-            it.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, reqZoom.toFloat()), object : GoogleMap.CancelableCallback {
-                override fun onFinish() {
-                    val pointInScreen = it.projection.toScreenLocation(latlng)
-
-                    val newPoint = Point()
-                    newPoint.x = pointInScreen.x + offsetX
-                    newPoint.y = pointInScreen.y + offsetY
-
-                    val newCenterLatLng = it.projection.fromScreenLocation(newPoint)
-
-
-                    // Animate a camera with new latlng center and required zoom.
-                    it.animateCamera(CameraUpdateFactory.newLatLngZoom(newCenterLatLng, reqZoom.toFloat()))
-                }
-
-                override fun onCancel() {
-
-                }
-
-            })
-        }
-
     }
 }

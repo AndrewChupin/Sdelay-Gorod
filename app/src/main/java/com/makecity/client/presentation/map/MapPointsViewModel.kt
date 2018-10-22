@@ -33,13 +33,15 @@ data class MapPointsViewState(
 
 
 // Action
-sealed class MapPointsAction: ActionView
-object LoadMapPoints : MapPointsAction()
-object ShowProblemsAsList : MapPointsAction()
-object ShowMenu : MapPointsAction()
-data class ShowDetails(
-	val problemId: Long
-): MapPointsAction()
+sealed class MapPointsAction: ActionView {
+	object ShowMapAddress : MapPointsAction()
+	object LoadMapPoints : MapPointsAction()
+	object ShowProblemsAsList : MapPointsAction()
+	object ShowMenu : MapPointsAction()
+	data class ShowDetails(
+		val problemId: Long
+	): MapPointsAction()
+}
 
 
 // Reducer
@@ -69,15 +71,16 @@ class MapPointsViewModel(
 	// OVERRIDE - Reducer
 	override fun reduce(action: MapPointsAction) {
 		when (action) {
-			is LoadMapPoints -> mapPointsInteractor
+			is MapPointsAction.LoadMapPoints -> mapPointsInteractor
 				.loadProblems()
 				.bindSubscribe(
 					onSuccess = ::reduceLoadTasksSuccess,
 					onError = Throwable::printStackTrace
 				)
-			is ShowProblemsAsList -> router.navigateTo(AppScreens.FEED_SCREEN_KEY)
-			is ShowMenu -> router.navigateTo(AppScreens.MENU_SCREEN_KEY)
-			is ShowDetails -> router.navigateTo(AppScreens.PROBLEM_SCREEN_KEY, ProblemData(action.problemId))
+			is MapPointsAction.ShowProblemsAsList -> router.navigateTo(AppScreens.FEED_SCREEN_KEY)
+			is MapPointsAction.ShowMenu -> router.navigateTo(AppScreens.MENU_SCREEN_KEY)
+			is MapPointsAction.ShowDetails -> router.navigateTo(AppScreens.PROBLEM_SCREEN_KEY, ProblemData(action.problemId))
+			is MapPointsAction.ShowMapAddress -> router.navigateTo(AppScreens.CATEGORY_SCREEN_KEY)
 		}
 	}
 

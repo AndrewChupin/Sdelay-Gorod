@@ -14,6 +14,8 @@ import com.makecity.client.presentation.map.MapPointsFragment
 import com.makecity.client.presentation.menu.MenuFragment
 import com.makecity.client.presentation.notification.NotificationFragment
 import com.makecity.client.presentation.auth.AuthFragment
+import com.makecity.client.presentation.camera.CameraFragment
+import com.makecity.client.presentation.category.CategoryFragment
 import com.makecity.client.presentation.create_problem.CreateProblemFragment
 import com.makecity.client.presentation.edit_problem.EditProblemFragment
 import com.makecity.client.presentation.edit_profile.EditProfileFragment
@@ -230,5 +232,23 @@ object AppInjector {
 			return
 		}
 		throw IllegalStateException("MainComponent must be initialized before SettingsComponent")
+	}
+
+	fun inject(fragment: CameraFragment) {
+		mainComponent.get()?.let {
+			injectorPlugin.representCameraFragment(it, fragment)
+				.inject(fragment)
+			return
+		}
+		throw IllegalStateException("MainComponent must be initialized before CameraComponent")
+	}
+
+	fun inject(fragment: CategoryFragment) {
+		mainComponent.get()?.let {
+			injectorPlugin.representCategoryFragment(it, fragment)
+				.inject(fragment)
+			return
+		}
+		throw IllegalStateException("MainComponent must be initialized before CategoryComponent")
 	}
 }
