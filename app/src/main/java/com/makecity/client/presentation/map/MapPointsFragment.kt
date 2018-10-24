@@ -65,7 +65,7 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 		}
 
 		map_button_add_task.setOnClickListener {
-			reducer.reduce(MapPointsAction.ShowMapAddress)
+			reducer.reduce(MapPointsAction.ShowCamera)
 		}
 
 		map_view.pointClickListener = {

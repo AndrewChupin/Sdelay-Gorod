@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/space_base"
+    android:paddingBottom="@dimen/space_base"
+    android:background="@color/main_light_bg">
+
+    <TextView
+        android:id="@+id/problem_preview_item_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/text_dark_main"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toTopOf="@+id/problem_preview_description_change"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        android:text="Предосмотр" />
+
+    <TextView
+        android:id="@+id/problem_preview_description_change"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        android:layout_marginStart="16dp"
+        android:gravity="end"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/problem_preview_item_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/problem_preview_item_title"
+        android:text="Изменить" />
+
+    <TextView
+        android:id="@+id/problem_preview_item_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@color/white"
+        android:textColor="@color/text_dark_main"
+        android:fontFamily="@font/roboto_light"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/problem_preview_description_change"
+        tools:text="Велосипедисты-энтузиасты построили на этом месте памп-трек - грунтовую велосипедную закольцованную трассу, представляющую собой чередование ям, кочек и контруклонов." />
+
+</android.support.constraint.ConstraintLayout>

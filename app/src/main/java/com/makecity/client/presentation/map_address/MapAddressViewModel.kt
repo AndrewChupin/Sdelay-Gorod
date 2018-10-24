@@ -1,5 +1,6 @@
 package com.makecity.client.presentation.map_address
 
+import com.makecity.client.app.AppScreens
 import com.makecity.client.data.address.Address
 import com.makecity.core.data.Presentation
 import com.makecity.core.data.entity.Location
@@ -38,6 +39,7 @@ sealed class MapAddressAction: ActionView {
 	data class GetPoints(
 		val locationCenter: Location
 	): MapAddressAction()
+	object ShowProblemPreview: MapAddressAction()
 }
 
 
@@ -78,6 +80,7 @@ class MapAddressViewModel(
 						}
 					})
 			}
+			is MapAddressAction.ShowProblemPreview -> router.navigateTo(AppScreens.CREATE_PROBLEM_SCREEN_KEY)
 		}
 	}
 

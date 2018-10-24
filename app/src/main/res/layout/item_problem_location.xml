@@ -9,20 +9,37 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/space_base"
+        android:drawableEnd="@drawable/ic_edit_black_24dp"
         android:text="@string/location"
         android:paddingTop="@dimen/space_base_greater_half"
         android:paddingStart="@dimen/space_base"
         android:paddingEnd="@dimen/space_base"
+        android:paddingBottom="@dimen/space_base_lower_half"
         android:fontFamily="@font/roboto_bold"
-        android:textAllCaps="true"
-        android:textColor="@color/text_dark_secondary"
-        android:textSize="15sp" />
+        android:textColor="@color/text_dark_main"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/problem_location_change"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:fontFamily="@font/roboto_light"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:gravity="end"
+        android:layout_marginEnd="16dp"
+        android:text="Изменить" />
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/space_base"
-        app:cardCornerRadius="8dp">
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,8 +56,8 @@
                 android:id="@+id/item_problem_location_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_light_main"
-                android:background="@color/colorAccent"
+                android:textColor="@color/text_dark_main"
+                android:background="@color/text_light_main"
                 android:paddingStart="@dimen/space_base"
                 android:paddingTop="@dimen/space_base_lower_quarter"
                 android:paddingEnd="@dimen/space_base"

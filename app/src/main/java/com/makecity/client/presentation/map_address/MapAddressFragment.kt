@@ -45,6 +45,10 @@ class MapAddressFragment : MapAddressStatement(), ToolbarScreen {
 		fab_my_position.setOnClickListener { reducer.reduce(MapAddressAction.FindOwnLocation) }
 
 		map_addres_view.cameraStateListener = ::cameraStateChanged
+
+		button_next.setOnClickListener {
+			reducer.reduce(MapAddressAction.ShowProblemPreview)
+		}
 	}
 
 	override fun render(state: MapAddressViewState) {

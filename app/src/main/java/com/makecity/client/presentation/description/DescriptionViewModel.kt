@@ -1,5 +1,6 @@
 package com.makecity.client.presentation.description
 
+import com.makecity.client.app.AppScreens
 import com.makecity.core.data.Presentation
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.plugin.connection.ConnectionState
@@ -21,7 +22,9 @@ data class DescriptionViewState(
 
 
 // Action
-class DescriptionAction: ActionView
+sealed class DescriptionAction: ActionView {
+	object ShowMapAddress: DescriptionAction()
+}
 
 
 // Reducer
@@ -38,7 +41,9 @@ class DescriptionViewModel(
 	override val viewState: StateLiveData<DescriptionViewState> = StateLiveData.create(DescriptionViewState())
 
 	override fun reduce(action: DescriptionAction) {
-
+		if (action is DescriptionAction.ShowMapAddress) {
+			router.navigateTo(AppScreens.MAP_ADDRESS_SCREEN_KEY)
+		}
 	}
 
 	// IMPLEMENT - ConnectionPlugin

@@ -32,6 +32,10 @@ class DescriptionFragment : DescriptionStatement(), ToolbarScreen, KeyboardScree
 			title = EMPTY,
 			isDisplayHomeButton = true
 		))
+
+		description_done.setOnClickListener {
+			reducer.reduce(DescriptionAction.ShowMapAddress)
+		}
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,6 +50,5 @@ class DescriptionFragment : DescriptionStatement(), ToolbarScreen, KeyboardScree
 	}
 
 	override fun render(state: DescriptionViewState) {
-
 	}
 }

@@ -81,6 +81,7 @@ android {
 }
 
 dependencies {
+    implementation 'io.fotoapparat:fotoapparat:2.5.0'
     implementation project(includes.core)
     implementation 'com.android.support:multidex:1.0.3'
     implementation dependendency.tinkoff.decoro

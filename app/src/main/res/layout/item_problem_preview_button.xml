@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/approve_problem_preview"
+    style="@style/DoneButton"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="24dp"
+    android:textSize="28sp"
+    android:layout_gravity="center"
+    android:fontFamily="@font/roboto_light"
+    android:textColor="@color/text_dark_main"
+    android:foreground="@drawable/ripple_main_light_secondary_corner"
+    android:background="@drawable/shape_white_corner_big"
+    android:text="Завершить" />
+

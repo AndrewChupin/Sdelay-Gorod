@@ -10,7 +10,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         app:layout_collapseMode="pin"
-        app:layout_constraintBottom_toTopOf="@+id/map_button_add_task"
+        app:layout_constraintBottom_toTopOf="@+id/description_done"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="spread_inside"
         app:titleTextColor="@color/text_dark_main" />
@@ -21,7 +21,7 @@
         android:background="@color/white"
         android:clipToPadding="false"
         android:fillViewport="true"
-        app:layout_constraintBottom_toTopOf="@+id/map_button_add_task"
+        app:layout_constraintBottom_toTopOf="@+id/description_done"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <EditText
@@ -41,11 +41,10 @@
     </ScrollView>
 
     <TextView
-        android:id="@+id/map_button_add_task"
+        android:id="@+id/description_done"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:clickable="true"
         android:fontFamily="@font/roboto_light"
         android:gravity="center"
         android:padding="16dp"

@@ -3,6 +3,8 @@ package com.makecity.client.presentation.camera
 import android.Manifest
 import android.util.Log
 import com.makecity.client.app.AppScreens
+import com.makecity.client.presentation.category.CategoryData
+import com.makecity.client.presentation.category.CategoryType
 import com.makecity.core.data.Presentation
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.plugin.connection.ConnectionState
@@ -26,7 +28,9 @@ data class CameraViewState(
 
 
 // Action
-class CameraAction: ActionView
+sealed class CameraAction: ActionView {
+	object ShowCategory: CameraAction()
+}
 
 
 // Reducer
@@ -44,15 +48,16 @@ class CameraViewModel(
 	override val viewState: StateLiveData<CameraViewState> = StateLiveData.create(CameraViewState())
 
 	override fun reduceAfterReady() {
-		permissionManager.requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
+		permissionManager.requestPermission(
+			Manifest.permission.READ_EXTERNAL_STORAGE,
 			Manifest.permission.WRITE_EXTERNAL_STORAGE,
-			Manifest.permission.CAMERA)
-			.bindSubscribe(
+			Manifest.permission.CAMERA
+		).bindSubscribe(
 				scheduler = AndroidSchedulers.mainThread(),
 				onNext = {
 					when {
 						it.granted -> {
-							router.navigateTo(AppScreens.IMAGE_PICKER_SCREEN_KEY)
+
 						}
 						it.shouldShowRequestPermissionRationale -> {
 							Log.d("Logod", "shouldShowRequestPermissionRationale")
@@ -68,7 +73,9 @@ class CameraViewModel(
 	}
 
 	override fun reduce(action: CameraAction) {
-
+		if (action is CameraAction.ShowCategory) {
+			router.navigateTo(AppScreens.CATEGORY_SCREEN_KEY, CategoryData(CategoryType.CATEGORY))
+		}
 	}
 
 	// IMPLEMENT - ConnectionPlugin

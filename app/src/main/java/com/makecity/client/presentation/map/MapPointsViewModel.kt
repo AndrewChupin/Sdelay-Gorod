@@ -36,7 +36,7 @@ data class MapPointsViewState(
 
 // Action
 sealed class MapPointsAction: ActionView {
-	object ShowMapAddress : MapPointsAction()
+	object ShowCamera : MapPointsAction()
 	object LoadMapPoints : MapPointsAction()
 	object ShowProblemsAsList : MapPointsAction()
 	object ShowMenu : MapPointsAction()
@@ -82,8 +82,8 @@ class MapPointsViewModel(
 			is MapPointsAction.ShowProblemsAsList -> router.navigateTo(AppScreens.FEED_SCREEN_KEY)
 			is MapPointsAction.ShowMenu -> router.navigateTo(AppScreens.MENU_SCREEN_KEY)
 			is MapPointsAction.ShowDetails -> router.navigateTo(AppScreens.PROBLEM_SCREEN_KEY, ProblemData(action.problemId))
-			is MapPointsAction.ShowMapAddress ->
-				router.navigateTo(AppScreens.CATEGORY_SCREEN_KEY, CategoryData(CategoryType.CATEGORY))
+			is MapPointsAction.ShowCamera ->
+				router.navigateTo(AppScreens.CAMERA_SCREEN_KEY)
 		}
 	}
 
