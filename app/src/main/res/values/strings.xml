@@ -68,4 +68,9 @@
     <string name="loading_data">Загрузка данных...</string>
     <string name="preview">Предосмотр</string>
     <string name="description">Описание проблемы</string>
+    <string name="choose_category">Выбрать категорию</string>
+    <string name="category">Категория</string>
+    <string name="company">Организация</string>
+    <string name="service">Услуга</string>
+    <string name="restore_problem">Уже имеется существующая задача.</string>
 </resources>

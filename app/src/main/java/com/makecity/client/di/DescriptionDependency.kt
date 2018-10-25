@@ -2,8 +2,10 @@ package com.makecity.client.di
 
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
+import com.makecity.client.data.temp_problem.TempProblemDataSource
 import com.makecity.client.presentation.description.DescriptionFragment
 import com.makecity.client.presentation.description.DescriptionReducer
+import com.makecity.client.presentation.description.DescriptionScreenData
 import com.makecity.client.presentation.description.DescriptionViewModel
 import com.makecity.core.di.scope.FragmentScope
 import com.makecity.core.plugin.connection.ConnectionProvider
@@ -25,6 +27,8 @@ interface DescriptionComponent {
 	interface Builder {
 		@BindsInstance
 		fun withFragment(fragment: Fragment): Builder
+		@BindsInstance
+		fun withData(data: DescriptionScreenData): Builder
 		fun build(): DescriptionComponent
 	}
 
@@ -38,8 +42,10 @@ open class DescriptionModule {
 	@FragmentScope
 	fun provideViewModelFactory(
 		router: Router,
+		data: DescriptionScreenData,
+		tempProblemDataSource: TempProblemDataSource,
 		connectionProvider: ConnectionProvider
-	): DescriptionViewModel = DescriptionViewModel(router, connectionProvider)
+	): DescriptionViewModel = DescriptionViewModel(router, data, tempProblemDataSource, connectionProvider)
 
 	@Provides
 	@FragmentScope

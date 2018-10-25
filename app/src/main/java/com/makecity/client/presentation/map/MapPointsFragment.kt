@@ -64,10 +64,6 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 			bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 		}
 
-		map_button_add_task.setOnClickListener {
-			reducer.reduce(MapPointsAction.ShowCamera)
-		}
-
 		map_view.pointClickListener = {
 			reducer.state.tasks
 				.forEachIndexed { index, task ->
@@ -79,13 +75,9 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 			true
 		}
 
-		map_show_as_list.setOnClickListener {
-			reducer.reduce(MapPointsAction.ShowProblemsAsList)
-		}
-
-		map_menu_button.setOnClickListener {
-			reducer.reduce(MapPointsAction.ShowMenu)
-		}
+		map_button_add_task clickReduce MapPointsAction.ShowCamera
+		map_show_as_list clickReduce MapPointsAction.ShowProblemsAsList
+		map_menu_button clickReduce MapPointsAction.ShowMenu
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

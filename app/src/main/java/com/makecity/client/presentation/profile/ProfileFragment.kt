@@ -39,9 +39,7 @@ class ProfileFragment : ProfileStatement(), ToolbarScreen {
 		watcher.installOn(profile_phone)
 		profile_phone.text = "9995554433"
 
-		profile_edit_profile_button.setOnClickListener {
-			reducer.reduce(ProfileAction.ShowEditProfile)
-		}
+		profile_edit_profile_button clickReduce ProfileAction.ShowEditProfile
 	}
 
 	override fun render(state: ProfileViewState) {

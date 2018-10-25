@@ -2,9 +2,14 @@ package com.makecity.client.presentation.map
 
 import com.makecity.client.app.AppScreens
 import com.makecity.client.data.task.Task
+import com.makecity.client.data.temp_problem.TempProblem
+import com.makecity.client.data.temp_problem.TempProblemDataSource
 import com.makecity.client.domain.map.TaskPointsInteractor
-import com.makecity.client.presentation.category.CategoryData
+import com.makecity.client.presentation.camera.CameraScreenData
+import com.makecity.client.presentation.category.CategoryScreenData
 import com.makecity.client.presentation.category.CategoryType
+import com.makecity.client.presentation.create_problem.ProblemCreatingType
+import com.makecity.client.presentation.description.DescriptionScreenData
 import com.makecity.client.presentation.problem.ProblemData
 import com.makecity.core.data.Presentation
 import com.makecity.core.plugin.connection.ConnectionProvider
@@ -40,6 +45,7 @@ sealed class MapPointsAction: ActionView {
 	object LoadMapPoints : MapPointsAction()
 	object ShowProblemsAsList : MapPointsAction()
 	object ShowMenu : MapPointsAction()
+
 	data class ShowDetails(
 		val problemId: Long
 	): MapPointsAction()
@@ -53,6 +59,7 @@ interface MapPointsReducer: StatementReducer<MapPointsViewState, MapPointsAction
 // ViewModel
 class MapPointsViewModel(
 	private val router: Router,
+	private val tempProblemDataSource: TempProblemDataSource,
 	private val mapPointsInteractor: TaskPointsInteractor,
 	override val connectionProvider: ConnectionProvider,
 	override val permissionManager: PermissionManager,
@@ -73,17 +80,26 @@ class MapPointsViewModel(
 	// OVERRIDE - Reducer
 	override fun reduce(action: MapPointsAction) {
 		when (action) {
+			is MapPointsAction.ShowProblemsAsList -> router.navigateTo(AppScreens.FEED_SCREEN_KEY)
+			is MapPointsAction.ShowMenu -> router.navigateTo(AppScreens.MENU_SCREEN_KEY)
+			is MapPointsAction.ShowDetails -> router.navigateTo(AppScreens.PROBLEM_SCREEN_KEY, ProblemData(action.problemId))
+
 			is MapPointsAction.LoadMapPoints -> mapPointsInteractor
 				.loadProblems()
 				.bindSubscribe(
 					onSuccess = ::reduceLoadTasksSuccess,
 					onError = Throwable::printStackTrace
 				)
-			is MapPointsAction.ShowProblemsAsList -> router.navigateTo(AppScreens.FEED_SCREEN_KEY)
-			is MapPointsAction.ShowMenu -> router.navigateTo(AppScreens.MENU_SCREEN_KEY)
-			is MapPointsAction.ShowDetails -> router.navigateTo(AppScreens.PROBLEM_SCREEN_KEY, ProblemData(action.problemId))
-			is MapPointsAction.ShowCamera ->
-				router.navigateTo(AppScreens.CAMERA_SCREEN_KEY)
+
+			is MapPointsAction.ShowCamera -> tempProblemDataSource
+				.isProblemExist()
+				.bindSubscribe(onSuccess = { isExist ->
+					if (isExist) {
+						router.navigateTo(AppScreens.CAMERA_SCREEN_KEY, CameraScreenData(ProblemCreatingType.NEW))
+					} else {
+						router.navigateTo(AppScreens.RESTORE_SCREEN_KEY)
+					}
+				})
 		}
 	}
 

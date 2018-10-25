@@ -43,7 +43,7 @@
         android:gravity="center"
         android:textColor="@color/text_dark_main"
         android:layout_marginBottom="8dp"
-        android:textSize="32dp"
+        android:textSize="28sp"
         app:layout_constraintBottom_toTopOf="@+id/text_map_address_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -75,19 +75,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <TextView
         android:id="@+id/button_next"
-        style="@style/BaseMapButton"
+        style="@style/IconMapButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:textColor="@color/text_dark_secondary"
+        android:textColor="@color/text_dark_main"
         android:foreground="@drawable/ripple_main_light_secondary"
         android:fontFamily="@font/roboto_bold"
         android:background="@drawable/shape_white_corner_big"
         android:scaleX="1"
         android:scaleY="1"
-        android:text="ДАЛЕЕ"
+        android:text="Принять"
+        android:drawablePadding="@dimen/space_base_lower_half"
+        android:drawableLeft="@drawable/ic_done_accent_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

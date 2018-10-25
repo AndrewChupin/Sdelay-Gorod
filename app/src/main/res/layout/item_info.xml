@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/space_base_lower_quarter"
+    android:paddingBottom="@dimen/space_base_lower_quarter">
+
+    <ImageView
+        android:id="@+id/item_info_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/space_base"
+        android:paddingRight="@dimen/space_base"
+        android:paddingTop="@dimen/space_base_quarter"
+        android:src="@drawable/ic_person_gray_24dp" />
+
+    <TextView
+        android:id="@+id/item_info_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_base_lower_half"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/text_dark_secondary"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/item_info_icon"
+        tools:text="Создатель" />
+
+    <TextView
+        android:id="@+id/item_info_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_base_lower_half"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/text_dark_main"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/item_info_icon"
+        app:layout_constraintTop_toBottomOf="@+id/item_info_title"
+        tools:text="Andrew Chupin" />
+
+</android.support.constraint.ConstraintLayout>

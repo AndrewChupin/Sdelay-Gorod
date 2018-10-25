@@ -12,22 +12,26 @@ import com.makecity.client.presentation.address.AddressFragment
 import com.makecity.client.presentation.auth.AuthData
 import com.makecity.client.presentation.auth.AuthFragment
 import com.makecity.client.presentation.camera.CameraFragment
-import com.makecity.client.presentation.category.CategoryData
+import com.makecity.client.presentation.camera.CameraScreenData
+import com.makecity.client.presentation.category.CategoryScreenData
 import com.makecity.client.presentation.category.CategoryFragment
 import com.makecity.client.presentation.city.CityFragment
 import com.makecity.client.presentation.create_problem.CreateProblemFragment
 import com.makecity.client.presentation.description.DescriptionFragment
+import com.makecity.client.presentation.description.DescriptionScreenData
 import com.makecity.client.presentation.edit_profile.EditProfileFragment
 import com.makecity.client.presentation.feed.FeedFragment
 import com.makecity.client.presentation.filter.ProblemFilterFragment
 import com.makecity.client.presentation.map.MapPointsFragment
 import com.makecity.client.presentation.map_address.MapAddressFragment
+import com.makecity.client.presentation.map_address.MapAddressScreenData
 import com.makecity.client.presentation.menu.MenuFragment
 import com.makecity.client.presentation.notification.NotificationFragment
 import com.makecity.client.presentation.own_problems.OwnProblemsFragment
 import com.makecity.client.presentation.problem.ProblemData
 import com.makecity.client.presentation.problem.ProblemFragment
 import com.makecity.client.presentation.profile.ProfileFragment
+import com.makecity.client.presentation.restore.RestoreFragment
 import com.makecity.client.presentation.settings.SettingsFragment
 import com.makecity.client.presentation.splash.SplashFragment
 import com.makecity.client.presentation.web.WebData
@@ -62,16 +66,32 @@ class MainNavigator @Inject constructor(
 			AppScreens.CREATE_PROBLEM_SCREEN_KEY -> CreateProblemFragment.newInstance()
 			AppScreens.EDIT_PROBLEM_SCREEN_KEY -> EditProfileFragment.newInstance()
 			AppScreens.FILTER_PROBLEM_SCREEN_KEY -> ProblemFilterFragment.newInstance()
-			AppScreens.MAP_ADDRESS_SCREEN_KEY -> MapAddressFragment.newInstance()
+			AppScreens.RESTORE_SCREEN_KEY -> RestoreFragment.newInstance()
+			AppScreens.MAP_ADDRESS_SCREEN_KEY -> {
+				if (data != null && data !is MapAddressScreenData) {
+					throw IllegalArgumentException("data is null or type not MapAddressScreenData")
+				}
+				MapAddressFragment.newInstance(data as MapAddressScreenData)
+			}
 			AppScreens.OWN_PROBLEMS_SCREEN_KEY -> OwnProblemsFragment.newInstance()
 			AppScreens.SETTINGS_SCREEN_KEY -> SettingsFragment.newInstance()
-			AppScreens.CAMERA_SCREEN_KEY -> CameraFragment.newInstance()
-			AppScreens.DESCRIPTION_SCREEN_KEY -> DescriptionFragment.newInstance()
-			AppScreens.CATEGORY_SCREEN_KEY -> {
-				if (data != null && data !is CategoryData) {
-					throw IllegalArgumentException("data is null or type not CategoryData")
+			AppScreens.CAMERA_SCREEN_KEY -> {
+				if (data != null && data !is CameraScreenData) {
+					throw IllegalArgumentException("data is null or type not CameraScreenData")
 				}
-				CategoryFragment.newInstance(data as CategoryData)
+				CameraFragment.newInstance(data as CameraScreenData)
+			}
+			AppScreens.DESCRIPTION_SCREEN_KEY -> {
+				if (data != null && data !is DescriptionScreenData) {
+					throw IllegalArgumentException("data is null or type not DescriptionScreenData")
+				}
+				DescriptionFragment.newInstance(data as DescriptionScreenData)
+			}
+			AppScreens.CATEGORY_SCREEN_KEY -> {
+				if (data != null && data !is CategoryScreenData) {
+					throw IllegalArgumentException("data is null or type not CategoryScreenData")
+				}
+				CategoryFragment.newInstance(data as CategoryScreenData)
 			}
 			AppScreens.AUTH_SCREEN_KEY ->  {
 				if (data != null && data !is AuthData) {

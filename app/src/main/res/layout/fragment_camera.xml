@@ -1,62 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <io.fotoapparat.view.CameraView
         android:id="@+id/camera_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/camera_photos_list"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/space_base"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@+id/make_photo_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/camera_image_back" />
 
     <ImageView
+        android:id="@+id/camera_image_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/space_base"
-        android:src="@drawable/ic_arrow_white_24dp"/>
+        android:src="@drawable/ic_arrow_white_24dp" />
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/camera_button_gallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:clickable="true"
+        android:focusable="true"
         android:src="@drawable/ic_photo_library_black_24dp"
         app:backgroundTint="@color/white"
         app:fabSize="mini"
-        android:clickable="true"
-        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="@+id/make_photo_button"
         app:layout_constraintEnd_toStartOf="@+id/make_photo_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/make_photo_button" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/make_photo_button"
         android:layout_width="wrap_content"
-        android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/space_base"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/ic_camera_button"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_camera_background"
+        app:layout_constraintBottom_toTopOf="@id/camera_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageView
+        android:id="@+id/make_photo_loop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:src="@drawable/ic_camera_button"
+        app:layout_constraintBottom_toBottomOf="@id/make_photo_button"
+        app:layout_constraintEnd_toEndOf="@id/make_photo_button"
+        app:layout_constraintStart_toStartOf="@id/make_photo_button"
+        app:layout_constraintTop_toTopOf="@id/make_photo_button" />
+
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/camera_lightning_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/ic_lightning"
-        android:clickable="true"
-        android:focusable="true"
+        android:src="@drawable/ic_lightning_enable"
         app:backgroundTint="@color/white"
         app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="@+id/make_photo_button"
-        app:layout_constraintStart_toEndOf="@+id/make_photo_button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/make_photo_button"
         app:layout_constraintTop_toTopOf="@+id/make_photo_button" />
 
     <android.support.design.widget.FloatingActionButton
@@ -65,10 +86,29 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_done_accent_24dp"
         app:backgroundTint="@color/colorPrimary"
-        app:useCompatPadding="true"
         app:fabSize="mini"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:useCompatPadding="true" />
+
+    <TextView
+        android:id="@+id/camera_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/text_dark_main_alpha"
+        android:textColor="@color/text_light_main"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:fontFamily="@font/roboto_light"
+        android:text="Не больше 2 изображений"
+        android:padding="@dimen/space_base_lower_half"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <android.support.constraint.Group
+        android:id="@+id/camera_tools_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="camera_lightning_button,make_photo_button,make_photo_loop,camera_button_gallery" />
 
 
 </android.support.constraint.ConstraintLayout>

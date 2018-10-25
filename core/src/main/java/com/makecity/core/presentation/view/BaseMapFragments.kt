@@ -85,6 +85,11 @@ abstract class ReducibleViewMapFragment<Reducer: BaseReducer<AG>, AG: ActionView
 		super.onAttach(context)
 	}
 
+	infix fun View?.clickReduce(action: AG) {
+		this?.setOnClickListener {
+			reducer.reduce(action)
+		}
+	}
 }
 
 abstract class MapStatementFragment<Reducer: StatementReducer<State, AG>, State: ViewState, AG: ActionView>

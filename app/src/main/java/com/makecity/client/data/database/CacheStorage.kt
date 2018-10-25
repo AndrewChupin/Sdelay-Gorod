@@ -14,7 +14,7 @@ interface Cache<Data> {
 
 
 interface CacheStorage {
-	fun <Data> add(key: String, data: Cache<Data>): Completable
+	fun <Data> add(key: String, cache: Cache<Data>): Completable
 
 	fun <Data> pop(key: String): Maybe<Cache<Data>>
 
@@ -46,7 +46,7 @@ sealed class CacheStrategy {
 
 
 class CacheStorageInMemory(
-	private val defaultLruSize: Int
+	defaultLruSize: Int
 ): CacheStorage {
 
 	private var cacheMap: MutableMap<String, Cache<*>> = mutableMapOf()

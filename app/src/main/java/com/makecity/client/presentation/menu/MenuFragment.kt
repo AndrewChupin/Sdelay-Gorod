@@ -39,9 +39,8 @@ class MenuFragment: MenuStatement(), ToolbarScreen {
 			.apply(RequestOptions.circleCropTransform())
 			.into(menu_profile_image)
 
-		menu_add_account.setOnClickListener {
-			reducer.reduce(MenuAction.ItemSelected(MenuType.ADD_ACCOUNT))
-		}
+		menu_add_account clickReduce MenuAction.ItemSelected(MenuType.ADD_ACCOUNT)
+		menu_profile_cell clickReduce MenuAction.ShowProfile
 
 		context?.let {
 			menu_container_main.addView(MenuView(it, R.string.settings, R.drawable.ic_settings_gray_24dp) {
@@ -67,9 +66,6 @@ class MenuFragment: MenuStatement(), ToolbarScreen {
 			})
 		}
 
-		menu_profile_cell.setOnClickListener {
-			reducer.reduce(MenuAction.ShowProfile)
-		}
 	}
 
 	override fun render(state: MenuViewState) {

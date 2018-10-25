@@ -24,10 +24,6 @@ class CategoryAdapter(
 
 	override fun onBindViewHolder(viewHolder: CategoryViewHolder, position: Int)
 		= viewHolder.bind(data[position])
-
-	override fun updateData(data: List<Pair<Long, String>>) {
-		this.data = data
-	}
 }
 
 

@@ -9,11 +9,13 @@ import com.makecity.client.data.category.*
 import com.makecity.client.data.comments.*
 import com.makecity.client.data.common.Api
 import com.makecity.client.data.task.*
+import com.makecity.client.data.temp_problem.*
 import com.makecity.client.presentation.main.MainActivity
 import com.makecity.client.presentation.main.MainNavigator
 import com.makecity.client.presentation.main.MainReducer
 import com.makecity.client.presentation.main.MainViewModel
 import com.makecity.core.di.scope.ActivityScope
+import com.makecity.core.di.scope.FragmentScope
 import com.makecity.core.domain.Mapper
 import com.makecity.core.presentation.viewmodel.ViewModelFactory
 import dagger.*
@@ -23,7 +25,7 @@ import javax.inject.Singleton
 
 
 @ActivityScope
-@Subcomponent(modules = [MainModule::class, MapperModule::class, AuthDefaultModule::class])
+@Subcomponent(modules = [MainModule::class, MapperModule::class, AuthDefaultModule::class, TempProblemModule::class])
 interface MainComponent{
 
 	// Injects
@@ -52,6 +54,7 @@ interface MainComponent{
 	fun cameraComponent(): CameraComponent.Builder
 	fun categoryComponent(): CategoryComponent.Builder
 	fun descriptionComponent(): DescriptionComponent.Builder
+	fun restoreComponent(): RestoreComponent.Builder
 
 	@Subcomponent.Builder
 	interface Builder {
@@ -126,6 +129,34 @@ class AuthDefaultModule {
 	): AuthDataSource = AuthDataSourceDefault(authService, authStorage, mapper)
 }
 
+@Module
+class TempProblemModule {
+
+	@Provides
+	@ActivityScope
+	fun provideTempProblemMapperCommonToPersistence(
+		mapperCommonToPersistence: TempProblemMapperCommonToPersistence
+	): Mapper<TempProblem, TempProblemPersistence> = mapperCommonToPersistence
+
+	@Provides
+	@ActivityScope
+	fun provideTempProblemMapperPersistenceToCommon(
+		mapperPersistenceToCommon: TempProblemMapperPersistenceToCommon
+	): Mapper<TempProblemPersistence, TempProblem> = mapperPersistenceToCommon
+
+	@Provides
+	@ActivityScope
+	fun provideTempProblemStorage(problemStorageRoom: TempProblemStorageRoom): TempProblemStorage = problemStorageRoom
+
+
+	@Provides
+	@ActivityScope
+	fun provideTempProblemDataSource(
+		mapperCommonToPersistence: TempProblemMapperCommonToPersistence,
+		mapperPersistenceToCommon: TempProblemMapperPersistenceToCommon,
+		storage: TempProblemStorage
+	): TempProblemDataSource = TempProblemDataSourceDefault(storage, mapperCommonToPersistence, mapperPersistenceToCommon)
+}
 
 @Module
 class MainModule {

@@ -42,9 +42,7 @@ class EditProfileFragment : EditProfileStatement(), ToolbarScreen {
 			isDisplayHomeButton = true
 		))
 
-		edit_profile_change_photo.setOnClickListener {
-			reducer.reduce(EditProfileAction.PickPhoto)
-		}
+		edit_profile_change_photo clickReduce EditProfileAction.PickPhoto
 
 		val mask = MaskImpl(PredefinedSlots.RUS_PHONE_NUMBER, true)
 		mask.isHideHardcodedHead = true

@@ -6,6 +6,8 @@ import com.makecity.client.app.AppScreens
 import com.makecity.client.data.category.CategoryDataSource
 import com.makecity.client.data.temp_problem.TempProblem
 import com.makecity.client.data.temp_problem.TempProblemDataSource
+import com.makecity.client.presentation.create_problem.ProblemCreatingType
+import com.makecity.client.presentation.description.DescriptionScreenData
 import com.makecity.core.data.Presentation
 import com.makecity.core.extenstion.blockingCompletable
 import com.makecity.core.plugin.connection.ConnectionProvider
@@ -25,8 +27,9 @@ import ru.terrakok.cicerone.Router
 
 // Data
 @Parcelize
-data class CategoryData(
-	val categoryType: CategoryType
+data class CategoryScreenData(
+	val categoryType: CategoryType,
+	val problemCreatingType: ProblemCreatingType
 ): Parcelable
 
 
@@ -49,7 +52,7 @@ sealed class CategoryAction: ActionView {
 	object LoadData: CategoryAction()
 
 	data class SelectItem(
-		val id: Long
+		val pair: Pair<Long, String>
 	): CategoryAction()
 }
 
@@ -61,9 +64,9 @@ interface CategoryReducer: StatementReducer<CategoryViewState, CategoryAction>
 // ViewModel
 class CategoryViewModel(
 	private val router: Router,
-	private val categoryData: CategoryData,
+	private val categoryData: CategoryScreenData,
 	override val connectionProvider: ConnectionProvider,
-	resourceManager: ResourceManager,
+	private val resourceManager: ResourceManager,
 	private val categoryDataSource: CategoryDataSource,
 	private val tempProblemDataSource: TempProblemDataSource,
 	override val disposables: CompositeDisposable = CompositeDisposable()
@@ -81,8 +84,8 @@ class CategoryViewModel(
 			}
 
 			is CategoryAction.SelectItem ->  when (categoryData.categoryType) {
-				CategoryType.CATEGORY -> saveCategory(action.id)
-				CategoryType.OPTION -> saveOption(action.id)
+				CategoryType.CATEGORY -> saveCategory(action.pair)
+				CategoryType.OPTION -> saveOption(action.pair)
 				CategoryType.COMPANY -> loadOptions() // TODO
 			}
 		}
@@ -90,24 +93,23 @@ class CategoryViewModel(
 
 
 	// MARK - CategoryAction.SelectItem
-	private fun saveCategory(categoryId: Long) {
+	private fun saveCategory(categoryPair: Pair<Long, String>) {
 		tempProblemDataSource.getTempProblem()
-			.map { it.copy(categoryId = categoryId) }
-			.blockingCompletable(tempProblemDataSource::saveTempProblem)
-			.ignoreElement()
+			.map { it.copy(categoryId = categoryPair.first, categoryName = categoryPair.second) }
+			.flatMapCompletable(tempProblemDataSource::saveTempProblem)
 			.bindSubscribe(onSuccess = {
-				router.navigateTo(AppScreens.CATEGORY_SCREEN_KEY, CategoryData(CategoryType.OPTION))
+				router.navigateTo(
+					AppScreens.CATEGORY_SCREEN_KEY,
+					CategoryScreenData(CategoryType.OPTION, categoryData.problemCreatingType)
+				)
 			})
 	}
 
-	private fun saveOption(optionId: Long) {
+	private fun saveOption(optionPair: Pair<Long, String>) {
 		tempProblemDataSource.getTempProblem()
-			.map { it.copy(optionId = optionId) }
-			.blockingCompletable(tempProblemDataSource::saveTempProblem)
-			.ignoreElement()
-			.bindSubscribe(onSuccess = {
-				router.navigateTo(AppScreens.DESCRIPTION_SCREEN_KEY)
-			})
+			.map { it.copy(optionId = optionPair.first, optionName = optionPair.second) }
+			.flatMapCompletable(tempProblemDataSource::saveTempProblem)
+			.bindSubscribe(onSuccess = ::navigateComplete)
 	}
 
 
@@ -118,7 +120,7 @@ class CategoryViewModel(
 				viewState.updateValue {
 					copy(
 						screenState = PrimaryViewState.Data,
-						title = "Выбрать категорию",
+						title = resourceManager.getString(R.string.choose_category),
 						entries = data.map { Pair(it.id, it.name.capitalize()) }
 					)
 				}
@@ -147,5 +149,16 @@ class CategoryViewModel(
 	// IMPLEMENT - ConnectionPlugin
 	override fun onChangeConnection(connectionState: ConnectionState) {
 
+	}
+
+	private fun navigateComplete() {
+		if (categoryData.problemCreatingType == ProblemCreatingType.NEW) {
+			router.navigateTo(
+				AppScreens.DESCRIPTION_SCREEN_KEY,
+				DescriptionScreenData(ProblemCreatingType.NEW)
+			)
+		} else {
+			router.backTo(AppScreens.CREATE_PROBLEM_SCREEN_KEY)
+		}
 	}
 }

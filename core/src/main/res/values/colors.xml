@@ -22,6 +22,7 @@
 
     <!-- Text Colors -->
     <color name="text_dark_main">#000000</color>
+    <color name="text_dark_main_alpha">#B7000000</color>
     <color name="text_dark_secondary">#4E4E4E</color>
     <color name="text_dark_description">#A5A7A7</color>
 

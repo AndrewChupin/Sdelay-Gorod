@@ -125,10 +125,6 @@ class TaskDetailAdapter(
 			else -> R.layout.item_comment
 		}
 	}
-
-	override fun updateData(data: ProblemDetail) {
-		this.data = data
-	}
 }
 
 

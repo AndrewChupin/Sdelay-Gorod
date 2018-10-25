@@ -6,6 +6,7 @@ import com.makecity.client.R
 import com.makecity.client.app.AppInjector
 import com.makecity.core.extenstion.hideWithScale
 import com.makecity.core.extenstion.showWithScale
+import com.makecity.core.extenstion.withArguments
 import com.makecity.core.plugin.connection.ConnectionState
 import com.makecity.core.plugin.location.LocationState
 import com.makecity.core.presentation.screen.ToolbarScreen
@@ -26,12 +27,16 @@ typealias MapAddressStatement = MapStatementFragment<MapAddressReducer, MapAddre
 class MapAddressFragment : MapAddressStatement(), ToolbarScreen {
 
 	companion object {
-		fun newInstance() = MapAddressFragment()
+		private const val ARGUMENT_MAP_ADDRESS_DATA = "ARGUMENT_MAP_ADDRESS_DATA"
+
+		fun newInstance(data: MapAddressScreenData) = MapAddressFragment().withArguments {
+			putParcelable(ARGUMENT_MAP_ADDRESS_DATA, data)
+		}
 	}
 
 	override val layoutId: Int = R.layout.fragment_map_adress
 
-	override fun onInject() = AppInjector.inject(this)
+	override fun onInject() = AppInjector.inject(this, getArgument(ARGUMENT_MAP_ADDRESS_DATA))
 
 	override fun getToolbar(): Toolbar = toolbar
 
@@ -42,13 +47,11 @@ class MapAddressFragment : MapAddressStatement(), ToolbarScreen {
 
 		fab_zoom_out.setOnClickListener { map_addres_view.zoomOut() }
 
-		fab_my_position.setOnClickListener { reducer.reduce(MapAddressAction.FindOwnLocation) }
 
 		map_addres_view.cameraStateListener = ::cameraStateChanged
 
-		button_next.setOnClickListener {
-			reducer.reduce(MapAddressAction.ShowProblemPreview)
-		}
+		fab_my_position clickReduce MapAddressAction.FindOwnLocation
+		button_next clickReduce MapAddressAction.ShowProblemPreview
 	}
 
 	override fun render(state: MapAddressViewState) {
@@ -64,7 +67,7 @@ class MapAddressFragment : MapAddressStatement(), ToolbarScreen {
 
 		when (state.screenState) {
 			is PrimaryViewState.Data -> changeViewState(
-				title = state.address?.name ?: EMPTY,
+				title = state.address?.run { "$street, $homeNumber" } ?: EMPTY,
 				description = getString(R.string.map_specify),
 				isVisibleButton = true
 			)

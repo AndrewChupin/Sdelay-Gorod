@@ -58,9 +58,7 @@ class AuthFragment : AuthStatement(), ToolbarScreen, KeyboardScreen {
 		auth_input_field.requestFocus()
 		showKeyboard()
 
-		auth_next_button.setOnClickListener {
-			reducer.reduce(AuthAction.ShowNextStep)
-		}
+		auth_next_button clickReduce AuthAction.ShowNextStep
 	}
 
 	override fun onDestroyView() {

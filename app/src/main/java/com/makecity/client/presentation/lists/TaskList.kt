@@ -32,10 +32,6 @@ class TaskAdapter(
 	override fun getItemCount(): Int = data.size
 
 	override fun onBindViewHolder(holder: BaseViewHolder<Task>, position: Int) = holder.bind(data[position])
-
-	override fun updateData(data: List<Task>) {
-		this.data = data
-	}
 }
 
 class TaskViewHolder(

@@ -26,7 +26,7 @@
                 android:fitsSystemWindows="true"
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap"
                 app:toolbarId="@+id/toolbar">
 
                 <ImageView

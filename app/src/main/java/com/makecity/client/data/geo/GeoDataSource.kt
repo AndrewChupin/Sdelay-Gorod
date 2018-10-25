@@ -23,8 +23,7 @@ class GeoDataSourceDefault @Inject constructor(
 		.getUserIp()
 		.flatMap(geoService::getUserCity)
 		.map(mapperRemoteToPersist::transform)
-		.blockingCompletable(geoPointStorage::replaceGeoPoint)
-		.ignoreElement()
+		.flatMapCompletable(geoPointStorage::replaceGeoPoint)
 
 
 	override fun getDefaultGeoPoint(): Maybe<GeoPoint> = geoPointStorage

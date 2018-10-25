@@ -1,13 +1,19 @@
 package com.makecity.core.utils.image
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.os.Environment
 import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.makecity.core.BuildConfig
 import com.makecity.core.R
 import com.makecity.core.utils.image.CommonImageRules
 import com.makecity.core.utils.image.ImageRules
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 
@@ -20,6 +26,7 @@ interface ImageManager {
 	 * @param url - it may be HTTP or File url to resource witch will be load to [imageView] with something library
 	 */
 	fun apply(rules: ImageRules)
+	fun crateNewPictureFile(): File
 }
 
 
@@ -47,5 +54,19 @@ class CommonImageManager @Inject constructor(): ImageManager {
 
 		request = request.apply(options)
 		request.into(rules.image)
+	}
+
+
+	override fun crateNewPictureFile(): File {
+		val storage = File(
+			Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+			BuildConfig.PICTURE_FOLDER
+		)
+
+		if (!storage.exists()) {
+			storage.mkdirs()
+		}
+		val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+		return File(storage, "$timeStamp.jpg")
 	}
 }

@@ -38,6 +38,7 @@ android {
             def googleKey = constants.googleMapReleaseKey
             manifestPlaceholders = [GOOGLE_MAPS_KEY: googleKey]
             buildConfigField("String", "GOOGLE_MAPS_KEY", "\"${googleKey}\"")
+            buildConfigField "String", "URL_API", constants.urlApiRelease
         }
 
         debug {
@@ -50,6 +51,7 @@ android {
             def googleKey = constants.googleMapDebugKey
             manifestPlaceholders = [GOOGLE_MAPS_KEY: googleKey]
             buildConfigField("String", "GOOGLE_MAPS_KEY", "\"${googleKey}\"")
+            buildConfigField "String", "URL_API", constants.urlApiDebug
         }
 
         applicationVariants.all { variant ->
@@ -81,12 +83,12 @@ android {
 }
 
 dependencies {
-    implementation 'io.fotoapparat:fotoapparat:2.5.0'
     implementation project(includes.core)
     implementation 'com.android.support:multidex:1.0.3'
     implementation dependendency.tinkoff.decoro
     kapt dependendency.google.daggerProcessor
     kapt dependendency.android.roomCompiler
+    kapt dependendency.square.moshiGen
 }
 
 kapt {

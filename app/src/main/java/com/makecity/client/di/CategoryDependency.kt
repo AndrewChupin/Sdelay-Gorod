@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
 import com.makecity.client.data.category.*
 import com.makecity.client.data.temp_problem.*
-import com.makecity.client.presentation.category.CategoryData
+import com.makecity.client.presentation.category.CategoryScreenData
 import com.makecity.client.presentation.category.CategoryFragment
 import com.makecity.client.presentation.category.CategoryReducer
 import com.makecity.client.presentation.category.CategoryViewModel
@@ -31,7 +31,7 @@ interface CategoryComponent {
 		@BindsInstance
 		fun withFragment(fragment: Fragment): Builder
 		@BindsInstance
-		fun withData(categoryData: CategoryData): Builder
+		fun withData(categoryData: CategoryScreenData): Builder
 		fun build(): CategoryComponent
 	}
 
@@ -40,31 +40,6 @@ interface CategoryComponent {
 
 @Module
 open class CategoryModule {
-
-	@Provides
-	@FragmentScope
-	fun provideTempProblemMapperCommonToPersistence(
-		mapperCommonToPersistence: TempProblemMapperCommonToPersistence
-	): Mapper<TempProblem, TempProblemPersistence> = mapperCommonToPersistence
-
-	@Provides
-	@FragmentScope
-	fun provideTempProblemMapperPersistenceToCommon(
-		mapperPersistenceToCommon: TempProblemMapperPersistenceToCommon
-	): Mapper<TempProblemPersistence, TempProblem> = mapperPersistenceToCommon
-
-	@Provides
-	@FragmentScope
-	fun provideTempProblemStorage(problemStorageRoom: TempProblemStorageRoom): TempProblemStorage = problemStorageRoom
-
-
-	@Provides
-	@FragmentScope
-	fun provideTempProblemDataSource(
-		mapperCommonToPersistence: TempProblemMapperCommonToPersistence,
-		mapperPersistenceToCommon: TempProblemMapperPersistenceToCommon,
-		storage: TempProblemStorage
-	): TempProblemDataSource = TempProblemDataSourceDefault(storage, mapperCommonToPersistence, mapperPersistenceToCommon)
 
 	@Provides
 	@FragmentScope
@@ -82,7 +57,7 @@ open class CategoryModule {
 	@FragmentScope
 	fun provideViewModelFactory(
 		router: Router,
-		categoryData: CategoryData,
+		categoryData: CategoryScreenData,
 		resourceManager: ResourceManager,
 		connectionProvider: ConnectionProvider,
 		categoryDataSource: CategoryDataSource,

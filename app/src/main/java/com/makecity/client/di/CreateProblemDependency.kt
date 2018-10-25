@@ -2,6 +2,7 @@ package com.makecity.client.di
 
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
+import com.makecity.client.data.temp_problem.TempProblemDataSource
 import com.makecity.client.presentation.create_problem.CreateProblemFragment
 import com.makecity.client.presentation.create_problem.CreateProblemReducer
 import com.makecity.client.presentation.create_problem.CreateProblemViewModel
@@ -38,8 +39,9 @@ open class CreateProblemModule {
 	@FragmentScope
 	fun provideViewModelFactory(
 		router: Router,
+		tempProblemDataSource: TempProblemDataSource,
 		connectionProvider: ConnectionProvider
-	): CreateProblemViewModel = CreateProblemViewModel(router, connectionProvider)
+	): CreateProblemViewModel = CreateProblemViewModel(router, tempProblemDataSource, connectionProvider)
 
 	@Provides
 	@FragmentScope

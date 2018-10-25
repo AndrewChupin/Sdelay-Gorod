@@ -12,4 +12,7 @@ abstract class TempProblemDao: BaseDao<TempProblemPersistence> {
 
 	@Query("SELECT * FROM temp_problem LIMIT 1")
 	abstract fun findFirst(): TempProblemPersistence?
+
+	@Query("SELECT count(*) FROM temp_problem")
+	abstract fun count(): Int
 }

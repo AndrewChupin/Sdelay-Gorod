@@ -7,34 +7,40 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/problem_photo_title"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawablePadding="@dimen/space_base"
-        android:drawableEnd="@drawable/ic_edit_black_24dp"
-        android:text="@string/images"
-        android:paddingTop="@dimen/space_base_greater_half"
-        android:paddingStart="@dimen/space_base"
-        android:paddingEnd="@dimen/space_base"
-        android:paddingBottom="@dimen/space_base_lower_half"
-        android:fontFamily="@font/roboto_bold"
-        android:textColor="@color/text_dark_main"
-        android:textSize="22sp" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/problem_photo_change"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorAccent"
-        android:textSize="16sp"
-        android:visibility="gone"
-        android:fontFamily="@font/roboto_light"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp"
-        android:gravity="end"
-        android:layout_marginEnd="16dp"
-        android:text="Изменить" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/images"
+            android:paddingTop="@dimen/space_base_greater_half"
+            android:paddingStart="@dimen/space_base"
+            android:paddingEnd="@dimen/space_base"
+            android:paddingBottom="@dimen/space_base_lower_half"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/text_dark_main"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/item_photos_change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Изменить"
+            android:textSize="16sp"
+            android:textColor="@color/colorAccent"
+            android:fontFamily="@font/roboto_light"
+            android:visibility="gone"
+            android:paddingTop="@dimen/space_base_lower_half"
+            android:paddingStart="@dimen/space_base"
+            android:paddingEnd="@dimen/space_base"
+            android:paddingBottom="@dimen/space_base_lower_half"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_gravity="end|bottom"
+            android:src="@drawable/ic_edit_accent_24dp"/>
+
+    </FrameLayout>
 
     <HorizontalScrollView
         android:layout_width="match_parent"

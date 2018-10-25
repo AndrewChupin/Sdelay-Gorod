@@ -24,6 +24,8 @@ buildscript {
 
             'googleApi'  : '"https://maps.googleapis.com/maps/api/"',
 
+            'pictureFolder'  : '"SdelayGorod"',
+
             // Storage Names
             'dataBaseName'             : '"makecity-task.db"',
             'preferencesForRequestName': '"makecity-preferences"',

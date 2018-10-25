@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.support.v4.app.Fragment
 import com.makecity.client.data.task.ProblemDataSource
+import com.makecity.client.data.temp_problem.TempProblemDataSource
 import com.makecity.client.domain.map.TaskInteractorReactive
 import com.makecity.client.domain.map.TaskPointsInteractor
 import com.makecity.client.presentation.map.MapPointsFragment
@@ -60,10 +61,11 @@ open class MapPointsModule {
 	fun provideViewModelFactory(
 		router: Router,
 		interactor: TaskPointsInteractor,
+		tempProblemDataSource: TempProblemDataSource,
 		connectionProvider: ConnectionProvider,
 		permissionManager: PermissionManager,
 		locationProvider: LocationProvider
-	): MapPointsViewModel = MapPointsViewModel(router, interactor, connectionProvider, permissionManager, locationProvider)
+	): MapPointsViewModel = MapPointsViewModel(router, tempProblemDataSource, interactor, connectionProvider, permissionManager, locationProvider)
 
 	@Provides
 	@FragmentScope

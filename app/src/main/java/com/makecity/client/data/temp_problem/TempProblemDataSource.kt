@@ -9,6 +9,8 @@ interface TempProblemDataSource {
 
 	fun saveTempProblem(tempProblem: TempProblem) : Completable
 	fun getTempProblem() : Single<TempProblem>
+	fun isProblemExist() : Single<Boolean>
+	fun deleteAll(): Completable
 }
 
 
@@ -18,6 +20,7 @@ class TempProblemDataSourceDefault @Inject constructor(
 	private  val mapperPersistenceToCommon: Mapper<TempProblemPersistence, TempProblem>
 ) : TempProblemDataSource {
 
+
 	override fun saveTempProblem(tempProblem: TempProblem): Completable = storage
 		.saveTempProblem(mapperCommonToPersistence.transform(tempProblem))
 
@@ -26,4 +29,8 @@ class TempProblemDataSourceDefault @Inject constructor(
 		.map(mapperPersistenceToCommon::transform)
 		.defaultIfEmpty(TempProblem())
 		.toSingle()
+
+	override fun isProblemExist(): Single<Boolean> = storage.isTempProblemExist()
+
+	override fun deleteAll(): Completable = storage.clear()
 }

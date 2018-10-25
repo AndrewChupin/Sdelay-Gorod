@@ -94,6 +94,12 @@ abstract class ReducibleViewFragment<Reducer: BaseReducer<AG>, AG: ActionView>: 
         onInject()
         super.onAttach(context)
     }
+
+    infix fun View?.clickReduce(action: AG) {
+        this?.setOnClickListener {
+            reducer.reduce(action)
+        }
+    }
 }
 
 

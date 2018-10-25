@@ -9,11 +9,13 @@ import com.makecity.client.presentation.address.AddressFragment
 import com.makecity.client.presentation.auth.AuthData
 import com.makecity.client.presentation.auth.AuthFragment
 import com.makecity.client.presentation.camera.CameraFragment
-import com.makecity.client.presentation.category.CategoryData
+import com.makecity.client.presentation.camera.CameraScreenData
+import com.makecity.client.presentation.category.CategoryScreenData
 import com.makecity.client.presentation.category.CategoryFragment
 import com.makecity.client.presentation.city.CityFragment
 import com.makecity.client.presentation.create_problem.CreateProblemFragment
 import com.makecity.client.presentation.description.DescriptionFragment
+import com.makecity.client.presentation.description.DescriptionScreenData
 import com.makecity.client.presentation.edit_problem.EditProblemFragment
 import com.makecity.client.presentation.edit_profile.EditProfileFragment
 import com.makecity.client.presentation.feed.FeedFragment
@@ -21,12 +23,14 @@ import com.makecity.client.presentation.filter.ProblemFilterFragment
 import com.makecity.client.presentation.main.MainActivity
 import com.makecity.client.presentation.map.MapPointsFragment
 import com.makecity.client.presentation.map_address.MapAddressFragment
+import com.makecity.client.presentation.map_address.MapAddressScreenData
 import com.makecity.client.presentation.menu.MenuFragment
 import com.makecity.client.presentation.notification.NotificationFragment
 import com.makecity.client.presentation.own_problems.OwnProblemsFragment
 import com.makecity.client.presentation.problem.ProblemData
 import com.makecity.client.presentation.problem.ProblemFragment
 import com.makecity.client.presentation.profile.ProfileFragment
+import com.makecity.client.presentation.restore.RestoreFragment
 import com.makecity.client.presentation.settings.SettingsFragment
 import com.makecity.client.presentation.splash.SplashFragment
 import com.makecity.client.presentation.web.WebData
@@ -179,7 +183,7 @@ object AppInjector {
 				.inject(fragment)
 			return
 		}
-		throw IllegalStateException("MainComponent must be initialized before AddressComponent")
+		throw IllegalStateException("MainComponent must be initialized before AddressComponentRemote")
 	}
 
 	fun inject(fragment: CreateProblemFragment) {
@@ -191,9 +195,9 @@ object AppInjector {
 		throw IllegalStateException("MainComponent must be initialized before CreateProblemComponent")
 	}
 
-	fun inject(fragment: MapAddressFragment) {
+	fun inject(fragment: MapAddressFragment, data: MapAddressScreenData) {
 		mainComponent.get()?.let {
-			injectorPlugin.representMapAddressFragment(it, fragment)
+			injectorPlugin.representMapAddressFragment(it, fragment, data)
 				.inject(fragment)
 			return
 		}
@@ -236,16 +240,16 @@ object AppInjector {
 		throw IllegalStateException("MainComponent must be initialized before SettingsComponent")
 	}
 
-	fun inject(fragment: CameraFragment) {
+	fun inject(fragment: CameraFragment, data: CameraScreenData) {
 		mainComponent.get()?.let {
-			injectorPlugin.representCameraFragment(it, fragment)
+			injectorPlugin.representCameraFragment(it, fragment, data)
 				.inject(fragment)
 			return
 		}
 		throw IllegalStateException("MainComponent must be initialized before CameraComponent")
 	}
 
-	fun inject(fragment: CategoryFragment, categoryData: CategoryData) {
+	fun inject(fragment: CategoryFragment, categoryData: CategoryScreenData) {
 		mainComponent.get()?.let {
 			injectorPlugin.representCategoryFragment(it, fragment, categoryData)
 				.inject(fragment)
@@ -254,9 +258,18 @@ object AppInjector {
 		throw IllegalStateException("MainComponent must be initialized before CategoryComponent")
 	}
 
-	fun inject(fragment: DescriptionFragment) {
+	fun inject(fragment: DescriptionFragment, descriptionScreenData: DescriptionScreenData) {
 		mainComponent.get()?.let {
-			injectorPlugin.representDescriptionFragment(it, fragment)
+			injectorPlugin.representDescriptionFragment(it, fragment, descriptionScreenData)
+				.inject(fragment)
+			return
+		}
+		throw IllegalStateException("MainComponent must be initialized before DescriptionComponent")
+	}
+
+	fun inject(fragment: RestoreFragment) {
+		mainComponent.get()?.let {
+			injectorPlugin.representRestoreFragment(it, fragment)
 				.inject(fragment)
 			return
 		}

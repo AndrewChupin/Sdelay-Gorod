@@ -2,10 +2,11 @@ package com.makecity.client.di
 
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
+import com.makecity.client.data.temp_problem.TempProblemDataSource
 import com.makecity.client.presentation.camera.CameraFragment
 import com.makecity.client.presentation.camera.CameraReducer
+import com.makecity.client.presentation.camera.CameraScreenData
 import com.makecity.client.presentation.camera.CameraViewModel
-import com.makecity.client.presentation.category.CategoryData
 import com.makecity.core.di.scope.FragmentScope
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.presentation.viewmodel.ViewModelFactory
@@ -27,8 +28,13 @@ interface CameraComponent {
 
 	@Subcomponent.Builder
 	interface Builder {
+
 		@BindsInstance
 		fun withFragment(fragment: Fragment): Builder
+
+		@BindsInstance
+		fun withData(data: CameraScreenData): Builder
+
 		fun build(): CameraComponent
 	}
 
@@ -46,9 +52,11 @@ open class CameraModule {
 	@FragmentScope
 	fun provideViewModelFactory(
 		router: Router,
+		data: CameraScreenData,
+		tempProblemDataSource: TempProblemDataSource,
 		connectionProvider: ConnectionProvider,
 		permissionManager: PermissionManager
-	): CameraViewModel = CameraViewModel(router, connectionProvider, permissionManager)
+	): CameraViewModel = CameraViewModel(router, data, tempProblemDataSource, connectionProvider, permissionManager)
 
 	@Provides
 	@FragmentScope

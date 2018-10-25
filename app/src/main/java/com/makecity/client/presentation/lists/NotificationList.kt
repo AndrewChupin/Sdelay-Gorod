@@ -28,10 +28,6 @@ class NotificationAdapter(
 	override fun getItemCount(): Int = data.size
 
 	override fun onBindViewHolder(holder: BaseViewHolder<Notification>, position: Int) = holder.bind(data[position])
-
-	override fun updateData(data: List<Notification>) {
-		this.data = data
-	}
 }
 
 class NotificationViewHolder(

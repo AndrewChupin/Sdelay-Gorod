@@ -8,11 +8,13 @@ import com.makecity.client.presentation.address.AddressFragment
 import com.makecity.client.presentation.auth.AuthData
 import com.makecity.client.presentation.auth.AuthFragment
 import com.makecity.client.presentation.camera.CameraFragment
-import com.makecity.client.presentation.category.CategoryData
+import com.makecity.client.presentation.camera.CameraScreenData
+import com.makecity.client.presentation.category.CategoryScreenData
 import com.makecity.client.presentation.category.CategoryFragment
 import com.makecity.client.presentation.city.CityFragment
 import com.makecity.client.presentation.create_problem.CreateProblemFragment
 import com.makecity.client.presentation.description.DescriptionFragment
+import com.makecity.client.presentation.description.DescriptionScreenData
 import com.makecity.client.presentation.edit_problem.EditProblemFragment
 import com.makecity.client.presentation.edit_profile.EditProfileFragment
 import com.makecity.client.presentation.feed.FeedFragment
@@ -20,12 +22,14 @@ import com.makecity.client.presentation.filter.ProblemFilterFragment
 import com.makecity.client.presentation.main.MainActivity
 import com.makecity.client.presentation.map.MapPointsFragment
 import com.makecity.client.presentation.map_address.MapAddressFragment
+import com.makecity.client.presentation.map_address.MapAddressScreenData
 import com.makecity.client.presentation.menu.MenuFragment
 import com.makecity.client.presentation.notification.NotificationFragment
 import com.makecity.client.presentation.own_problems.OwnProblemsFragment
 import com.makecity.client.presentation.problem.ProblemData
 import com.makecity.client.presentation.problem.ProblemFragment
 import com.makecity.client.presentation.profile.ProfileFragment
+import com.makecity.client.presentation.restore.RestoreFragment
 import com.makecity.client.presentation.settings.SettingsFragment
 import com.makecity.client.presentation.splash.SplashFragment
 import com.makecity.client.presentation.web.WebData
@@ -180,10 +184,12 @@ object DefaultInjectorPlugin : InjectorPlugin {
 
 	override fun representMapAddressFragment(
 		mainComponent: MainComponent,
-		fragment: MapAddressFragment
+		fragment: MapAddressFragment,
+		data: MapAddressScreenData
 	): MapAddressComponent = mainComponent
 		.mapAddressComponent()
 		.withFragment(fragment)
+		.withData(data)
 		.build()
 
 	override fun representOwnProblemsFragment(
@@ -213,16 +219,18 @@ object DefaultInjectorPlugin : InjectorPlugin {
 
 	override fun representCameraFragment(
 		mainComponent: MainComponent,
-		fragment: CameraFragment
+		fragment: CameraFragment,
+		data: CameraScreenData
 	): CameraComponent = mainComponent
 		.cameraComponent()
 		.withFragment(fragment)
+		.withData(data)
 		.build()
 
 	override fun representCategoryFragment(
 		mainComponent: MainComponent,
 		fragment: CategoryFragment,
-		categoryData: CategoryData
+		categoryData: CategoryScreenData
 	): CategoryComponent = mainComponent
 		.categoryComponent()
 		.withFragment(fragment)
@@ -231,9 +239,19 @@ object DefaultInjectorPlugin : InjectorPlugin {
 
 	override fun representDescriptionFragment(
 		mainComponent: MainComponent,
-		fragment: DescriptionFragment
+		fragment: DescriptionFragment,
+		descriptionScreenData: DescriptionScreenData
 	): DescriptionComponent =  mainComponent
 		.descriptionComponent()
+		.withFragment(fragment)
+		.withData(descriptionScreenData)
+		.build()
+
+	override fun representRestoreFragment(
+		mainComponent: MainComponent,
+		fragment: RestoreFragment
+	): RestoreComponent = mainComponent
+		.restoreComponent()
 		.withFragment(fragment)
 		.build()
 }

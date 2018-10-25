@@ -10,20 +10,21 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "PICTURE_FOLDER", constants.pictureFolder
     }
 
     buildTypes {
+
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            buildConfigField "String", "URL_API", constants.urlApiRelease
         }
 
         debug {
             minifyEnabled false
 
-            buildConfigField "String", "URL_API", constants.urlApiDebug
         }
     }
 
@@ -60,6 +61,7 @@ dependencies {
 
     api dependendency.kotlin.stdlib
 
+    api 'io.fotoapparat:fotoapparat:2.5.0'
     api dependendency.reactivex.rxJava
     api dependendency.reactivex.rxAndroid
 
@@ -68,6 +70,7 @@ dependencies {
     api dependendency.google.dagger
 
     kapt dependendency.google.daggerProcessor
+    kapt dependendency.square.moshiGen
 
     api dependendency.square.retrofit
     api dependendency.square.okhttp

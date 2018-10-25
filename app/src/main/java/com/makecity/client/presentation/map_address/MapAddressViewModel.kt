@@ -1,9 +1,16 @@
 package com.makecity.client.presentation.map_address
 
+import android.os.Parcelable
 import com.makecity.client.app.AppScreens
 import com.makecity.client.data.address.Address
+import com.makecity.client.data.address.AddressDataSource
+import com.makecity.client.data.temp_problem.TempProblemDataSource
+import com.makecity.client.presentation.category.CategoryType
+import com.makecity.client.presentation.create_problem.ProblemCreatingType
+import com.makecity.client.presentation.description.DescriptionScreenData
 import com.makecity.core.data.Presentation
 import com.makecity.core.data.entity.Location
+import com.makecity.core.extenstion.blockingCompletable
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.plugin.connection.ConnectionState
 import com.makecity.core.plugin.connection.ReducerPluginConnection
@@ -19,8 +26,17 @@ import com.makecity.core.utils.permission.PermissionManager
 import com.makecity.core.utils.permission.PermissionState
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.parcel.Parcelize
 import ru.terrakok.cicerone.Router
 import java.util.concurrent.TimeUnit
+
+
+// Data
+@Parcelize
+data class MapAddressScreenData(
+	val problemCreatingType: ProblemCreatingType
+): Parcelable
+
 
 
 // State
@@ -50,6 +66,9 @@ interface MapAddressReducer: StatementReducer<MapAddressViewState, MapAddressAct
 // ViewModel
 class MapAddressViewModel(
 	private val router: Router,
+	private val data: MapAddressScreenData,
+	private val problemDataSource: TempProblemDataSource,
+	private val addressDataSource: AddressDataSource,
 	override val connectionProvider: ConnectionProvider,
 	override val permissionManager: PermissionManager,
 	override val locationProvider: LocationProvider,
@@ -72,16 +91,29 @@ class MapAddressViewModel(
 				viewState.updateValue {
 					copy(locationState = LocationState.Unknown, address = null, screenState = PrimaryViewState.Loading)
 				}
-				Single.just(Address("ул. Ленина, 86"))
-					.delay(2, TimeUnit.SECONDS)
+				addressDataSource.getAddress(action.locationCenter)
 					.bindSubscribe(onSuccess = {
 						viewState.updateValue {
 							copy(locationState = LocationState.Unknown, address = it, screenState = PrimaryViewState.Data)
 						}
 					})
 			}
-			is MapAddressAction.ShowProblemPreview -> router.navigateTo(AppScreens.CREATE_PROBLEM_SCREEN_KEY)
+			is MapAddressAction.ShowProblemPreview -> saveAddress(
+				viewState.valueOrInitial.address
+					?: throw IllegalStateException("ShowProblemPreview with null address immposible") // TODO
+			)
 		}
+	}
+
+	private fun saveAddress(address: Address) {
+		problemDataSource.getTempProblem()
+			.map { it.copy(
+				latitude = address.location.latitude,
+				longitude = address.location.longitude,
+				address = "${address.street}, ${address.homeNumber}")
+			}
+			.flatMapCompletable(problemDataSource::saveTempProblem)
+			.bindSubscribe(onSuccess = ::navigateComplete)
 	}
 
 	// IMPLEMENT - ConnectionPlugin
@@ -99,5 +131,13 @@ class MapAddressViewModel(
 	override fun onLocationChanged(locationState: LocationState) = when (locationState) {
 		is LocationState.Founded -> viewState.value = state.copy(locationState = locationState)
 		else -> Unit
+	}
+
+	private fun navigateComplete() {
+		if (data.problemCreatingType == ProblemCreatingType.NEW) {
+			router.navigateTo(AppScreens.CREATE_PROBLEM_SCREEN_KEY)
+		} else {
+			router.exit()
+		}
 	}
 }

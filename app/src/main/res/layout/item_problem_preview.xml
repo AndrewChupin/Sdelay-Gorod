@@ -17,7 +17,7 @@
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/roboto_bold"
         android:textColor="@color/text_dark_main"
-        android:textSize="26sp"
+        android:textSize="28sp"
         app:layout_constraintBottom_toTopOf="@+id/problem_preview_description_change"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

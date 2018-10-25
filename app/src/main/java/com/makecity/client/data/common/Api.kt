@@ -13,7 +13,6 @@ import retrofit2.http.Query
 
 interface Api {
 
-
 	/**
 	 * MARK - Category
 	 */

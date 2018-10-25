@@ -25,7 +25,7 @@ class CategoryFragment : CategoryStatement(), ToolbarScreen {
 	companion object {
 		private const val ARGUMENT_CATEGORY_DATA = "ARGUMENT_CATEGORY_DATA"
 
-		fun newInstance(categoryData: CategoryData) = CategoryFragment().withArguments {
+		fun newInstance(categoryData: CategoryScreenData) = CategoryFragment().withArguments {
 			putParcelable(ARGUMENT_CATEGORY_DATA, categoryData)
 		}
 	}
@@ -46,7 +46,7 @@ class CategoryFragment : CategoryStatement(), ToolbarScreen {
 		category_recycler.layoutManager = LinearLayoutManager(requireContext())
 
 		adapter = CategoryAdapter {
-			reducer.reduce(CategoryAction.SelectItem(it.first))
+			reducer.reduce(CategoryAction.SelectItem(it))
 		}
 		category_recycler.adapter = adapter
 
