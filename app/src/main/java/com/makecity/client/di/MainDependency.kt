@@ -8,6 +8,7 @@ import com.makecity.client.data.auth.*
 import com.makecity.client.data.category.*
 import com.makecity.client.data.comments.*
 import com.makecity.client.data.common.Api
+import com.makecity.client.data.geo.*
 import com.makecity.client.data.task.*
 import com.makecity.client.data.temp_problem.*
 import com.makecity.client.presentation.main.MainActivity
@@ -25,7 +26,13 @@ import javax.inject.Singleton
 
 
 @ActivityScope
-@Subcomponent(modules = [MainModule::class, MapperModule::class, AuthDefaultModule::class, TempProblemModule::class])
+@Subcomponent(modules = [
+	MainModule::class,
+	MapperModule::class,
+	AuthDefaultModule::class,
+	TempProblemModule::class,
+	GeoPointModule::class
+])
 interface MainComponent{
 
 	// Injects
@@ -127,6 +134,45 @@ class AuthDefaultModule {
 		authStorage: AuthStorage,
 		mapper: AuthNextStepMapper
 	): AuthDataSource = AuthDataSourceDefault(authService, authStorage, mapper)
+}
+
+
+@Module
+class GeoPointModule {
+
+	@Provides
+	@ActivityScope
+	fun provideGeoPointRemoteToPersist(
+		mapper: GeoPointRemoteToPersist
+	): Mapper<GeoPointRemote, GeoPointPersistence> = mapper
+
+	@Provides
+	@ActivityScope
+	fun provideGeoPointPersistToCommon(
+		mapper: GeoPointPersistToCommon
+	): Mapper<GeoPointPersistence, GeoPoint> = mapper
+
+	@Provides
+	@ActivityScope
+	fun provideGeoService(
+		geoServiceRetrofit: GeoServiceRetrofit
+	): GeoService = geoServiceRetrofit
+
+	@Provides
+	@ActivityScope
+	fun provideGeoPointStorage(
+		geoPointStoragePreference: GeoPointStoragePreference
+	): GeoPointStorage = geoPointStoragePreference
+
+	@Provides
+	@ActivityScope
+	fun provideGeoPointDataSource(
+		geoService: GeoService,
+		geoPointStorage: GeoPointStorage,
+		mapperRemoteToPersist: GeoPointRemoteToPersist,
+		mapperPersistToCommon: GeoPointPersistToCommon
+	): GeoDataSource = GeoDataSourceDefault(geoService, geoPointStorage, mapperRemoteToPersist, mapperPersistToCommon)
+
 }
 
 @Module

@@ -6,6 +6,7 @@ import com.makecity.client.data.address.Address
 import com.makecity.client.data.address.AddressDataSource
 import com.makecity.client.data.temp_problem.TempProblemDataSource
 import com.makecity.client.presentation.category.CategoryType
+import com.makecity.client.presentation.create_problem.CreateProblemData
 import com.makecity.client.presentation.create_problem.ProblemCreatingType
 import com.makecity.client.presentation.description.DescriptionScreenData
 import com.makecity.core.data.Presentation
@@ -135,7 +136,8 @@ class MapAddressViewModel(
 
 	private fun navigateComplete() {
 		if (data.problemCreatingType == ProblemCreatingType.NEW) {
-			router.navigateTo(AppScreens.CREATE_PROBLEM_SCREEN_KEY)
+			router.backTo(AppScreens.MAP_SCREEN_KEY)
+			router.navigateTo(AppScreens.CREATE_PROBLEM_SCREEN_KEY, CreateProblemData(canEdit = true))
 		} else {
 			router.exit()
 		}

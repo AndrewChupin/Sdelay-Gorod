@@ -28,6 +28,12 @@ class AuthContentValidator @Inject constructor() : Validator<AuthValidationReque
 				AuthType.PHONE -> if (it.content.length > AppConst.PHONE_LENGTH) {
 					return AuthValidationResponse(true)
 				}
+				AuthType.PASSWORD -> if (it.content.length > 3) {
+					return AuthValidationResponse(true)
+				}
+				AuthType.CREATE_PASSWORD -> if (it.content.length > 3) {
+					return AuthValidationResponse(true)
+				}
 				else -> Unit
 			}
 		}

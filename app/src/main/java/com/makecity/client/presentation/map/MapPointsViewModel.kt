@@ -95,9 +95,9 @@ class MapPointsViewModel(
 				.isProblemExist()
 				.bindSubscribe(onSuccess = { isExist ->
 					if (isExist) {
-						router.navigateTo(AppScreens.CAMERA_SCREEN_KEY, CameraScreenData(ProblemCreatingType.NEW))
-					} else {
 						router.navigateTo(AppScreens.RESTORE_SCREEN_KEY)
+					} else {
+						router.navigateTo(AppScreens.CAMERA_SCREEN_KEY, CameraScreenData(ProblemCreatingType.NEW))
 					}
 				})
 		}

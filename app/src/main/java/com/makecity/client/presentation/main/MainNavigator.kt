@@ -6,6 +6,7 @@ import android.support.annotation.IdRes
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
 import com.makecity.client.app.AppScreens
 import com.makecity.client.presentation.about.AboutFragment
 import com.makecity.client.presentation.address.AddressFragment
@@ -16,6 +17,7 @@ import com.makecity.client.presentation.camera.CameraScreenData
 import com.makecity.client.presentation.category.CategoryScreenData
 import com.makecity.client.presentation.category.CategoryFragment
 import com.makecity.client.presentation.city.CityFragment
+import com.makecity.client.presentation.create_problem.CreateProblemData
 import com.makecity.client.presentation.create_problem.CreateProblemFragment
 import com.makecity.client.presentation.description.DescriptionFragment
 import com.makecity.client.presentation.description.DescriptionScreenData
@@ -36,7 +38,9 @@ import com.makecity.client.presentation.settings.SettingsFragment
 import com.makecity.client.presentation.splash.SplashFragment
 import com.makecity.client.presentation.web.WebData
 import com.makecity.client.presentation.web.WebFragment
+import com.makecity.core.R
 import com.makecity.core.presentation.navigation.BaseNavigator
+import ru.terrakok.cicerone.commands.Command
 import ru.terrakok.cicerone.commands.Forward
 import javax.inject.Inject
 
@@ -63,7 +67,12 @@ class MainNavigator @Inject constructor(
 			AppScreens.PROFILE_SCREEN_KEY -> ProfileFragment.newInstance()
 			AppScreens.EDIT_PROFILE_SCREEN_KEY -> EditProfileFragment.newInstance()
 			AppScreens.ADDRESS_SCREEN_KEY -> AddressFragment.newInstance()
-			AppScreens.CREATE_PROBLEM_SCREEN_KEY -> CreateProblemFragment.newInstance()
+			AppScreens.CREATE_PROBLEM_SCREEN_KEY -> {
+				if (data != null && data !is CreateProblemData) {
+					throw IllegalArgumentException("data is null or type not CreateProblemData")
+				}
+				CreateProblemFragment.newInstance(data as CreateProblemData)
+			}
 			AppScreens.EDIT_PROBLEM_SCREEN_KEY -> EditProfileFragment.newInstance()
 			AppScreens.FILTER_PROBLEM_SCREEN_KEY -> ProblemFilterFragment.newInstance()
 			AppScreens.RESTORE_SCREEN_KEY -> RestoreFragment.newInstance()
@@ -112,6 +121,26 @@ class MainNavigator @Inject constructor(
 				WebFragment.newInstance(data as WebData)
 			}
 			else -> throw IllegalArgumentException("Unsupported screen with key $screenKey")
+		}
+	}
+
+	override fun setupFragmentTransactionAnimation(
+		command: Command?,
+		currentFragment: Fragment?,
+		nextFragment: Fragment?,
+		fragmentTransaction: FragmentTransaction?
+	) {
+		if (nextFragment is AuthFragment) {
+			currentFragment?.let {
+				fragmentTransaction?.setCustomAnimations(
+					R.anim.enter_right_to_left,
+					R.anim.exit_right_to_left,
+					R.anim.pop_enter_left_to_right,
+					R.anim.pop_exit_left_to_right
+				)
+			}
+		} else {
+			super.setupFragmentTransactionAnimation(command, currentFragment, nextFragment, fragmentTransaction)
 		}
 	}
 

@@ -67,8 +67,8 @@ class AuthViewModel(
 	private fun showNextStepConsumer(authType: AuthType) = when (authType) {
 		AuthType.PHONE -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.SMS))
 		AuthType.SMS -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.PASSWORD))
-		AuthType.PASSWORD -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.CREATE_PASSWORD))
-		AuthType.CREATE_PASSWORD -> router.backTo(AppScreens.MENU_SCREEN_KEY)
+		AuthType.CREATE_PASSWORD -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.CREATE_PASSWORD))
+		AuthType.PASSWORD -> router.backTo(AppScreens.MENU_SCREEN_KEY)
 	}
 
 	private fun researchContentConsumer(action: AuthAction.ResearchContent) {
@@ -76,16 +76,39 @@ class AuthViewModel(
 			.bindSubscribe(onSuccess = { validationResult(it, action.content) })
 	}
 
-	private fun validationResult(result: Result<Boolean>, phone: CharSequence) = result
+	private fun validationResult(result: Result<Boolean>, content: CharSequence) = result
 		.doIfSuccess { isValid ->
 			if (!isValid) {
 				return@doIfSuccess
 			}
 
-			authInteractor.sendDataData(phone.toString(), authData.authType)
-				.bindSubscribe(onSuccess = {
-					showNextStepConsumer(it.nextStep)
-				})
+			when (authData.authType) {
+				AuthType.PASSWORD -> authInteractor
+					.checkPassword(content.toString())
+					.bindSubscribe(onSuccess = {
+						router.backTo(AppScreens.MENU_SCREEN_KEY)
+					})
+
+				AuthType.CREATE_PASSWORD -> authInteractor
+					.createPassword(content.toString())
+					.bindSubscribe(onSuccess = {
+						router.backTo(AppScreens.MENU_SCREEN_KEY)
+					})
+
+				AuthType.SMS ->  authInteractor
+					.checkSms(content.toString())
+					.bindSubscribe(onSuccess = {
+						showNextStepConsumer(it.nextStep)
+					})
+
+				AuthType.PHONE -> authInteractor
+					.sendPhone(content.toString())
+					.bindSubscribe(onSuccess = {
+						showNextStepConsumer(it.nextStep)
+					})
+			}
+
+
 		}
 
 	// IMPLEMENT - ConnectionPlugin

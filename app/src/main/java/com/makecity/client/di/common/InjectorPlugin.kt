@@ -12,6 +12,7 @@ import com.makecity.client.presentation.camera.CameraScreenData
 import com.makecity.client.presentation.category.CategoryScreenData
 import com.makecity.client.presentation.category.CategoryFragment
 import com.makecity.client.presentation.city.CityFragment
+import com.makecity.client.presentation.create_problem.CreateProblemData
 import com.makecity.client.presentation.create_problem.CreateProblemFragment
 import com.makecity.client.presentation.description.DescriptionFragment
 import com.makecity.client.presentation.description.DescriptionScreenData
@@ -120,7 +121,8 @@ interface InjectorPlugin {
 
 	fun representCreateProblemFragment(
 		mainComponent: MainComponent,
-		fragment: CreateProblemFragment
+		fragment: CreateProblemFragment,
+		data: CreateProblemData
 	): CreateProblemComponent
 
 	fun representEditProblemFragment(

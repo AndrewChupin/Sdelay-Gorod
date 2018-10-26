@@ -6,7 +6,10 @@ import com.makecity.client.data.temp_problem.TempProblemDataSource
 import com.makecity.client.presentation.camera.CameraScreenData
 import com.makecity.client.presentation.category.CategoryScreenData
 import com.makecity.client.presentation.category.CategoryType
+import com.makecity.client.presentation.create_problem.CreateProblemData
 import com.makecity.client.presentation.create_problem.ProblemCreatingType
+import com.makecity.client.presentation.description.DescriptionScreenData
+import com.makecity.client.presentation.map_address.MapAddressScreenData
 import com.makecity.core.data.Presentation
 import com.makecity.core.presentation.state.PrimaryViewState
 import com.makecity.core.presentation.state.StateLiveData
@@ -29,6 +32,7 @@ data class RestoreViewState(
 sealed class RestoreAction: ActionView {
 	object RestoreAllow : RestoreAction()
 	object RestoreDeny: RestoreAction()
+	object RestoreDetails: RestoreAction()
 }
 
 
@@ -48,35 +52,45 @@ class RestoreViewModel(
 
 	override fun reduce(action: RestoreAction) {
 		when (action) {
-			is RestoreAction.RestoreAllow -> tempProblemDataSource
+			is RestoreAction.RestoreDeny -> tempProblemDataSource
 				.deleteAll()
 				.bindSubscribe(onSuccess = {
-					router.navigateTo(AppScreens.CAMERA_SCREEN_KEY, CameraScreenData(ProblemCreatingType.NEW))
+					router.replaceScreen(AppScreens.CAMERA_SCREEN_KEY, CameraScreenData(ProblemCreatingType.NEW))
 				})
-			is RestoreAction.RestoreDeny -> tempProblemDataSource
+
+			is RestoreAction.RestoreAllow -> tempProblemDataSource
 				.getTempProblem()
 				.bindSubscribe(onSuccess = ::restoreTempProblem)
+
+			is RestoreAction.RestoreDetails -> router.navigateTo(
+				AppScreens.CREATE_PROBLEM_SCREEN_KEY,
+				CreateProblemData(canEdit = false)
+			)
 		}
 	}
 
 	private fun restoreTempProblem(tempProblem: TempProblem) = tempProblem.run {
 		when {
-			latitude == 0.0 || longitude == 0.0 -> router.navigateTo(
+			latitude > 0.0 || longitude > 0.0 -> router.replaceScreen(
 				AppScreens.CREATE_PROBLEM_SCREEN_KEY,
-				CameraScreenData(ProblemCreatingType.NEW)
+				CreateProblemData(canEdit = true)
+			)
+			description.isNotEmpty() -> router.replaceScreen(
+				AppScreens.MAP_ADDRESS_SCREEN_KEY,
+				MapAddressScreenData(ProblemCreatingType.NEW)
 			)
 
-			description.isEmpty() -> router.navigateTo(
+			optionId > 0 && categoryId > 0 -> router.replaceScreen(
 				AppScreens.DESCRIPTION_SCREEN_KEY,
-				CameraScreenData(ProblemCreatingType.NEW)
+				DescriptionScreenData(ProblemCreatingType.NEW)
 			)
 
-			optionId < 0 || categoryId < 0 -> router.navigateTo(
+			images.isNotEmpty() -> router.replaceScreen(
 				AppScreens.CATEGORY_SCREEN_KEY,
 				CategoryScreenData(CategoryType.CATEGORY, ProblemCreatingType.NEW)
 			)
 
-			else -> router.navigateTo(
+			else -> router.replaceScreen(
 				AppScreens.CAMERA_SCREEN_KEY,
 				CameraScreenData(ProblemCreatingType.NEW)
 			)

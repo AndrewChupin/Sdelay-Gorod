@@ -1,25 +1,59 @@
 package com.makecity.client.data.auth
 
 import com.makecity.client.data.common.Api
+import com.squareup.moshi.Json
 import io.reactivex.Single
 import javax.inject.Inject
 
 
+// Requests
+data class GetSmsRequestBody(
+	@Json(name = "phone") val phone: String,
+	@Json(name = "cityId") val cityId: Long
+)
+
+
+data class CheckSmsRequestBody(
+	@Json(name = "phone") val phone: String,
+	@Json(name = "code") val code: String
+)
+
+
+data class CreatePasswordRequestBody(
+	@Json(name = "reg_token") val regToken: String,
+	@Json(name = "pass") val pass: String
+)
+
+data class CheckPasswordRequestBody(
+	@Json(name = "phoneOrEmail") val phone: String,
+	@Json(name = "password") val password: String
+)
+
+
 interface AuthService {
-	fun sendPhone(cityId: Long, phone: String): Single<String>
+	fun sendPhone(phone: String, cityId: Long): Single<NextStepResponse>
 
-	fun sendCode(token: String, code: String): Single<String>
+	fun sendCode(phone: String, code: String): Single<RegistrationTokenResponse>
 
-	fun sendPassword(token: String, pass: String): Single<String>
+	fun setPassword(token: String, pass: String): Single<AuthTokenResponse>
+
+	fun checkPassword(phone: String, pass: String): Single<AuthTokenResponse>
 }
 
 
 class AuthServiceDefault @Inject constructor(
 	private val api: Api
 ) : AuthService {
-	override fun sendPhone(cityId: Long, phone: String): Single<String> = api.sendPhone(cityId, phone)
 
-	override fun sendCode(token: String, code: String): Single<String> = api.confirmPhone(token, code)
+	override fun sendPhone(phone: String, cityId: Long): Single<NextStepResponse> = api
+		.sendPhone(GetSmsRequestBody(phone, cityId))
 
-	override fun sendPassword(token: String, pass: String): Single<String> = api.setPassword(token, pass)
+	override fun sendCode(phone: String, code: String): Single<RegistrationTokenResponse> = api
+		.confirmPhone(CheckSmsRequestBody(phone, code))
+
+	override fun setPassword(token: String, pass: String): Single<AuthTokenResponse> = api
+		.setPassword(CreatePasswordRequestBody(token, pass))
+
+	override fun checkPassword(phone: String, pass: String): Single<AuthTokenResponse> = api
+		.checkPassword(CheckPasswordRequestBody(phone, pass))
 }

@@ -67,10 +67,15 @@
     <!-- CreateProblem -->
     <string name="loading_data">Загрузка данных...</string>
     <string name="preview">Предосмотр</string>
-    <string name="description">Описание проблемы</string>
+    <string name="problem_description">Описание проблемы</string>
+    <string name="description">Описание</string>
     <string name="choose_category">Выбрать категорию</string>
     <string name="category">Категория</string>
     <string name="company">Организация</string>
     <string name="service">Услуга</string>
-    <string name="restore_problem">Уже имеется существующая задача.</string>
+    <string name="restore_problem">В вашем черновике уже есть задача</string>
+    <string name="description_is_empty">Описание отсутствует</string>
+    <string name="images_not_founded">Изображения отсутствуют</string>
+    <string name="location_not_founded">Информация о местоположении отсутствует</string>
+    <string name="add">Добавить</string>
 </resources>

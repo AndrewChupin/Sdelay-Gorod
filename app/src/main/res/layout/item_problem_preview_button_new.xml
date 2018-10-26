@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/approve_problem_preview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginLeft="@dimen/space_base"
+        android:layout_marginRight="@dimen/space_base"
+        android:textSize="28sp"
+        android:layout_gravity="center"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/text_dark_main"
+        android:foreground="@drawable/ripple_accent_big_corner"
+        app:cardBackgroundColor="@color/white"
+        app:contentPadding="@dimen/space_base"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp">
+
+        <TextView
+            android:text="ЗАВЕРШИТЬ"
+            android:textColor="@color/colorAccent"
+            android:fontFamily="@font/roboto_light"
+            android:textSize="28sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>
+

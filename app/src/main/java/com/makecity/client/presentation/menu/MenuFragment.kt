@@ -9,8 +9,8 @@ import com.makecity.client.app.AppInjector
 import com.makecity.core.presentation.screen.ToolbarConfig
 import com.makecity.core.presentation.screen.ToolbarScreen
 import com.makecity.core.presentation.view.StatementFragment
+import com.makecity.core.utils.Symbols.EMPTY
 import kotlinx.android.synthetic.main.fragment_menu.*
-import kotlinx.android.synthetic.main.toolbar.*
 
 
 typealias MenuStatement = StatementFragment<MenuReducer, MenuViewState, MenuAction>
@@ -30,12 +30,12 @@ class MenuFragment: MenuStatement(), ToolbarScreen {
 
 	override fun onViewCreatedBeforeRender(savedInstanceState: Bundle?) {
 		setupToolbarWith(requireActivity(), ToolbarConfig(
-			title = getString(R.string.app_name),
+			title = EMPTY,
 			isDisplayHomeButton = true
 		))
 
 		Glide.with(menu_profile_image)
-			.load(R.drawable.placeholder_place)
+			.load(R.drawable.profile)
 			.apply(RequestOptions.circleCropTransform())
 			.into(menu_profile_image)
 

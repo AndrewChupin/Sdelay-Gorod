@@ -100,7 +100,7 @@
         android:gravity="center"
         android:textSize="12sp"
         android:fontFamily="@font/roboto_light"
-        android:text="Не больше 2 изображений"
+        android:text="Не более 2 изображений"
         android:padding="@dimen/space_base_lower_half"
         app:layout_constraintBottom_toBottomOf="parent"/>
 

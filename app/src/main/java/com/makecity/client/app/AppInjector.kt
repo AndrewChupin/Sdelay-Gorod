@@ -13,6 +13,7 @@ import com.makecity.client.presentation.camera.CameraScreenData
 import com.makecity.client.presentation.category.CategoryScreenData
 import com.makecity.client.presentation.category.CategoryFragment
 import com.makecity.client.presentation.city.CityFragment
+import com.makecity.client.presentation.create_problem.CreateProblemData
 import com.makecity.client.presentation.create_problem.CreateProblemFragment
 import com.makecity.client.presentation.description.DescriptionFragment
 import com.makecity.client.presentation.description.DescriptionScreenData
@@ -186,9 +187,9 @@ object AppInjector {
 		throw IllegalStateException("MainComponent must be initialized before AddressComponentRemote")
 	}
 
-	fun inject(fragment: CreateProblemFragment) {
+	fun inject(fragment: CreateProblemFragment, data: CreateProblemData) {
 		mainComponent.get()?.let {
-			injectorPlugin.representCreateProblemFragment(it, fragment)
+			injectorPlugin.representCreateProblemFragment(it, fragment, data)
 				.inject(fragment)
 			return
 		}

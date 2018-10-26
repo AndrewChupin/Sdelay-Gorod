@@ -38,39 +38,6 @@ open class SplashModule {
 
 	@Provides
 	@FragmentScope
-	fun provideGeoPointRemoteToPersist(
-		mapper: GeoPointRemoteToPersist
-	): Mapper<GeoPointRemote, GeoPointPersistence> = mapper
-
-	@Provides
-	@FragmentScope
-	fun provideGeoPointPersistToCommon(
-		mapper: GeoPointPersistToCommon
-	): Mapper<GeoPointPersistence, GeoPoint> = mapper
-
-	@Provides
-	@FragmentScope
-	fun provideGeoService(
-		geoServiceRetrofit: GeoServiceRetrofit
-	): GeoService = geoServiceRetrofit
-
-	@Provides
-	@FragmentScope
-	fun provideGeoPointStorage(
-		geoPointStoragePreference: GeoPointStoragePreference
-	): GeoPointStorage = geoPointStoragePreference
-
-	@Provides
-	@FragmentScope
-	fun provideGeoPointDataSource(
-		geoService: GeoService,
-		geoPointStorage: GeoPointStorage,
-		mapperRemoteToPersist: GeoPointRemoteToPersist,
-		mapperPersistToCommon: GeoPointPersistToCommon
-	): GeoDataSource = GeoDataSourceDefault(geoService, geoPointStorage, mapperRemoteToPersist, mapperPersistToCommon)
-
-	@Provides
-	@FragmentScope
 	fun provideViewModelFactory(
 		router: Router,
 		geoDataSource: GeoDataSource,

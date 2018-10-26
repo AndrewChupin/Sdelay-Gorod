@@ -1,14 +1,12 @@
 package com.makecity.client.data.common
 
+import com.makecity.client.data.auth.*
 import com.makecity.client.data.category.CategoryRemote
 import com.makecity.client.data.comments.CommentRemote
 import com.makecity.client.data.geo.GeoPointRemote
 import com.makecity.client.data.task.TaskRemote
 import io.reactivex.Single
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 
 interface Api {
@@ -51,23 +49,25 @@ interface Api {
 	/**
 	 * MARK - Auth
 	 */
-	@GET("auth/phone-auth")
+	@POST("auth/phone-auth")
 	fun sendPhone(
-		@Query("city_id") cityId: Long,
-		@Query("phone") phone: String
-	): Single<String>
+		@Body requestBody: GetSmsRequestBody
+	): Single<NextStepResponse>
 
-	@GET("auth/confirm-phone")
+	@POST("auth/confirm-phone")
 	fun confirmPhone(
-		@Header("Authorization") token: String,
-		@Query("code") code: String
-	): Single<String>
+		@Body requestBody: CheckSmsRequestBody
+	): Single<RegistrationTokenResponse>
 
-	@GET("auth/set-pass")
+	@POST("auth/set-pass")
 	fun setPassword(
-		@Header("Authorization") token: String,
-		@Query("pass") phone: String
-	): Single<String>
+		@Body body: CreatePasswordRequestBody
+	): Single<AuthTokenResponse>
+
+	@POST("auth")
+	fun checkPassword(
+		@Body body: CheckPasswordRequestBody
+	): Single<AuthTokenResponse>
 
 
 	/**

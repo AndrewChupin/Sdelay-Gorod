@@ -1,16 +1,18 @@
 package com.makecity.client.presentation.lists
 
-import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.support.design.animation.AnimatorSetCompat
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import com.makecity.client.R
 import com.makecity.client.data.temp_problem.TempProblem
 import com.makecity.client.presentation.create_problem.ProblemPreviewDataType
 import com.makecity.client.presentation.lists.ProblemPreviewAdapter.Companion.PROBLEM_PREVIEW_ADDITIONAL_CELLS_COUNT
+import com.makecity.client.presentation.views.EndAnimationListener
 import com.makecity.client.presentation.views.InfoView
 import com.makecity.client.utils.GoogleApiHelper
 import com.makecity.core.data.entity.Location
@@ -53,6 +55,7 @@ class ProblemPreviewAdapter(
 	}
 
 	override var data: TempProblem? = null
+	var canEditInfo = true
 
 	override fun onCreateViewHolder(
 		parent: ViewGroup, type: Int
@@ -60,24 +63,28 @@ class ProblemPreviewAdapter(
 		R.layout.item_problem_preview -> ProblemPreviewViewHolder(
 			containerView = LayoutInflater.from(parent.context).inflate(R.layout.item_problem_preview, parent, false),
 			onChangeContent = delegate::onChangeData,
-			imageManager = imageManager
+			imageManager = imageManager,
+			canEdit = canEditInfo
 		)
 
 		R.layout.item_problem_location -> LocationPreviewViewHolder(
 			containerView = LayoutInflater.from(parent.context).inflate(R.layout.item_problem_location, parent, false),
 			onChangeContent = delegate::onChangeData,
-			imageManager = imageManager
+			imageManager = imageManager,
+			canEdit = canEditInfo
 		)
 
 		R.layout.item_problem_info -> ProblemPreviewInfoViewHolder(
 			containerView = LayoutInflater.from(parent.context).inflate(R.layout.item_problem_info, parent, false),
-			onChangeContent = delegate::onChangeData
+			onChangeContent = delegate::onChangeData,
+			canEdit = canEditInfo
 		)
 
 		R.layout.item_problem_photo -> ProblemPreviewPhotosViewHolder(
 			containerView = LayoutInflater.from(parent.context).inflate(R.layout.item_problem_photo, parent, false),
 			onChangeContent = delegate::onChangeData,
-			imageManager = imageManager
+			imageManager = imageManager,
+			canEdit = canEditInfo
 		)
 
 		R.layout.item_problem_preview_button -> ProblemPreviewButtonViewHolder(
@@ -89,7 +96,12 @@ class ProblemPreviewAdapter(
 	}
 
 	override fun getItemCount(): Int {
-		return if (data == null) 0 else PROBLEM_PREVIEW_ADDITIONAL_CELLS_COUNT
+		return if (data == null)
+			0
+		else if (canEditInfo)
+			PROBLEM_PREVIEW_ADDITIONAL_CELLS_COUNT
+		else
+			PROBLEM_PREVIEW_ADDITIONAL_CELLS_COUNT - 1
 	}
 
 	override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
@@ -127,7 +139,8 @@ class ProblemPreviewAdapter(
 class ProblemPreviewViewHolder(
 	containerView: View,
 	val onChangeContent: (ProblemPreviewDataType) -> Unit,
-	private val imageManager: ImageManager
+	private val imageManager: ImageManager,
+	val canEdit: Boolean
 ) : BaseViewHolder<TempProblem>(containerView) {
 
 	override lateinit var item: TempProblem
@@ -141,10 +154,17 @@ class ProblemPreviewViewHolder(
 	override fun bind(item: TempProblem) {
 		super.bind(item)
 
+		problem_preview_description_change.isVisible = canEdit
+
 		item.apply {
-			// TODO problem_preview_item_title.text = optionName
-			// problem_preview_item_option.text = categoryName
-			problem_preview_item_content.text = description
+			val context = containerView.context
+			problem_preview_item_content.text = if (description.isEmpty()) {
+				problem_preview_item_content.setTextColor(ContextCompat.getColor(context, R.color.colorDangerous))
+				context.getString(R.string.description_is_empty)
+			} else {
+				problem_preview_item_content.setTextColor(ContextCompat.getColor(context, R.color.text_dark_main))
+				description
+			}
 		}
 	}
 }
@@ -152,7 +172,8 @@ class ProblemPreviewViewHolder(
 class LocationPreviewViewHolder(
 	containerView: View,
 	val onChangeContent: (ProblemPreviewDataType) -> Unit,
-	private val imageManager: ImageManager
+	private val imageManager: ImageManager,
+	val canEdit: Boolean
 ) : BaseViewHolder<TempProblem>(containerView) {
 
 	override lateinit var item: TempProblem
@@ -165,17 +186,18 @@ class LocationPreviewViewHolder(
 
 	override fun bind(item: TempProblem) {
 		super.bind(item)
+		item_location_not_founded.isVisible = false
+		item_location_change.isVisible = canEdit
 
 		if (item.latitude == 0.0 && item.longitude == 0.0) {
-			containerView.isVisible = false
-			containerView.layoutParams = containerView.layoutParams.apply {
-				height = 0
-			}
+			item_location_not_founded.isVisible = true
+			item_location_card_container.isVisible = false
 			return
+		} else {
+			item_location_card_container.isVisible = true
 		}
 
 		item_problem_location_address.text = item.address
-		item_location_change.isVisible = true
 		val location = Location(item.latitude, item.longitude)
 		val rules = CommonImageRules(item_problem_location_image, GoogleApiHelper.createStaticUrl(location))
 		imageManager.apply(rules)
@@ -184,7 +206,8 @@ class LocationPreviewViewHolder(
 
 class ProblemPreviewInfoViewHolder(
 	containerView: View,
-	val onChangeContent: (ProblemPreviewDataType) -> Unit
+	val onChangeContent: (ProblemPreviewDataType) -> Unit,
+	val canEdit: Boolean
 ) : BaseViewHolder<TempProblem>(containerView) {
 
 	override lateinit var item: TempProblem
@@ -198,16 +221,22 @@ class ProblemPreviewInfoViewHolder(
 	override fun bind(item: TempProblem) {
 		super.bind(item)
 
-		item_info_change.isVisible = true
+		item_info_change.isVisible = canEdit
 
 		val context = containerView.context
 
 		info_container.run {
 			removeAllViews()
-			addView(InfoView(context, R.drawable.ic_archive_gray_24dp,
-				context.getString(R.string.category), item.categoryName))
-			addView(InfoView(context, R.drawable.ic_info_gray_24dp,
-				context.getString(R.string.service), item.optionName))
+			item.categoryName.checkNotEmpty {
+				addView(InfoView(context, R.drawable.ic_archive_gray_24dp,
+					it, item.categoryName))
+			}
+
+			item.optionName.checkNotEmpty {
+				addView(InfoView(context, R.drawable.ic_info_gray_24dp,
+					context.getString(R.string.service), item.optionName))
+			}
+
 			addView(InfoView(context, R.drawable.ic_group_gray_24dp,
 				context.getString(R.string.company), "ЖРП 21")) // TODO
 			requestLayout()
@@ -218,7 +247,8 @@ class ProblemPreviewInfoViewHolder(
 class ProblemPreviewPhotosViewHolder(
 	containerView: View,
 	val onChangeContent: (ProblemPreviewDataType) -> Unit,
-	private val imageManager: ImageManager
+	private val imageManager: ImageManager,
+	val canEdit: Boolean
 ) : BaseViewHolder<TempProblem>(containerView) {
 
 	override lateinit var item: TempProblem
@@ -232,13 +262,11 @@ class ProblemPreviewPhotosViewHolder(
 	override fun bind(item: TempProblem) {
 		super.bind(item)
 
-		item_photos_change.isVisible = true
+		item_photos_change.isVisible = canEdit
+		item_images_not_fount.isVisible = false
 
 		if (item.images.isEmpty()) {
-			containerView.isVisible = false
-			containerView.layoutParams = containerView.layoutParams.apply {
-				height = 0
-			}
+			item_images_not_fount.isVisible = true
 			return
 		}
 
@@ -280,10 +308,31 @@ class ProblemPreviewButtonViewHolder(
 		)
 
 		approve_problem_preview.setOnClickListener {
+			val animOut = AnimationUtils.loadAnimation(containerView.context, R.anim.slide_out_right)
+			val animIn = AnimationUtils.loadAnimation(containerView.context, R.anim.slide_in_left)
+
+			animOut.setAnimationListener(object : EndAnimationListener {
+				override fun onAnimationEnd(animation: Animation?) {
+					success_problem_preview.isVisible = true
+					success_problem_preview.startAnimation(animIn)
+				}
+			})
+
+			approve_problem_preview_icon.isVisible = false
+			approve_problem_progress.isVisible = true
+
+
+			approve_problem_preview_icon.postDelayed({
+				approve_problem_preview_icon.isVisible = true
+				approve_problem_progress.isVisible = false
+
+				approve_problem_preview.startAnimation(animOut)
+			}, 3000L)
+
 			onApproveCreating(item)
 		}
 
-		approve_problem_preview.setOnTouchListener { view, event ->
+		approve_problem_preview.setOnTouchListener { _, event ->
 			when (event.action) {
 				MotionEvent.ACTION_DOWN -> {
 					if (animatorUp.isRunning || animatorUp.isStarted) {
@@ -304,6 +353,22 @@ class ProblemPreviewButtonViewHolder(
 			}
 		}
 	}
+
+	/*override fun bind(item: TempProblem) {
+		super.bind(item)
+		item.apply {
+			val context = containerView.context
+			if (categoryId < 0 || optionId < 0 || address.isEmpty() || description.isEmpty()) {
+				val color = ContextCompat.getColor(context, R.color.colorDangerous)
+				approve_problem_preview.setCardBackgroundColor(color)
+				approve_problem_preview_icon.setImageResource(R.drawable.ic_close_white_52dp)
+			} else {
+				val color = ContextCompat.getColor(context, android.R.color.holo_green_light)
+				approve_problem_preview.setCardBackgroundColor(color)
+				approve_problem_preview_icon.setImageResource(R.drawable.ic_done_accent_52dp)
+			}
+		}
+	}*/
 }
 
 

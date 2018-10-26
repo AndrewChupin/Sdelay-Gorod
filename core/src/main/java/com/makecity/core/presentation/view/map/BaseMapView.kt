@@ -72,7 +72,6 @@ open class BaseMapView : MapView, OnMapReadyCallback {
 
         savedPosition?.let {
             googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(it))
-            savedPosition = null
         }
 
         mapInteractionReady?.invoke()
@@ -139,15 +138,26 @@ open class BaseMapView : MapView, OnMapReadyCallback {
     }
 
     fun storeCameraState(bundle: Bundle?) {
-        val safeMap = map
-        if (safeMap != null && bundle != null) {
-            bundle.putFloat(ARGUMENT_ZOOM_VALUE, safeMap.cameraPosition.zoom)
-            bundle.putParcelable(ARGUMENT_POSITION_VALUE, safeMap.cameraPosition.target)
+        try {
+            val safeMap = map
+            if (safeMap != null && bundle != null) {
+                bundle.putFloat(ARGUMENT_ZOOM_VALUE, safeMap.cameraPosition.zoom)
+                bundle.putParcelable(ARGUMENT_POSITION_VALUE, safeMap.cameraPosition.target)
+                return
+            }
+
+            val savedPositionSafe = savedPosition
+            if (savedPositionSafe != null && bundle != null) {
+                bundle.putFloat(ARGUMENT_ZOOM_VALUE, savedPositionSafe.zoom)
+                bundle.putParcelable(ARGUMENT_POSITION_VALUE, savedPositionSafe.target)
+            }
+        } finally {
+            savedPosition = null
         }
     }
 
     fun restoreCameraState(bundle: Bundle?) {
-        if (bundle != null) {
+        if (bundle != null && !bundle.isEmpty) {
             val latLon = bundle.getParcelable<LatLng>(ARGUMENT_POSITION_VALUE)
             val zoom = bundle.getFloat(ARGUMENT_ZOOM_VALUE)
             savedPosition = CameraPosition.fromLatLngZoom(latLon, zoom)

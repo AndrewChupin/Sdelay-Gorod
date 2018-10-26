@@ -10,6 +10,7 @@ import com.makecity.client.data.temp_problem.TempProblem
 import com.makecity.client.presentation.lists.ProblemPreviewAdapter
 import com.makecity.client.presentation.lists.ProblemPreviewDelegate
 import com.makecity.core.extenstion.calculateDiffs
+import com.makecity.core.extenstion.withArguments
 import com.makecity.core.presentation.screen.ToolbarConfig
 import com.makecity.core.presentation.screen.ToolbarScreen
 import com.makecity.core.presentation.state.PrimaryViewState
@@ -26,7 +27,12 @@ typealias CreateProblemStatement = StatementFragment<CreateProblemReducer, Creat
 class CreateProblemFragment : CreateProblemStatement(), ToolbarScreen, ProblemPreviewDelegate {
 
 	companion object {
-		fun newInstance() = CreateProblemFragment()
+		private const val ARGUMENT_CREATE_PROBLEM_DATA = "ARGUMENT_CREATE_PROBLEM_DATA"
+
+		fun newInstance(data: CreateProblemData) = CreateProblemFragment()
+			.withArguments {
+				putParcelable(ARGUMENT_CREATE_PROBLEM_DATA, data)
+		}
 	}
 
 	@Inject
@@ -35,7 +41,7 @@ class CreateProblemFragment : CreateProblemStatement(), ToolbarScreen, ProblemPr
 
 	override val layoutId: Int = R.layout.fragment_create_problem
 
-	override fun onInject() = AppInjector.inject(this)
+	override fun onInject() = AppInjector.inject(this, getArgument(ARGUMENT_CREATE_PROBLEM_DATA))
 
 	override fun getToolbar(): Toolbar = toolbar
 
@@ -69,6 +75,7 @@ class CreateProblemFragment : CreateProblemStatement(), ToolbarScreen, ProblemPr
 
 	override fun render(state: CreateProblemViewState) {
 		if (state.screenState == PrimaryViewState.Data) {
+			adapter.canEditInfo = state.canEdit
 			state.tempProblem?.let {
 				adapter.calculateDiffs(it)
 			}

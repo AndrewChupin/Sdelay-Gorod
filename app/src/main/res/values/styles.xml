@@ -46,4 +46,8 @@
         <item name="android:lines">2</item>
     </style>
 
+    <style name="ProgressBarPrimary">
+        <item name="colorAccent">@color/white</item>
+    </style>
+
 </resources>

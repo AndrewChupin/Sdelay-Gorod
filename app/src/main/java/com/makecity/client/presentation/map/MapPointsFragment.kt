@@ -1,10 +1,12 @@
 package com.makecity.client.presentation.map
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView.HORIZONTAL
+import android.view.MotionEvent
 import android.view.View
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
@@ -61,7 +63,14 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 		bottom_problems_list.addOnScrollListener(snapOnScrollListener)
 
 		bottom_hide_button.setOnClickListener {
-			bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+			when (bottomSheetBehavior.state) {
+				BottomSheetBehavior.STATE_EXPANDED -> {
+					bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+				}
+				else -> {
+					bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+				}
+			}
 		}
 
 		map_view.pointClickListener = {
@@ -78,6 +87,41 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 		map_button_add_task clickReduce MapPointsAction.ShowCamera
 		map_show_as_list clickReduce MapPointsAction.ShowProblemsAsList
 		map_menu_button clickReduce MapPointsAction.ShowMenu
+
+		val animatorElevationDown = ObjectAnimator.ofFloat(
+			map_button_add_task,
+			"cardElevation",
+			ScreenUtils.convertDpToPixel(4f),
+			ScreenUtils.convertDpToPixel(8f)
+		)
+
+		val animatorElevationUp = ObjectAnimator.ofFloat(
+			map_button_add_task,
+			"cardElevation",
+			ScreenUtils.convertDpToPixel(8f),
+			ScreenUtils.convertDpToPixel(4f)
+		)
+
+		map_button_add_task.setOnTouchListener { _, event ->
+			when (event.action) {
+				MotionEvent.ACTION_DOWN -> {
+					if (animatorElevationUp.isRunning || animatorElevationUp.isStarted) {
+						animatorElevationUp.cancel()
+					}
+					animatorElevationDown.start()
+					false
+				}
+				MotionEvent.ACTION_CANCEL,
+				MotionEvent.ACTION_UP -> {
+					if (animatorElevationDown.isRunning || animatorElevationDown.isStarted) {
+						animatorElevationDown.cancel()
+					}
+					animatorElevationUp.start()
+					false
+				}
+				else -> false
+			}
+		}
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -115,14 +159,24 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 
 	private fun initBottomState(view: View): BottomSheetBehavior<View> {
 		val bottomSheetBehavior = BottomSheetBehavior.from(view)
-		bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+		bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 		bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-			override fun onSlide(p0: View, p1: Float) {}
+			override fun onSlide(p0: View, slideOffset: Float) {
+				/*if (slideOffset.isNaN()) return
+				val offset = bottom_hide_button.height * (-1 - slideOffset)
+				bottom_hide_button.animate().translationY(offset).setDuration(0).start()*/
+			}
 
 			override fun onStateChanged(p0: View, state: Int) {
 				when (state) {
-					BottomSheetBehavior.STATE_HIDDEN -> map_button_add_task.showWithScale()
-					BottomSheetBehavior.STATE_EXPANDED -> map_button_add_task.hideWithScale()
+					BottomSheetBehavior.STATE_COLLAPSED -> {
+						bottom_hide_button.setImageResource(R.drawable.ic_expand_less_gray_24dp)
+						map_button_add_task.showWithScale()
+					}
+					BottomSheetBehavior.STATE_EXPANDED -> {
+						bottom_hide_button.setImageResource(R.drawable.ic_expand_more_gray_24dp)
+						map_button_add_task.hideWithScale()
+					}
 				}
 			}
 

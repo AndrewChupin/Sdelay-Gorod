@@ -87,24 +87,37 @@
 
         </LinearLayout>
 
-        <TextView
+        <android.support.v7.widget.CardView
             android:id="@+id/map_button_add_task"
-            style="@style/IconMapButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="24dp"
-            android:textColor="@color/text_dark_main"
-            android:foreground="@drawable/ripple_main_light_secondary"
-            android:fontFamily="@font/roboto_bold"
             android:background="@drawable/shape_white_corner_big"
-            android:scaleX="1"
-            android:scaleY="1"
-            android:text="Добавить"
-            android:drawablePadding="@dimen/space_base_lower_half"
-            android:drawableLeft="@drawable/ic_add_white_24dp"
+            android:fontFamily="@font/roboto_bold"
+            android:foreground="@drawable/ripple_main_light_secondary"
+            app:cardCornerRadius="27dp"
+            app:cardElevation="4dp"
+            app:contentPaddingBottom="16dp"
+            app:contentPaddingLeft="26dp"
+            app:contentPaddingRight="36dp"
+            app:contentPaddingTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableStart="@drawable/ic_add_white_24dp"
+                android:drawablePadding="@dimen/space_base_lower_half"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/add"
+                android:textColor="@color/text_dark_main"
+                android:textSize="16sp" />
+
+        </android.support.v7.widget.CardView>
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline_center_horizontal"
@@ -124,7 +137,6 @@
 
     <include
         android:id="@+id/bottom_problems"
-        layout="@layout/bottom_sheet_problems"
-        tools:visibility="gone"/>
+        layout="@layout/bottom_sheet_problems"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -6,6 +6,7 @@ import com.makecity.client.app.AppScreens
 import com.makecity.client.data.category.CategoryDataSource
 import com.makecity.client.data.temp_problem.TempProblem
 import com.makecity.client.data.temp_problem.TempProblemDataSource
+import com.makecity.client.presentation.create_problem.CreateProblemData
 import com.makecity.client.presentation.create_problem.ProblemCreatingType
 import com.makecity.client.presentation.description.DescriptionScreenData
 import com.makecity.core.data.Presentation

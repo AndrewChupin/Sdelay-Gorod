@@ -42,6 +42,17 @@
 
     </FrameLayout>
 
+    <TextView
+        android:id="@+id/item_images_not_fount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_base"
+        android:visibility="gone"
+        android:textColor="@color/colorDangerous"
+        android:textSize="24sp"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/images_not_founded" />
+
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
