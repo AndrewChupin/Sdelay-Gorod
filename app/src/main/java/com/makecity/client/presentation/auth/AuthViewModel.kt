@@ -23,7 +23,8 @@ import ru.terrakok.cicerone.Router
 @Presentation
 data class AuthViewState(
 	override val screenState: PrimaryViewState = PrimaryViewState.Loading,
-	val authType: AuthType = AuthType.PHONE
+	val authType: AuthType = AuthType.PHONE,
+	val isNextVisible: Boolean = false
 ) : ViewState
 
 
@@ -31,7 +32,13 @@ data class AuthViewState(
 sealed class AuthAction: ActionView {
 	object ShowNextStep: AuthAction()
 	data class ResearchContent(
-		val content: CharSequence
+		val content: String
+	): AuthAction()
+	data class CheckPassword(
+		val password: String
+	): AuthAction()
+	data class CreatePassword(
+		val password: String
 	): AuthAction()
 }
 
@@ -59,20 +66,27 @@ class AuthViewModel(
 	override val viewState: StateLiveData<AuthViewState>
 		= StateLiveData.create(AuthViewState(authType = authData.authType))
 
-	override fun reduce(action: AuthAction) = when (action) {
-		is AuthAction.ShowNextStep -> showNextStepConsumer(authData.authType)
-		is AuthAction.ResearchContent -> researchContentConsumer(action)
+	override fun reduce(action: AuthAction) {
+		when (action) {
+			is AuthAction.ShowNextStep -> showNextStepConsumer(authData.authType)
+			is AuthAction.ResearchContent -> researchContentConsumer(action)
+			is AuthAction.CheckPassword -> authInteractor
+				.checkPassword(action.password)
+				.bindSubscribe(onSuccess = {
+					router.backTo(AppScreens.MENU_SCREEN_KEY)
+				})
+		}
 	}
 
 	private fun showNextStepConsumer(authType: AuthType) = when (authType) {
-		AuthType.PHONE -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.SMS))
-		AuthType.SMS -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.PASSWORD))
+		AuthType.PHONE -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.PHONE))
+		AuthType.SMS -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.SMS))
 		AuthType.CREATE_PASSWORD -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.CREATE_PASSWORD))
-		AuthType.PASSWORD -> router.backTo(AppScreens.MENU_SCREEN_KEY)
+		AuthType.PASSWORD -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.PASSWORD))
 	}
 
 	private fun researchContentConsumer(action: AuthAction.ResearchContent) {
-		authInteractor.validateData(action.content.toString(), authData.authType)
+		authInteractor.validateData(action.content, authData.authType)
 			.bindSubscribe(onSuccess = { validationResult(it, action.content) })
 	}
 
@@ -83,11 +97,11 @@ class AuthViewModel(
 			}
 
 			when (authData.authType) {
-				AuthType.PASSWORD -> authInteractor
-					.checkPassword(content.toString())
-					.bindSubscribe(onSuccess = {
-						router.backTo(AppScreens.MENU_SCREEN_KEY)
-					})
+				AuthType.PASSWORD -> viewState.updateValue {
+					copy(
+						isNextVisible = true
+					)
+				}
 
 				AuthType.CREATE_PASSWORD -> authInteractor
 					.createPassword(content.toString())
@@ -95,7 +109,7 @@ class AuthViewModel(
 						router.backTo(AppScreens.MENU_SCREEN_KEY)
 					})
 
-				AuthType.SMS ->  authInteractor
+				AuthType.SMS -> authInteractor
 					.checkSms(content.toString())
 					.bindSubscribe(onSuccess = {
 						showNextStepConsumer(it.nextStep)

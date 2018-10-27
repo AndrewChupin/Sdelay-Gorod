@@ -54,7 +54,7 @@ interface Api {
 		@Body requestBody: GetSmsRequestBody
 	): Single<NextStepResponse>
 
-	@POST("auth/confirm-phone")
+	@POST("auth/get-reg-token")
 	fun confirmPhone(
 		@Body requestBody: CheckSmsRequestBody
 	): Single<RegistrationTokenResponse>

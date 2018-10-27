@@ -37,6 +37,7 @@ class AuthDataSourceDefault @Inject constructor(
 			.sendPhone(phone, cityId)
 			.map { it.nextStep ?: EMPTY }
 			.map(authStepMapper::transform)
+			.blockingCompletable { authStorage.setPhone(phone) }
 	}
 
 	override fun saveCode(code: String): Single<NextAuthStep> = Single.defer {
@@ -62,7 +63,7 @@ class AuthDataSourceDefault @Inject constructor(
 	override fun checkPassword(pass: String): Completable = Completable.defer {
 		authStorage
 			.getPhone()
-			.flatMap { authService.setPassword(it, pass) }
+			.flatMap { authService.checkPassword(it, pass) }
 			.flatMapCompletable { authStorage.setAuthToken(it.token  ?: throw TokenNotFounded) }
 	}
 

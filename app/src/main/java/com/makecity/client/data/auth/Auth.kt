@@ -12,7 +12,7 @@ data class NextStepResponse(
 
 @Dto
 data class RegistrationTokenResponse(
-	@Json(name = "token") val token: String? = null,
+	@Json(name = "reg_token") val token: String? = null,
 	@Json(name = "next_step") val nextStep: String? = null
 )
 

@@ -31,9 +31,7 @@ class AuthInteractorDefault @Inject constructor (
 		if (result.isValid) {
 			Result(true)
 		} else {
-			result.error?.let {
-				Result(false, it)
-			}
+			Result(false, result.error)
 		}
 	}
 

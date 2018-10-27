@@ -22,10 +22,10 @@ class AuthContentValidator @Inject constructor() : Validator<AuthValidationReque
 	override fun validate(vararg requests: AuthValidationRequest): AuthValidationResponse {
 		requests.forEach {
 			when (it.authType) {
-				AuthType.SMS -> if (it.content.length > AppConst.SMS_CODE_LENGTH) {
+				AuthType.SMS -> if (it.content.length >= AppConst.SMS_CODE_LENGTH) {
 					return AuthValidationResponse(true)
 				}
-				AuthType.PHONE -> if (it.content.length > AppConst.PHONE_LENGTH) {
+				AuthType.PHONE -> if (it.content.length >= AppConst.PHONE_LENGTH) {
 					return AuthValidationResponse(true)
 				}
 				AuthType.PASSWORD -> if (it.content.length > 3) {

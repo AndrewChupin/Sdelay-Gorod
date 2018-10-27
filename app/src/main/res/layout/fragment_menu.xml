@@ -52,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_light"
                         android:textColor="@color/text_dark_main"
-                        android:textSize="22sp"
+                        android:textSize="24sp"
                         android:text="Andrew Chupin"/>
 
                     <TextView
@@ -61,7 +61,8 @@
                         android:fontFamily="@font/roboto_medium"
                         android:textColor="@color/text_dark_secondary"
                         android:drawableEnd="@drawable/ic_chevron_right_gray_24dp"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
+                        android:gravity="center"
                         android:text="Перейти в профиль"/>
 
                 </LinearLayout>

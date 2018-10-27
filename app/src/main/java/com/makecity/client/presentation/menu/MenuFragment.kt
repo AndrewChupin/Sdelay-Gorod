@@ -6,6 +6,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
+import com.makecity.client.data.auth.AuthType
+import com.makecity.client.presentation.auth.AuthData
 import com.makecity.core.presentation.screen.ToolbarConfig
 import com.makecity.core.presentation.screen.ToolbarScreen
 import com.makecity.core.presentation.view.StatementFragment
@@ -59,7 +61,7 @@ class MenuFragment: MenuStatement(), ToolbarScreen {
 				reducer.reduce(MenuAction.ItemSelected(MenuType.ARCHIVE))
 			})
 			menu_container_main.addView(MenuView(it, R.string.help, R.drawable.ic_help_outline_gray_24dp) {
-				reducer.reduce(MenuAction.ItemSelected(MenuType.HELP))
+				reducer.reduce(MenuAction.ItemSelected(MenuType.ADD_ACCOUNT))
 			})
 			menu_container_main.addView(MenuView(it, R.string.about_project, R.drawable.ic_info_gray_24dp) {
 				reducer.reduce(MenuAction.ItemSelected(MenuType.ABOUT_PROJECT))
