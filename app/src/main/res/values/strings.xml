@@ -52,13 +52,15 @@
 \n\nЕсли вам нравится наш проект, вы можете <a href=\"http://yasobe.ru/na/sdelaigorodru\">поддержать его</a>.]]></string>
 
     <!-- Auth -->
-    <string name="auth_sms_title">SMS отправлено на номер <![CDATA[<b>%1$s</b>]]></string>
-    <string name="auth_sms_description">Повторная отправка кода в SMS возможна через 60 секунд</string>
+    <string name="auth_sms_title">SMS отправлено на номер<![CDATA[<br /><b>%1$s</b>]]></string>
+    <string name="auth_sms_description">Повторная отправка кода в SMS возможна через %1$d секунд</string>
     <string name="auth_phone_description">Проходя процедуру авторизации вы соглашайтесь с политикой конфиденциальности</string>
     <string name="auth_phone_title">Войдите, чтобы получить новые возможности</string>
     <string name="input_phone">Введите телефон</string>
     <string name="input_code">Введите код</string>
     <string name="input_password">Введите пароль</string>
+    <string name="make_password">Придумайте пароль</string>
+    <string name="repeat_password">Повторите пароль</string>
     <string name="location">Местоположение</string>
     <string name="images">Изображения</string>
     <string name="show_more">Показать еще</string>
@@ -78,4 +80,7 @@
     <string name="images_not_founded">Изображения отсутствуют</string>
     <string name="location_not_founded">Информация о местоположении отсутствует</string>
     <string name="add">Добавить</string>
+    <string name="guest">Гость</string>
+    <string name="add_profile">Добавить аккаунт</string>
+    <string name="show_profile">Перейти в профиль</string>
 </resources>

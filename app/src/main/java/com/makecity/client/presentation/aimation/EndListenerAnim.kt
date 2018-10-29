@@ -1,4 +1,4 @@
-package com.makecity.client.presentation.views
+package com.makecity.client.presentation.aimation
 
 import android.animation.Animator
 import android.view.animation.Animation

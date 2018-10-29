@@ -1,6 +1,7 @@
 package com.makecity.client.presentation.auth
 
 import android.os.Parcelable
+import com.makecity.client.app.AppConst.SECURE_RETRY_TIMEOUT
 import com.makecity.client.app.AppScreens
 import com.makecity.client.data.auth.AuthType
 import com.makecity.client.domain.auth.AuthInteractor
@@ -15,31 +16,43 @@ import com.makecity.core.presentation.state.ViewState
 import com.makecity.core.presentation.viewmodel.ActionView
 import com.makecity.core.presentation.viewmodel.BaseViewModel
 import com.makecity.core.presentation.viewmodel.StatementReducer
+import com.makecity.core.utils.Symbols.EMPTY
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.parcel.Parcelize
 import ru.terrakok.cicerone.Router
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicInteger
+
 
 // State
 @Presentation
 data class AuthViewState(
-	override val screenState: PrimaryViewState = PrimaryViewState.Loading,
+	override val screenState: PrimaryViewState = PrimaryViewState.Data,
 	val authType: AuthType = AuthType.PHONE,
-	val isNextVisible: Boolean = false
+	val authPhone: String = EMPTY,
+	val isPassRepeated: Boolean = false,
+	val blockingSeconds: Int = 0,
+	val isResetContent: Boolean = false
 ) : ViewState
 
 
 // Action
 sealed class AuthAction: ActionView {
-	object ShowNextStep: AuthAction()
+	object ShowNextStep : AuthAction()
+	object RefreshSms : AuthAction()
 	data class ResearchContent(
 		val content: String
-	): AuthAction()
+	) : AuthAction()
 	data class CheckPassword(
 		val password: String
-	): AuthAction()
+	) : AuthAction()
 	data class CreatePassword(
 		val password: String
-	): AuthAction()
+	) : AuthAction()
 }
 
 
@@ -66,19 +79,34 @@ class AuthViewModel(
 	override val viewState: StateLiveData<AuthViewState>
 		= StateLiveData.create(AuthViewState(authType = authData.authType))
 
-	override fun reduce(action: AuthAction) {
-		when (action) {
-			is AuthAction.ShowNextStep -> showNextStepConsumer(authData.authType)
-			is AuthAction.ResearchContent -> researchContentConsumer(action)
-			is AuthAction.CheckPassword -> authInteractor
-				.checkPassword(action.password)
-				.bindSubscribe(onSuccess = {
-					router.backTo(AppScreens.MENU_SCREEN_KEY)
-				})
+	private var lastContent = EMPTY
+	private var rememberedPassword = EMPTY
+	private val atomicInteger = AtomicInteger(SECURE_RETRY_TIMEOUT)
+	private var timerDisposable: Disposable? = null
+
+	init {
+		if (authData.authType == AuthType.SMS) {
+			startTimer()
+			updatePhone()
 		}
 	}
 
-	private fun showNextStepConsumer(authType: AuthType) = when (authType) {
+	// MARK - Common Actions
+	override fun reduce(action: AuthAction) {
+		when (action) {
+			is AuthAction.ResearchContent -> researchContentConsumer(action)
+			is AuthAction.ShowNextStep -> showNextStepConsumer(authData.authType)
+			is AuthAction.RefreshSms -> onRefreshSms()
+			is AuthAction.CheckPassword -> checkPassword(action.password)
+			is AuthAction.CreatePassword -> if (rememberedPassword.isEmpty()) {
+				onRememberPassword(action.password)
+			} else {
+				onRepeatPassword(action.password)
+			}
+		}
+	}
+
+	private fun showNextStepConsumer(nextAuthType: AuthType) = when (nextAuthType) {
 		AuthType.PHONE -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.PHONE))
 		AuthType.SMS -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.SMS))
 		AuthType.CREATE_PASSWORD -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.CREATE_PASSWORD))
@@ -86,47 +114,151 @@ class AuthViewModel(
 	}
 
 	private fun researchContentConsumer(action: AuthAction.ResearchContent) {
+		if (action.content == lastContent) {
+			return
+		}
+
+		lastContent = action.content
+
 		authInteractor.validateData(action.content, authData.authType)
 			.bindSubscribe(onSuccess = { validationResult(it, action.content) })
 	}
 
+
+	private fun onLoading() {
+		viewState.updateValue {
+			copy(screenState = PrimaryViewState.Loading, isResetContent = false)
+		}
+	}
+
+	private fun onSuccess() {
+		viewState.updateValue {
+			copy(screenState = PrimaryViewState.Success, isResetContent = false)
+		}
+	}
+
+
 	private fun validationResult(result: Result<Boolean>, content: CharSequence) = result
 		.doIfSuccess { isValid ->
 			if (!isValid) {
+				viewState.updateValue {
+					copy(screenState = PrimaryViewState.Data, isResetContent = false)
+				}
 				return@doIfSuccess
 			}
 
 			when (authData.authType) {
-				AuthType.PASSWORD -> viewState.updateValue {
-					copy(
-						isNextVisible = true
-					)
+				AuthType.CREATE_PASSWORD,
+				AuthType.PASSWORD -> viewState.updateValue { copy(screenState = PrimaryViewState.Success, isResetContent = false) }
+				AuthType.SMS -> {
+					onLoading()
+					authInteractor
+						.checkSms(content.toString())
+						.bindSubscribe(onSuccess = {
+							onSuccess()
+							showNextStepConsumer(it.nextStep)
+						})
 				}
-
-				AuthType.CREATE_PASSWORD -> authInteractor
-					.createPassword(content.toString())
-					.bindSubscribe(onSuccess = {
-						router.backTo(AppScreens.MENU_SCREEN_KEY)
-					})
-
-				AuthType.SMS -> authInteractor
-					.checkSms(content.toString())
-					.bindSubscribe(onSuccess = {
-						showNextStepConsumer(it.nextStep)
-					})
-
-				AuthType.PHONE -> authInteractor
-					.sendPhone(content.toString())
-					.bindSubscribe(onSuccess = {
-						showNextStepConsumer(it.nextStep)
-					})
+				AuthType.PHONE -> {
+					onLoading()
+					authInteractor
+						.sendPhone(content.toString())
+						.bindSubscribe(onSuccess = {
+							onSuccess()
+							showNextStepConsumer(it.nextStep)
+						})
+				}
 			}
-
-
 		}
+
+	// MARK - Password Actions
+	private fun onRememberPassword(password: String) {
+		rememberedPassword = password
+		viewState.updateValue {
+			copy(isPassRepeated = true, isResetContent = true)
+		}
+	}
+
+	private fun onRepeatPassword(password: String) {
+		authInteractor.validateEquality(rememberedPassword, password)
+			.bindSubscribe(onSuccess = { result ->
+				result.doIfSuccess {
+					rememberedPassword = EMPTY
+
+					if (!it) {
+						viewState.updateValue { copy(isPassRepeated = false, isResetContent = true) }
+						return@doIfSuccess
+					}
+
+					createPassword(password)
+				}
+			})
+	}
+
+	private fun createPassword(password: String) {
+		onLoading()
+		authInteractor
+			.createPassword(password)
+			.bindSubscribe(onSuccess = {
+				onSuccess()
+				router.backTo(AppScreens.MENU_SCREEN_KEY)
+			})
+	}
+
+	private fun checkPassword(password: String) {
+		onLoading()
+		authInteractor
+			.checkPassword(password)
+			.bindSubscribe(onSuccess = {
+				onSuccess()
+				router.backTo(AppScreens.MENU_SCREEN_KEY)
+			})
+	}
+
+
+	// MARK - SMS Actions
+	private fun startTimer() {
+		timerDisposable = Observable.interval(0, 1, TimeUnit.SECONDS, Schedulers.computation())
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe {
+				val lostTime = atomicInteger.decrementAndGet()
+				if (lostTime == 0) {
+					stopTimer()
+				}
+				viewState.updateValue { copy(blockingSeconds = lostTime, isResetContent = false) }
+			}
+	}
+
+	private fun onRefreshSms() {
+		onLoading()
+		authInteractor
+			.refreshSms()
+			.bindSubscribe(onSuccess = {
+				onSuccess()
+				startTimer()
+				updatePhone()
+			})
+	}
+
+	private fun updatePhone() {
+		authInteractor.getPhone()
+			.bindSubscribe(onSuccess = {
+				viewState.updateValue { copy(authPhone = it, isResetContent = false) }
+			})
+	}
+
+	private fun stopTimer() {
+		atomicInteger.set(SECURE_RETRY_TIMEOUT)
+		timerDisposable?.dispose()
+	}
 
 	// IMPLEMENT - ConnectionPlugin
 	override fun onChangeConnection(connectionState: ConnectionState) {
 
+	}
+
+	override fun onCleared() {
+		super.onCleared()
+		timerDisposable?.dispose()
 	}
 }

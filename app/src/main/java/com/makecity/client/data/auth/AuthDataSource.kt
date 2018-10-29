@@ -23,6 +23,10 @@ interface AuthDataSource {
 	fun checkPassword(pass: String): Completable
 
 	fun getToken(): Single<String>
+
+	fun findPhone(): Single<String>
+
+	fun refreshSms(): Single<Boolean>
 }
 
 
@@ -56,17 +60,27 @@ class AuthDataSourceDefault @Inject constructor(
 		authStorage
 			.getRegistrationToken()
 			.flatMap { authService.setPassword(it, pass) }
-			.flatMapCompletable { authStorage.setAuthToken(it.token  ?: throw TokenNotFounded) }
-			.andThen { authStorage.setRegistrationToken(EMPTY) }
+			.flatMapCompletable {
+				authStorage
+					.setAuthToken(it.token  ?: throw TokenNotFounded)
+					.andThen(authStorage.setRegistrationToken(EMPTY))
+			}
+			//.andThen { authStorage.setRegistrationToken(EMPTY) }
 	}
 
 	override fun checkPassword(pass: String): Completable = Completable.defer {
 		authStorage
 			.getPhone()
 			.flatMap { authService.checkPassword(it, pass) }
-			.flatMapCompletable { authStorage.setAuthToken(it.token  ?: throw TokenNotFounded) }
+			.flatMapCompletable { authStorage.setAuthToken(it.token ?: throw TokenNotFounded) }
 	}
 
 	override fun getToken(): Single<String> = authStorage.getRegistrationToken()
 
+	override fun findPhone(): Single<String> = authStorage
+		.getPhone()
+
+	override fun refreshSms(): Single<Boolean> = authStorage
+		.getPhone()
+		.flatMap { authService.getNewSms(it) }
 }

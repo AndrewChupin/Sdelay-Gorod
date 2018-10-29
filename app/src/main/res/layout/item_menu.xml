@@ -21,7 +21,7 @@
         tools:src="@drawable/ic_person_gray_24dp"/>
 
     <Space
-        android:layout_width="32dp"
+        android:layout_width="24dp"
         android:layout_height="match_parent" />
 
     <TextView
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/text_dark_main"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:fontFamily="@font/roboto_light"
         android:text="Hello" />
 

@@ -13,11 +13,14 @@ data class GetSmsRequestBody(
 )
 
 
+data class NewSmsRequestBody(
+	@Json(name = "phone") val phone: String
+)
+
 data class CheckSmsRequestBody(
 	@Json(name = "phone") val phone: String,
 	@Json(name = "code") val code: String
 )
-
 
 data class CreatePasswordRequestBody(
 	@Json(name = "reg_token") val regToken: String,
@@ -33,6 +36,8 @@ data class CheckPasswordRequestBody(
 interface AuthService {
 	fun sendPhone(phone: String, cityId: Long): Single<NextStepResponse>
 
+	fun getNewSms(phone: String): Single<Boolean>
+
 	fun sendCode(phone: String, code: String): Single<RegistrationTokenResponse>
 
 	fun setPassword(token: String, pass: String): Single<AuthTokenResponse>
@@ -44,6 +49,9 @@ interface AuthService {
 class AuthServiceDefault @Inject constructor(
 	private val api: Api
 ) : AuthService {
+
+	override fun getNewSms(phone: String): Single<Boolean> = api
+		.refreshSms(NewSmsRequestBody(phone))
 
 	override fun sendPhone(phone: String, cityId: Long): Single<NextStepResponse> = api
 		.sendPhone(GetSmsRequestBody(phone, cityId))

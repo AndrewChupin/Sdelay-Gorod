@@ -25,7 +25,7 @@ class AuthStoragePreferences @Inject constructor(
 ) : AuthStorage {
 
 	companion object {
-		private const val KEY_AUTH_PREFERENCES_TOKEN = "KEY_AUTH_PREFERENCES_TOKEN"
+		private const val KEY_AUTH_REG_TOKEN = "KEY_AUTH_REG_TOKEN"
 		private const val KEY_AUTH_TOKEN = "KEY_AUTH_TOKEN"
 		private const val KEY_AUTH_PHONE = "KEY_AUTH_PHONE"
 	}
@@ -47,12 +47,12 @@ class AuthStoragePreferences @Inject constructor(
 
 	// Registration token
 	override fun getRegistrationToken(): Single<String> = Single.fromCallable {
-		preferences.getString(KEY_AUTH_PREFERENCES_TOKEN, EMPTY)
+		preferences.getString(KEY_AUTH_REG_TOKEN, EMPTY)
 	}
 
 	override fun setRegistrationToken(token: String): Completable = Completable.defer {
 		val isSuccess = preferences.edit()
-			.putString(KEY_AUTH_PREFERENCES_TOKEN, token)
+			.putString(KEY_AUTH_REG_TOKEN, token)
 			.commit()
 
 		if (isSuccess) Completable.complete() else Completable.error(WritePersistenceException)

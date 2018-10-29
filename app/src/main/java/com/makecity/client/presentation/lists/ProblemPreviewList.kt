@@ -12,7 +12,7 @@ import com.makecity.client.R
 import com.makecity.client.data.temp_problem.TempProblem
 import com.makecity.client.presentation.create_problem.ProblemPreviewDataType
 import com.makecity.client.presentation.lists.ProblemPreviewAdapter.Companion.PROBLEM_PREVIEW_ADDITIONAL_CELLS_COUNT
-import com.makecity.client.presentation.views.EndAnimationListener
+import com.makecity.client.presentation.aimation.EndAnimationListener
 import com.makecity.client.presentation.views.InfoView
 import com.makecity.client.utils.GoogleApiHelper
 import com.makecity.core.data.entity.Location

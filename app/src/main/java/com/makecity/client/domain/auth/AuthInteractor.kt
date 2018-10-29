@@ -13,21 +13,41 @@ import javax.inject.Inject
 
 interface AuthInteractor {
 	fun validateData(content: String, authType: AuthType): Single<Result<Boolean>>
+	fun validateEquality(password: String, repeatedPassword: String): Single<Result<Boolean>>
+
+
 	fun sendPhone(phone: String): Single<NextAuthStep>
 	fun checkSms(code: String): Single<NextAuthStep>
 	fun createPassword(password: String): Completable
 	fun checkPassword(password: String): Completable
+	fun getPhone(): Single<String>
+	fun refreshSms(): Single<Boolean>
 }
 
 
 class AuthInteractorDefault @Inject constructor (
 	private val authDataSource: AuthDataSource,
 	private val geoDataSource: GeoDataSource,
-	private val validator: Validator<AuthValidationRequest, AuthValidationResponse>
+	private val validatorContent: Validator<AuthValidationRequest, AuthValidationResponse>,
+	private val validatorEquality: Validator<CreatePasswordValidationRequest, AuthValidationResponse>
 ) : AuthInteractor {
 
 	override fun validateData(content: String, authType: AuthType): Single<Result<Boolean>> = Single.fromCallable {
-		val result = validator.validate(AuthValidationRequest(content, authType))
+		val result = validatorContent.validate(AuthValidationRequest(content, authType))
+
+		if (result.isValid) {
+			Result(true)
+		} else {
+			Result(false, result.error)
+		}
+	}
+
+	override fun validateEquality(password: String, repeatedPassword: String): Single<Result<Boolean>> = Single.fromCallable {
+		val result = validatorEquality.validate(CreatePasswordValidationRequest(
+			password = password,
+			repeatedPassword = repeatedPassword
+		))
+
 		if (result.isValid) {
 			Result(true)
 		} else {
@@ -53,5 +73,13 @@ class AuthInteractorDefault @Inject constructor (
 
 	override fun checkPassword(password: String): Completable = Completable.defer {
 		authDataSource.checkPassword(password)
+	}
+
+	override fun getPhone(): Single<String> = Single.defer {
+		authDataSource.findPhone()
+	}
+
+	override fun refreshSms(): Single<Boolean> = Single.defer {
+		authDataSource.refreshSms()
 	}
 }

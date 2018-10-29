@@ -60,20 +60,19 @@ class FeedFragment : FeedStatement(), ToolbarScreen {
 		reducer.reduce(LoadTasksAction)
 	}
 
-	override fun render(state: FeedViewState) = when (state.screenState) {
-		is PrimaryViewState.Data -> {
-			feed_progress.isVisible = false
-			feed_recycler.isVisible = true
-			feed_refresh.isRefreshing = false
-			adapter.calculateDiffs(state.tasks)
-		}
-		is PrimaryViewState.Loading -> {
-			feed_progress.isVisible = true
-			feed_recycler.isVisible = false
-			feed_refresh.isRefreshing = false
-		}
-		is PrimaryViewState.Error -> {
-
+	override fun render(state: FeedViewState) {
+		when (state.screenState) {
+			is PrimaryViewState.Data -> {
+				feed_progress.isVisible = false
+				feed_recycler.isVisible = true
+				feed_refresh.isRefreshing = false
+				adapter.calculateDiffs(state.tasks)
+			}
+			is PrimaryViewState.Loading -> {
+				feed_progress.isVisible = true
+				feed_recycler.isVisible = false
+				feed_refresh.isRefreshing = false
+			}
 		}
 	}
 }

@@ -2,17 +2,18 @@ package com.makecity.client.presentation.menu
 
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import android.view.View
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
-import com.makecity.client.data.auth.AuthType
-import com.makecity.client.presentation.auth.AuthData
+import com.makecity.core.extenstion.isVisible
 import com.makecity.core.presentation.screen.ToolbarConfig
 import com.makecity.core.presentation.screen.ToolbarScreen
+import com.makecity.core.presentation.state.PrimaryViewState
 import com.makecity.core.presentation.view.StatementFragment
 import com.makecity.core.utils.Symbols.EMPTY
+import com.makecity.core.utils.image.ImageManager
 import kotlinx.android.synthetic.main.fragment_menu.*
+import javax.inject.Inject
 
 
 typealias MenuStatement = StatementFragment<MenuReducer, MenuViewState, MenuAction>
@@ -23,6 +24,9 @@ class MenuFragment: MenuStatement(), ToolbarScreen {
 	companion object {
 		fun newInstance() = MenuFragment()
 	}
+
+	@Inject
+	lateinit var imageManager: ImageManager
 
 	override val layoutId: Int = R.layout.fragment_menu
 
@@ -35,11 +39,6 @@ class MenuFragment: MenuStatement(), ToolbarScreen {
 			title = EMPTY,
 			isDisplayHomeButton = true
 		))
-
-		Glide.with(menu_profile_image)
-			.load(R.drawable.profile)
-			.apply(RequestOptions.circleCropTransform())
-			.into(menu_profile_image)
 
 		menu_add_account clickReduce MenuAction.ItemSelected(MenuType.ADD_ACCOUNT)
 		menu_profile_cell clickReduce MenuAction.ShowProfile
@@ -67,10 +66,41 @@ class MenuFragment: MenuStatement(), ToolbarScreen {
 				reducer.reduce(MenuAction.ItemSelected(MenuType.ABOUT_PROJECT))
 			})
 		}
+	}
 
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+		reducer.reduce(MenuAction.RefreshProfileData)
 	}
 
 	override fun render(state: MenuViewState) {
+		when (state.screenState) {
+			is PrimaryViewState.Data -> {
+				menu_profile_loader.isVisible = false
+				menu_profile_container.isVisible = true
+				when (state.profile) {
+					null -> {
+						menu_profile_image.setImageResource(R.drawable.placeholder_face)
+						menu_profile_action.setText(R.string.add_profile)
+						menu_profile_name.setText(R.string.guest)
+					}
+					else -> {
+						val profile = state.profile
+						val name = if (profile.firstName.isEmpty() && profile.lastName.isEmpty()) {
+							profile.phone
+						} else {
+							"${profile.firstName} ${profile.lastName}"
+						}
 
+						menu_profile_name.text = name
+						menu_profile_action.setText(R.string.show_profile)
+					}
+				}
+			}
+			is PrimaryViewState.Loading -> {
+				menu_profile_loader.isVisible = true
+				menu_profile_container.isVisible = false
+			}
+		}
 	}
 }

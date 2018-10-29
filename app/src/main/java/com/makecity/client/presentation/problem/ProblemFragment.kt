@@ -77,22 +77,24 @@ class ProblemFragment : ProblemStatement(), ToolbarScreen {
 		trySetupContentSize(false)
 	}
 
-	override fun render(state: ProblemViewState) = when (state.screenState) {
-		is PrimaryViewState.Data -> {
-			if (state.problemDetail != null) {
-				adapter.calculateDiffs(state.problemDetail)
+	override fun render(state: ProblemViewState) {
+		when (state.screenState) {
+			is PrimaryViewState.Data -> {
+				if (state.problemDetail != null) {
+					adapter.calculateDiffs(state.problemDetail)
+				}
+				problem_progress.isVisible = false
+				problem_recycler.isVisible = true
+				problem_refresh.isRefreshing = false
 			}
-			problem_progress.isVisible = false
-			problem_recycler.isVisible = true
-			problem_refresh.isRefreshing = false
-		}
-		is PrimaryViewState.Loading -> {
-			problem_progress.isVisible = true
-			problem_recycler.isVisible = false
-			problem_refresh.isRefreshing = false
-		}
-		is PrimaryViewState.Error -> {
+			is PrimaryViewState.Loading -> {
+				problem_progress.isVisible = true
+				problem_recycler.isVisible = false
+				problem_refresh.isRefreshing = false
+			}
+			is PrimaryViewState.Error -> {
 
+			}
 		}
 	}
 }

@@ -5,9 +5,11 @@ class NoLastKnownLocation(error: String = "Location from FusedLocationProvider i
 	: RuntimeException(error)
 
 
+object DataStructureException : RuntimeException()
+
 class NoSuchDataException(
 	override val message: String?
-): RuntimeException(message)
+) : RuntimeException(message)
 
 
-object WritePersistenceException: RuntimeException()
+object WritePersistenceException : RuntimeException()

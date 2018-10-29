@@ -4,6 +4,7 @@ import com.makecity.client.data.auth.*
 import com.makecity.client.data.category.CategoryRemote
 import com.makecity.client.data.comments.CommentRemote
 import com.makecity.client.data.geo.GeoPointRemote
+import com.makecity.client.data.profile.ProfileRemote
 import com.makecity.client.data.task.TaskRemote
 import io.reactivex.Single
 import retrofit2.http.*
@@ -59,6 +60,11 @@ interface Api {
 		@Body requestBody: CheckSmsRequestBody
 	): Single<RegistrationTokenResponse>
 
+	@POST("/auth/request-new-sms-code")
+	fun refreshSms(
+		@Body requestBody: NewSmsRequestBody
+	): Single<Boolean>
+
 	@POST("auth/set-pass")
 	fun setPassword(
 		@Body body: CreatePasswordRequestBody
@@ -71,12 +77,21 @@ interface Api {
 
 
 	/**
+	 * MARK - Profile
+	 */
+	@GET("/profiles/user/view?expand=user")
+	fun getProfile(
+		@Header("Authorization") token: String
+	): Single<ProfileRemote>
+
+
+	/**
 	 * MARK - Geo
 	 */
 	@GET("geolocator/ip/get-ip")
 	fun getIp(): Single<String>
 
-	@GET("/geolocator/ip/get-client-ip")
+	@GET("geolocator/ip/get-client-ip")
 	fun getCity(
 		@Query("ip") ip: String
 	): Single<GeoPointRemote>

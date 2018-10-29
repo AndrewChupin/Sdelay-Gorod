@@ -43,7 +43,15 @@ open class AuthModule {
 
 	@Provides
 	@FragmentScope
-	fun provideValidator(validator: AuthContentValidator): Validator<AuthValidationRequest, AuthValidationResponse> = validator
+	fun provideValidator(
+		validator: AuthContentValidator
+	): Validator<AuthValidationRequest, AuthValidationResponse> = validator
+
+	@Provides
+	@FragmentScope
+	fun provideCreatePasswordValidator(
+		validator: CreatePasswordValidator
+	): Validator<CreatePasswordValidationRequest, AuthValidationResponse> = validator
 
 	@Provides
 	@FragmentScope

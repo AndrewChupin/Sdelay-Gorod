@@ -30,67 +30,127 @@
 
     </android.support.design.widget.AppBarLayout>
 
-   <LinearLayout
-       android:id="@+id/auth_info_container"
+   <ScrollView
        android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:padding="@dimen/space_base"
-       android:orientation="vertical">
+       android:layout_height="match_parent"
+       android:fillViewport="true">
 
-       <TextView
-           android:id="@+id/auth_info_title"
+       <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:textColor="@color/text_dark_main"
-           android:textSize="22sp"
-           tools:text="@string/auth_phone_title"/>
+           android:orientation="vertical">
 
-       <TextView
-           android:id="@+id/auth_info_description"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginTop="@dimen/space_base_lower_half"
-           android:textColor="@color/text_dark_secondary"
-           android:textSize="13sp"
-           tools:text="@string/auth_phone_description"/>
+           <LinearLayout
+               android:id="@+id/auth_info_container"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:paddingLeft="@dimen/space_base"
+               android:paddingRight="@dimen/space_base"
+               android:orientation="vertical">
 
-   </LinearLayout>
+               <TextView
+                   android:id="@+id/auth_info_title"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:textColor="@color/text_dark_main"
+                   android:layout_marginTop="@dimen/space_base"
+                   android:textSize="22sp"
+                   tools:text="@string/auth_phone_title"/>
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/auth_input_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/shape_white_top_corner"
-        android:padding="@dimen/space_base">
+               <TextView
+                   android:id="@+id/auth_info_description"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="@dimen/space_base_lower_half"
+                   android:layout_marginBottom="@dimen/space_base"
+                   android:textColor="@color/text_dark_secondary"
+                   android:textSize="13sp"
+                   tools:text="@string/auth_phone_description"/>
 
-        <EditText
-            android:id="@+id/auth_input_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:fontFamily="@font/roboto_light"
-            android:hint="@string/input_phone"
-            android:inputType="phone|textVisiblePassword"
-            android:maxLines="1"
-            android:textColor="@color/text_dark_main"
-            android:textSize="24sp"
-            app:backgroundTint="@color/main_light_bg"
-            app:layout_constraintBottom_toBottomOf="@+id/auth_next_button"
-            app:layout_constraintEnd_toStartOf="@+id/auth_next_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+               <TextView
+                   android:id="@+id/auth_retry_button"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:paddingTop="@dimen/space_base_greater_half"
+                   android:paddingBottom="@dimen/space_base_greater_half"
+                   android:visibility="gone"
+                   android:fontFamily="@font/roboto_light"
+                   android:textColor="@color/colorAccent"
+                   android:foreground="@drawable/ripple_main_light_secondary"
+                   android:text="Отправить повторно"
+                   android:textSize="16sp"
+                   android:gravity="center"/>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/auth_next_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_arrow_forward_white_24dp"
-            app:fabSize="mini"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/auth_input_field"
-            app:layout_constraintTop_toTopOf="parent"
-            app:useCompatPadding="true" />
+           </LinearLayout>
 
-    </android.support.constraint.ConstraintLayout>
+
+           <ProgressBar
+               android:id="@+id/auth_progress"
+               android:visibility="gone"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:paddingTop="@dimen/space_base_greater_single"
+               android:paddingBottom="@dimen/space_base_greater_single"
+               android:paddingLeft="@dimen/space_base"
+               android:paddingRight="@dimen/space_base"
+               android:layout_gravity="center"/>
+
+
+           <android.support.constraint.ConstraintLayout
+               android:id="@+id/auth_input_container"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:background="@drawable/shape_white_top_corner"
+               android:paddingTop="@dimen/space_base"
+               android:paddingBottom="@dimen/space_base">
+
+               <android.support.design.widget.TextInputEditText
+                   android:id="@+id/auth_input_field"
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:fontFamily="@font/roboto_light"
+                   android:hint="@string/input_phone"
+                   android:inputType="phone|textVisiblePassword"
+                   android:maxLines="1"
+                   android:textColor="@color/text_dark_main"
+                   android:textColorHint="@color/text_dark_description"
+                   android:textSize="24sp"
+                   android:paddingLeft="@dimen/space_base"
+                   android:paddingRight="@dimen/space_base"
+                   app:backgroundTint="@color/main_light_bg"
+                   app:layout_constraintEnd_toStartOf="@+id/auth_next_button"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toTopOf="parent" />
+
+               <TextView
+                   android:id="@+id/auth_input_error"
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:paddingLeft="@dimen/space_base"
+                   android:paddingRight="@dimen/space_base"
+                   android:textColor="@color/colorDangerous"
+                   android:textSize="13sp"
+                   android:text="Пароли не совпадают"
+                   android:visibility="gone"
+                   app:layout_constraintEnd_toStartOf="@+id/auth_next_button"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toBottomOf="@+id/auth_input_field" />
+
+               <android.support.design.widget.FloatingActionButton
+                   android:id="@+id/auth_next_button"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:src="@drawable/ic_arrow_forward_white_24dp"
+                   app:fabSize="mini"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintStart_toEndOf="@+id/auth_input_field"
+                   app:layout_constraintTop_toTopOf="parent"
+                   app:useCompatPadding="true" />
+
+           </android.support.constraint.ConstraintLayout>
+
+       </LinearLayout>
+
+   </ScrollView>
 
 </LinearLayout>

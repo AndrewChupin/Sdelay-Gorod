@@ -3,6 +3,9 @@ package com.makecity.client.presentation.menu
 import com.makecity.client.BuildConfig
 import com.makecity.client.app.AppScreens
 import com.makecity.client.data.auth.AuthType
+import com.makecity.client.data.auth.TokenNotFounded
+import com.makecity.client.data.profile.Profile
+import com.makecity.client.data.profile.ProfileDataSource
 import com.makecity.client.presentation.auth.AuthData
 import com.makecity.client.presentation.web.WebData
 import com.makecity.core.data.Presentation
@@ -23,7 +26,8 @@ import ru.terrakok.cicerone.Router
 // State
 @Presentation
 data class MenuViewState(
-	override val screenState: PrimaryViewState = PrimaryViewState.Loading
+	override val screenState: PrimaryViewState = PrimaryViewState.Loading,
+	val profile: Profile? = null
 ) : ViewState
 
 
@@ -31,6 +35,7 @@ data class MenuViewState(
 sealed class MenuAction: ActionView {
 	data class ItemSelected(val item: MenuType): MenuAction()
 	object ShowProfile: MenuAction()
+	object RefreshProfileData: MenuAction()
 }
 
 enum class MenuType {
@@ -44,15 +49,37 @@ interface MenuReducer: StatementReducer<MenuViewState, MenuAction>
 // ViewModel
 class MenuViewModel(
 	private val router: Router,
+	private val profileDataSource: ProfileDataSource,
 	override val connectionProvider: ConnectionProvider,
 	override val disposables: CompositeDisposable = CompositeDisposable()
 ) : BaseViewModel(), MenuReducer, ReducerPluginConnection {
 
 	override val viewState: StateLiveData<MenuViewState> = StateLiveData.create(MenuViewState())
 
-	override fun reduce(action: MenuAction) = when (action) {
-		is MenuAction.ItemSelected -> reduceItem(action.item)
-		is MenuAction.ShowProfile -> router.navigateTo(AppScreens.PROFILE_SCREEN_KEY)
+	override fun reduce(action: MenuAction) {
+		when (action) {
+			is MenuAction.ItemSelected -> reduceItem(action.item)
+			is MenuAction.ShowProfile -> router.navigateTo(AppScreens.PROFILE_SCREEN_KEY)
+			is MenuAction.RefreshProfileData -> onProfileLoaded()
+		}
+	}
+
+	private fun onProfileLoaded() {
+		viewState.updateValue { copy(screenState = PrimaryViewState.Loading, profile = null) }
+
+		profileDataSource
+			.getProfile()
+			.bindSubscribe(onSuccess = {
+				viewState.updateValue {
+					copy(screenState = PrimaryViewState.Data, profile = it)
+				}
+			}, onError = {
+				if (it is TokenNotFounded) {
+					viewState.updateValue {
+						copy(screenState = PrimaryViewState.Data, profile = null)
+					}
+				}
+			})
 	}
 
 	private fun reduceItem(type: MenuType) = when (type) {
