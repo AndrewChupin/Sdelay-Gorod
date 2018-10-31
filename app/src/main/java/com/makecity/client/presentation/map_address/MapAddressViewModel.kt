@@ -100,7 +100,7 @@ class MapAddressViewModel(
 					})
 			}
 			is MapAddressAction.ShowProblemPreview -> saveAddress(
-				viewState.valueOrInitial.address
+				state.address
 					?: throw IllegalStateException("ShowProblemPreview with null address immposible") // TODO
 			)
 		}

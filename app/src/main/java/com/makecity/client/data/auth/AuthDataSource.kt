@@ -75,7 +75,9 @@ class AuthDataSourceDefault @Inject constructor(
 			.flatMapCompletable { authStorage.setAuthToken(it.token ?: throw TokenNotFounded) }
 	}
 
-	override fun getToken(): Single<String> = authStorage.getRegistrationToken()
+	override fun getToken(): Single<String> = authStorage
+		.getAuthToken()
+		.map { if (it.isEmpty()) throw TokenNotFounded else it }
 
 	override fun findPhone(): Single<String> = authStorage
 		.getPhone()

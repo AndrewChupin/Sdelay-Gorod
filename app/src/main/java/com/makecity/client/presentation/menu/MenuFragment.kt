@@ -13,6 +13,8 @@ import com.makecity.core.presentation.view.StatementFragment
 import com.makecity.core.utils.Symbols.EMPTY
 import com.makecity.core.utils.image.ImageManager
 import kotlinx.android.synthetic.main.fragment_menu.*
+import ru.tinkoff.decoro.MaskImpl
+import ru.tinkoff.decoro.slots.PredefinedSlots
 import javax.inject.Inject
 
 
@@ -28,6 +30,8 @@ class MenuFragment: MenuStatement(), ToolbarScreen {
 	@Inject
 	lateinit var imageManager: ImageManager
 
+	private var mask = MaskImpl(PredefinedSlots.RUS_PHONE_NUMBER, true)
+
 	override val layoutId: Int = R.layout.fragment_menu
 
 	override fun onInject() = AppInjector.inject(this)
@@ -40,7 +44,6 @@ class MenuFragment: MenuStatement(), ToolbarScreen {
 			isDisplayHomeButton = true
 		))
 
-		menu_add_account clickReduce MenuAction.ItemSelected(MenuType.ADD_ACCOUNT)
 		menu_profile_cell clickReduce MenuAction.ShowProfile
 
 		context?.let {
@@ -60,7 +63,7 @@ class MenuFragment: MenuStatement(), ToolbarScreen {
 				reducer.reduce(MenuAction.ItemSelected(MenuType.ARCHIVE))
 			})
 			menu_container_main.addView(MenuView(it, R.string.help, R.drawable.ic_help_outline_gray_24dp) {
-				reducer.reduce(MenuAction.ItemSelected(MenuType.ADD_ACCOUNT))
+				reducer.reduce(MenuAction.ItemSelected(MenuType.HELP))
 			})
 			menu_container_main.addView(MenuView(it, R.string.about_project, R.drawable.ic_info_gray_24dp) {
 				reducer.reduce(MenuAction.ItemSelected(MenuType.ABOUT_PROJECT))
@@ -87,7 +90,8 @@ class MenuFragment: MenuStatement(), ToolbarScreen {
 					else -> {
 						val profile = state.profile
 						val name = if (profile.firstName.isEmpty() && profile.lastName.isEmpty()) {
-							profile.phone
+							mask.insertFront(profile.phone)
+							mask.toString()
 						} else {
 							"${profile.firstName} ${profile.lastName}"
 						}

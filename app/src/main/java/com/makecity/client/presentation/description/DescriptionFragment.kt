@@ -41,9 +41,8 @@ class DescriptionFragment : DescriptionStatement(), ToolbarScreen, KeyboardScree
 			isDisplayHomeButton = true
 		))
 
-		description_done.setOnClickListener {
-			val action = DescriptionAction.DescriptionComplete(description_content.text.toString())
-			reducer.reduce(action)
+		description_done clickReduce {
+			DescriptionAction.DescriptionComplete(description_content.text.toString())
 		}
 	}
 

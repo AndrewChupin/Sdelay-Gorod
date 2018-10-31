@@ -3,12 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map_coordinator_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".presentation.main.MainActivity">
-
-
 
     <android.support.constraint.ConstraintLayout
         xmlns:tools="http://schemas.android.com/tools"
@@ -96,6 +95,7 @@
             android:background="@drawable/shape_white_corner_big"
             android:fontFamily="@font/roboto_bold"
             android:foreground="@drawable/ripple_main_light_secondary"
+            android:alpha="0"
             app:cardCornerRadius="27dp"
             app:cardElevation="4dp"
             app:contentPaddingBottom="16dp"

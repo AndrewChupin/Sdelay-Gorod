@@ -2,6 +2,7 @@ package com.makecity.client.di
 
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
+import com.makecity.client.data.profile.ProfileDataSource
 import com.makecity.client.presentation.menu.MenuFragment
 import com.makecity.client.presentation.menu.MenuReducer
 import com.makecity.client.presentation.menu.MenuViewModel
@@ -38,8 +39,9 @@ open class MenuModule {
 	@FragmentScope
 	fun provideViewModelFactory(
 		router: Router,
+		profileDataSource: ProfileDataSource,
 		connectionProvider: ConnectionProvider
-	): MenuViewModel = MenuViewModel(router, connectionProvider)
+	): MenuViewModel = MenuViewModel(router, profileDataSource, connectionProvider)
 
 	@Provides
 	@FragmentScope

@@ -3,6 +3,7 @@ package com.makecity.client.di
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
 import com.makecity.client.data.category.*
+import com.makecity.client.data.company.*
 import com.makecity.client.data.temp_problem.*
 import com.makecity.client.presentation.category.CategoryScreenData
 import com.makecity.client.presentation.category.CategoryFragment
@@ -21,7 +22,7 @@ import ru.terrakok.cicerone.Router
 
 
 @FragmentScope
-@Subcomponent(modules = [CategoryModule::class])
+@Subcomponent(modules = [CategoryModule::class, CompanyModule::class])
 interface CategoryComponent {
 
 	fun inject(fragment: CategoryFragment)
@@ -35,6 +36,23 @@ interface CategoryComponent {
 		fun build(): CategoryComponent
 	}
 
+}
+
+
+@Module
+open class CompanyModule {
+
+	@Provides
+	@FragmentScope
+	fun provideCompanyService(service: CompanyServiceRetrofit): CompanyService = service
+
+	@Provides
+	@FragmentScope
+	fun provideCompanyDataSource(source: CompanyDataSourceDefault): CompanyDataSource = source
+
+	@Provides
+	@FragmentScope
+	fun provideMapper(mapper: CompanyMapperDtoToCommon): Mapper<CompanyRemote, Company> = mapper
 }
 
 
@@ -57,12 +75,13 @@ open class CategoryModule {
 	@FragmentScope
 	fun provideViewModelFactory(
 		router: Router,
+		companyDataSource: CompanyDataSource,
 		categoryData: CategoryScreenData,
 		resourceManager: ResourceManager,
 		connectionProvider: ConnectionProvider,
 		categoryDataSource: CategoryDataSource,
 		tempProblemDataSource: TempProblemDataSource
-	): CategoryViewModel = CategoryViewModel(router, categoryData, connectionProvider, resourceManager, categoryDataSource, tempProblemDataSource)
+	): CategoryViewModel = CategoryViewModel(router, categoryData, companyDataSource, connectionProvider, resourceManager, categoryDataSource, tempProblemDataSource)
 
 	@Provides
 	@FragmentScope

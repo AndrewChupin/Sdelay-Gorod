@@ -2,6 +2,7 @@ package com.makecity.client.presentation.profile
 
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
+import android.view.View
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
 import com.makecity.core.presentation.screen.ToolbarConfig
@@ -22,6 +23,7 @@ class ProfileFragment : ProfileStatement(), ToolbarScreen {
 	}
 
 	override val layoutId: Int = R.layout.fragment_profile
+	private var mask = MaskImpl(PredefinedSlots.RUS_PHONE_NUMBER, true)
 
 	override fun onInject() = AppInjector.inject(this)
 
@@ -33,16 +35,27 @@ class ProfileFragment : ProfileStatement(), ToolbarScreen {
 			isDisplayHomeButton = true
 		))
 
-
-		val mask = MaskImpl(PredefinedSlots.RUS_PHONE_NUMBER, true)
-		val watcher = MaskFormatWatcher(mask)
-		watcher.installOn(profile_phone)
-		profile_phone.text = "9995554433"
-
 		profile_edit_profile_button clickReduce ProfileAction.ShowEditProfile
+		profile_logout clickReduce ProfileAction.Logout
+	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+		reducer.reduce(ProfileAction.GetProfileData)
 	}
 
 	override fun render(state: ProfileViewState) {
+		state.profile?.apply {
+			profile_phone.text = mask.run {
+				insertFront(phone)
+				toString()
+			}
 
+			if (firstName.isEmpty() && lastName.isEmpty()) {
+				profile_name.text = getString(R.string.undefined)
+			} else {
+				profile_name.text = getString(R.string.name_format, firstName, lastName)
+			}
+		}
 	}
 }

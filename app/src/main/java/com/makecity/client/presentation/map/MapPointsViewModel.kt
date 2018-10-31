@@ -1,15 +1,17 @@
 package com.makecity.client.presentation.map
 
 import com.makecity.client.app.AppScreens
+import com.makecity.client.data.auth.AuthDataSource
+import com.makecity.client.data.auth.AuthState
+import com.makecity.client.data.auth.AuthType
+import com.makecity.client.data.auth.TokenNotFounded
+import com.makecity.client.data.profile.ProfileDataSource
 import com.makecity.client.data.task.Task
-import com.makecity.client.data.temp_problem.TempProblem
 import com.makecity.client.data.temp_problem.TempProblemDataSource
 import com.makecity.client.domain.map.TaskPointsInteractor
+import com.makecity.client.presentation.auth.AuthData
 import com.makecity.client.presentation.camera.CameraScreenData
-import com.makecity.client.presentation.category.CategoryScreenData
-import com.makecity.client.presentation.category.CategoryType
 import com.makecity.client.presentation.create_problem.ProblemCreatingType
-import com.makecity.client.presentation.description.DescriptionScreenData
 import com.makecity.client.presentation.problem.ProblemData
 import com.makecity.core.data.Presentation
 import com.makecity.core.plugin.connection.ConnectionProvider
@@ -25,6 +27,7 @@ import com.makecity.core.presentation.viewmodel.BaseViewModel
 import com.makecity.core.presentation.viewmodel.StatementReducer
 import com.makecity.core.utils.permission.PermissionManager
 import com.makecity.core.utils.permission.PermissionState
+import com.makecity.core.utils.resources.ResourceManager
 import io.reactivex.disposables.CompositeDisposable
 import ru.terrakok.cicerone.Router
 
@@ -34,6 +37,7 @@ import ru.terrakok.cicerone.Router
 data class MapPointsViewState(
 	override val screenState: PrimaryViewState = PrimaryViewState.Loading,
 	val tasks: List<Task> = emptyList(),
+	val authState: AuthState = AuthState.UNDEFINED,
 	override val locationState: LocationState = LocationState.Unknown,
 	override val connectionState: ConnectionState = ConnectionState.Unknown
 ) : ViewState, ViewStatePluginConnection, ViewStatePluginLocation
@@ -41,10 +45,11 @@ data class MapPointsViewState(
 
 // Action
 sealed class MapPointsAction: ActionView {
-	object ShowCamera : MapPointsAction()
+	object CreateTask : MapPointsAction()
 	object LoadMapPoints : MapPointsAction()
 	object ShowProblemsAsList : MapPointsAction()
 	object ShowMenu : MapPointsAction()
+	object ShowAuth : MapPointsAction()
 
 	data class ShowDetails(
 		val problemId: Long
@@ -60,6 +65,7 @@ interface MapPointsReducer: StatementReducer<MapPointsViewState, MapPointsAction
 class MapPointsViewModel(
 	private val router: Router,
 	private val tempProblemDataSource: TempProblemDataSource,
+	private val authDataSource: AuthDataSource,
 	private val mapPointsInteractor: TaskPointsInteractor,
 	override val connectionProvider: ConnectionProvider,
 	override val permissionManager: PermissionManager,
@@ -76,22 +82,34 @@ class MapPointsViewModel(
 		startObserveConnection()
 	}
 
-
 	// OVERRIDE - Reducer
 	override fun reduce(action: MapPointsAction) {
 		when (action) {
 			is MapPointsAction.ShowProblemsAsList -> router.navigateTo(AppScreens.FEED_SCREEN_KEY)
 			is MapPointsAction.ShowMenu -> router.navigateTo(AppScreens.MENU_SCREEN_KEY)
+			is MapPointsAction.ShowAuth -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.PHONE))
 			is MapPointsAction.ShowDetails -> router.navigateTo(AppScreens.PROBLEM_SCREEN_KEY, ProblemData(action.problemId))
 
-			is MapPointsAction.LoadMapPoints -> mapPointsInteractor
-				.loadProblems()
-				.bindSubscribe(
-					onSuccess = ::reduceLoadTasksSuccess,
-					onError = Throwable::printStackTrace
-				)
+			is MapPointsAction.LoadMapPoints -> {
+				mapPointsInteractor
+					.loadProblems()
+					.bindSubscribe(
+						onSuccess = ::reduceLoadTasksSuccess,
+						onError = Throwable::printStackTrace
+					)
 
-			is MapPointsAction.ShowCamera -> tempProblemDataSource
+				authDataSource
+					.getToken()
+					.bindSubscribe(onSuccess = {
+						viewState.updateValue { copy(authState = AuthState.AUTH) }
+					}, onError = {
+						if (it is TokenNotFounded) {
+							viewState.updateValue { copy(authState = AuthState.NOT_AUTH) }
+						}
+					})
+			}
+
+			is MapPointsAction.CreateTask -> tempProblemDataSource
 				.isProblemExist()
 				.bindSubscribe(onSuccess = { isExist ->
 					if (isExist) {

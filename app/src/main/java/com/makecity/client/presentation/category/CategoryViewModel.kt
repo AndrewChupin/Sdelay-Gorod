@@ -4,13 +4,12 @@ import android.os.Parcelable
 import com.makecity.client.R
 import com.makecity.client.app.AppScreens
 import com.makecity.client.data.category.CategoryDataSource
+import com.makecity.client.data.company.CompanyDataSource
 import com.makecity.client.data.temp_problem.TempProblem
 import com.makecity.client.data.temp_problem.TempProblemDataSource
-import com.makecity.client.presentation.create_problem.CreateProblemData
 import com.makecity.client.presentation.create_problem.ProblemCreatingType
 import com.makecity.client.presentation.description.DescriptionScreenData
 import com.makecity.core.data.Presentation
-import com.makecity.core.extenstion.blockingCompletable
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.plugin.connection.ConnectionState
 import com.makecity.core.plugin.connection.ReducerPluginConnection
@@ -66,6 +65,7 @@ interface CategoryReducer: StatementReducer<CategoryViewState, CategoryAction>
 class CategoryViewModel(
 	private val router: Router,
 	private val categoryData: CategoryScreenData,
+	private val companyDataSource: CompanyDataSource,
 	override val connectionProvider: ConnectionProvider,
 	private val resourceManager: ResourceManager,
 	private val categoryDataSource: CategoryDataSource,
@@ -81,17 +81,16 @@ class CategoryViewModel(
 			is CategoryAction.LoadData -> when (categoryData.categoryType) {
 				CategoryType.CATEGORY -> loadCategory()
 				CategoryType.OPTION -> loadOptions()
-				CategoryType.COMPANY -> loadOptions() // TODO
+				CategoryType.COMPANY -> loadCompanies()
 			}
 
 			is CategoryAction.SelectItem ->  when (categoryData.categoryType) {
 				CategoryType.CATEGORY -> saveCategory(action.pair)
 				CategoryType.OPTION -> saveOption(action.pair)
-				CategoryType.COMPANY -> loadOptions() // TODO
+				CategoryType.COMPANY -> saveCompany(action.pair)
 			}
 		}
 	}
-
 
 	// MARK - CategoryAction.SelectItem
 	private fun saveCategory(categoryPair: Pair<Long, String>) {
@@ -109,6 +108,18 @@ class CategoryViewModel(
 	private fun saveOption(optionPair: Pair<Long, String>) {
 		tempProblemDataSource.getTempProblem()
 			.map { it.copy(optionId = optionPair.first, optionName = optionPair.second) }
+			.flatMapCompletable(tempProblemDataSource::saveTempProblem)
+			.bindSubscribe(onSuccess = {
+				router.navigateTo(
+					AppScreens.CATEGORY_SCREEN_KEY,
+					CategoryScreenData(CategoryType.COMPANY, categoryData.problemCreatingType)
+				)
+			})
+	}
+
+	private fun saveCompany(companyPair: Pair<Long, String>) {
+		tempProblemDataSource.getTempProblem()
+			.map { it.copy(companyId = companyPair.first, companyName = companyPair.second) }
 			.flatMapCompletable(tempProblemDataSource::saveTempProblem)
 			.bindSubscribe(onSuccess = ::navigateComplete)
 	}
@@ -143,6 +154,19 @@ class CategoryViewModel(
 				}
 			}, onError = {
 				it.printStackTrace()
+			})
+	}
+
+	private fun loadCompanies() {
+		companyDataSource.getCompanies()
+			.bindSubscribe(onSuccess = { companies ->
+				viewState.updateValue {
+					copy(
+						screenState = PrimaryViewState.Data,
+						title = resourceManager.getString(R.string.choose_company),
+						entries = companies.map { Pair(it.id, it.name) }
+					)
+				}
 			})
 	}
 

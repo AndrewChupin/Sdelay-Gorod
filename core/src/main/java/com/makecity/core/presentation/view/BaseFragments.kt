@@ -100,6 +100,12 @@ abstract class ReducibleViewFragment<Reducer: BaseReducer<AG>, AG: ActionView>: 
             reducer.reduce(action)
         }
     }
+
+    infix fun View?.clickReduce(action: () -> AG) {
+        this?.setOnClickListener {
+            reducer.reduce(action())
+        }
+    }
 }
 
 

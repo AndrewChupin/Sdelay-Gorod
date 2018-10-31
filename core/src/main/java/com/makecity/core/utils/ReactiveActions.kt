@@ -1,5 +1,6 @@
 package com.makecity.core.utils
 
+import android.util.Log
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -34,7 +35,9 @@ interface ReactiveActions {
      */
     fun <T> Single<T>.bindSubscribe(scheduler: Scheduler = Schedulers.io(),
                                          onSuccess: (T) -> Unit = {},
-                                         onError: (Throwable) -> Unit = Throwable::printStackTrace)
+                                         onError: (Throwable) -> Unit = {
+                                             Log.e("Error", "Reactive", it)
+                                         })
             = subscribeOn(scheduler)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(onSuccess, onError)
@@ -48,7 +51,9 @@ interface ReactiveActions {
      */
     fun <T> Maybe<T>.bindSubscribe(scheduler: Scheduler = Schedulers.io(),
                                         onSuccess: (T) -> Unit = {},
-                                        onError: (Throwable) -> Unit = {},
+                                        onError: (Throwable) -> Unit  = {
+                                            Log.e("Error", "Reactive", it)
+                                        },
                                         onComplete: () -> Unit = {})
             = subscribeOn(scheduler)
             .observeOn(AndroidSchedulers.mainThread())
@@ -64,7 +69,9 @@ interface ReactiveActions {
      */
     fun <T> Observable<T>.bindSubscribe(scheduler: Scheduler = Schedulers.io(),
                                              onNext: (T) -> Unit = {},
-                                             onError: (Throwable) -> Unit = {},
+                                             onError: (Throwable) -> Unit  = {
+                                                 Log.e("Error", "Reactive", it)
+                                             },
                                              onComplete: () -> Unit = {})
             = subscribeOn(scheduler)
             .observeOn(AndroidSchedulers.mainThread())
@@ -80,7 +87,9 @@ interface ReactiveActions {
      */
     fun <T> Flowable<T>.bindSubscribe(scheduler: Scheduler = Schedulers.io(),
                                            onNext: (T) -> Unit = {},
-                                           onError: (Throwable) -> Unit = {},
+                                           onError: (Throwable) -> Unit = {
+                                               Log.e("Error", "Reactive", it)
+                                           },
                                            onComplete: () -> Unit = {})
             = subscribeOn(scheduler)
             .observeOn(AndroidSchedulers.mainThread())
@@ -95,7 +104,9 @@ interface ReactiveActions {
      */
     fun Completable.bindSubscribe(scheduler: Scheduler = Schedulers.io(),
                                   onSuccess: () -> Unit = {},
-                                  onError: (Throwable) -> Unit = {})
+                                  onError: (Throwable) -> Unit  = {
+                                      Log.e("Error", "Reactive", it)
+                                  })
             = subscribeOn(scheduler)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(onSuccess, onError)

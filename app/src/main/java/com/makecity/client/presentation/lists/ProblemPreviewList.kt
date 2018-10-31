@@ -228,17 +228,16 @@ class ProblemPreviewInfoViewHolder(
 		info_container.run {
 			removeAllViews()
 			item.categoryName.checkNotEmpty {
-				addView(InfoView(context, R.drawable.ic_archive_gray_24dp,
-					it, item.categoryName))
+				addView(InfoView(context, R.drawable.ic_archive_gray_24dp, context.getString(R.string.category), it))
 			}
 
 			item.optionName.checkNotEmpty {
-				addView(InfoView(context, R.drawable.ic_info_gray_24dp,
-					context.getString(R.string.service), item.optionName))
+				addView(InfoView(context, R.drawable.ic_info_gray_24dp, context.getString(R.string.service), it))
 			}
 
-			addView(InfoView(context, R.drawable.ic_group_gray_24dp,
-				context.getString(R.string.company), "ЖРП 21")) // TODO
+			item.companyName.checkNotEmpty {
+				addView(InfoView(context, R.drawable.ic_group_gray_24dp, context.getString(R.string.company), it))
+			}
 			requestLayout()
 		}
 	}
@@ -308,27 +307,6 @@ class ProblemPreviewButtonViewHolder(
 		)
 
 		approve_problem_preview.setOnClickListener {
-			val animOut = AnimationUtils.loadAnimation(containerView.context, R.anim.slide_out_right)
-			val animIn = AnimationUtils.loadAnimation(containerView.context, R.anim.slide_in_left)
-
-			animOut.setAnimationListener(object : EndAnimationListener {
-				override fun onAnimationEnd(animation: Animation?) {
-					success_problem_preview.isVisible = true
-					success_problem_preview.startAnimation(animIn)
-				}
-			})
-
-			approve_problem_preview_icon.isVisible = false
-			approve_problem_progress.isVisible = true
-
-
-			approve_problem_preview_icon.postDelayed({
-				approve_problem_preview_icon.isVisible = true
-				approve_problem_progress.isVisible = false
-
-				approve_problem_preview.startAnimation(animOut)
-			}, 3000L)
-
 			onApproveCreating(item)
 		}
 
@@ -368,6 +346,16 @@ class ProblemPreviewButtonViewHolder(
 				approve_problem_preview_icon.setImageResource(R.drawable.ic_done_accent_52dp)
 			}
 		}
+		val animOut = AnimationUtils.loadAnimation(containerView.context, R.anim.slide_out_right)
+			val animIn = AnimationUtils.loadAnimation(containerView.context, R.anim.slide_in_left)
+
+			animOut.setAnimationListener(object : EndAnimationListener {
+				override fun onAnimationEnd(animation: Animation?) {
+					success_problem_preview.isVisible = true
+					success_problem_preview.startAnimation(animIn)
+				}
+			})
+
 	}*/
 }
 

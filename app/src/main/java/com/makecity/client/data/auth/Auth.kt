@@ -16,7 +16,6 @@ data class RegistrationTokenResponse(
 	@Json(name = "next_step") val nextStep: String? = null
 )
 
-
 @Dto
 data class AuthTokenResponse(
 	@Json(name = "token") val token: String? = null,
@@ -27,6 +26,7 @@ data class AuthTokenResponse(
 
 )
 
+
 @Common
 data class RegistrationTokenResult(
 	val token: String,
@@ -36,4 +36,9 @@ data class RegistrationTokenResult(
 @Common
 enum class AuthType {
 	PHONE, SMS, PASSWORD, CREATE_PASSWORD
+}
+
+@Common
+enum class AuthState {
+	UNDEFINED, AUTH, NOT_AUTH
 }

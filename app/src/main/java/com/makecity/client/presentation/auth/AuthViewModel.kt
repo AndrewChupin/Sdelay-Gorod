@@ -201,7 +201,7 @@ class AuthViewModel(
 			.createPassword(password)
 			.bindSubscribe(onSuccess = {
 				onSuccess()
-				router.backTo(AppScreens.MENU_SCREEN_KEY)
+				router.backTo(AppScreens.MAP_SCREEN_KEY)
 			})
 	}
 
@@ -211,7 +211,7 @@ class AuthViewModel(
 			.checkPassword(password)
 			.bindSubscribe(onSuccess = {
 				onSuccess()
-				router.backTo(AppScreens.MENU_SCREEN_KEY)
+				router.backTo(AppScreens.MAP_SCREEN_KEY)
 			})
 	}
 

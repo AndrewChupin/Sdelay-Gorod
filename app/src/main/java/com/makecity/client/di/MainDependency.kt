@@ -9,6 +9,7 @@ import com.makecity.client.data.category.*
 import com.makecity.client.data.comments.*
 import com.makecity.client.data.common.Api
 import com.makecity.client.data.geo.*
+import com.makecity.client.data.profile.*
 import com.makecity.client.data.task.*
 import com.makecity.client.data.temp_problem.*
 import com.makecity.client.presentation.main.MainActivity
@@ -31,7 +32,8 @@ import javax.inject.Singleton
 	MapperModule::class,
 	AuthDefaultModule::class,
 	TempProblemModule::class,
-	GeoPointModule::class
+	GeoPointModule::class,
+	ProfileDataModule::class
 ])
 interface MainComponent{
 
@@ -138,6 +140,32 @@ class AuthDefaultModule {
 
 
 @Module
+class ProfileDataModule {
+
+	@Provides
+	@ActivityScope
+	fun provideProfileService(service: ProfileServiceRetrofit): ProfileService = service
+
+	@Provides
+	@ActivityScope
+	fun provideProfileStorage(storage: ProfileStorageRoom): ProfileStorage = storage
+
+	@Provides
+	@ActivityScope
+	fun provideMapperDto(mapper: ProfileDtoToPersistMapper): Mapper<ProfileRemote, ProfilePersistence> = mapper
+
+	@Provides
+	@ActivityScope
+	fun provideMapperPersist(mapper: ProfilePersistToCommonMapper): Mapper<ProfilePersistence, Profile> = mapper
+
+	@Provides
+	@ActivityScope
+	fun provideDataSource(source: ProfileDataSourceDefault): ProfileDataSource = source
+
+}
+
+
+@Module
 class GeoPointModule {
 
 	@Provides
@@ -194,14 +222,21 @@ class TempProblemModule {
 	@ActivityScope
 	fun provideTempProblemStorage(problemStorageRoom: TempProblemStorageRoom): TempProblemStorage = problemStorageRoom
 
+	@Provides
+	@ActivityScope
+	fun provideTempProblemService(tempTaskService: TempTaskServiceRetrofit): TempTaskService = tempTaskService
 
 	@Provides
 	@ActivityScope
 	fun provideTempProblemDataSource(
 		mapperCommonToPersistence: TempProblemMapperCommonToPersistence,
 		mapperPersistenceToCommon: TempProblemMapperPersistenceToCommon,
+		tempTaskService: TempTaskService,
+		authDataSource: AuthDataSource,
+		geoDataSource: GeoDataSource,
 		storage: TempProblemStorage
-	): TempProblemDataSource = TempProblemDataSourceDefault(storage, mapperCommonToPersistence, mapperPersistenceToCommon)
+	): TempProblemDataSource = TempProblemDataSourceDefault(storage, tempTaskService, geoDataSource,
+		authDataSource, mapperCommonToPersistence, mapperPersistenceToCommon)
 }
 
 @Module

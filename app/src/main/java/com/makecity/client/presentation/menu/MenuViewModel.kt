@@ -39,7 +39,7 @@ sealed class MenuAction: ActionView {
 }
 
 enum class MenuType {
-	ADD_ACCOUNT, SETTINGS, PARTNERS, SUPPORT, ARCHIVE, HELP, ABOUT_PROJECT, NOTIFICATIONS
+	SETTINGS, PARTNERS, SUPPORT, ARCHIVE, HELP, ABOUT_PROJECT, NOTIFICATIONS
 }
 
 // Reducer
@@ -59,7 +59,13 @@ class MenuViewModel(
 	override fun reduce(action: MenuAction) {
 		when (action) {
 			is MenuAction.ItemSelected -> reduceItem(action.item)
-			is MenuAction.ShowProfile -> router.navigateTo(AppScreens.PROFILE_SCREEN_KEY)
+			is MenuAction.ShowProfile -> {
+				if (state.profile == null) {
+					router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.PHONE))
+				} else {
+					router.navigateTo(AppScreens.PROFILE_SCREEN_KEY)
+				}
+			}
 			is MenuAction.RefreshProfileData -> onProfileLoaded()
 		}
 	}
@@ -68,22 +74,19 @@ class MenuViewModel(
 		viewState.updateValue { copy(screenState = PrimaryViewState.Loading, profile = null) }
 
 		profileDataSource
-			.getProfile()
+			.refreshProfile()
 			.bindSubscribe(onSuccess = {
 				viewState.updateValue {
 					copy(screenState = PrimaryViewState.Data, profile = it)
 				}
 			}, onError = {
-				if (it is TokenNotFounded) {
-					viewState.updateValue {
-						copy(screenState = PrimaryViewState.Data, profile = null)
-					}
+				viewState.updateValue {
+					copy(screenState = PrimaryViewState.Data, profile = null)
 				}
 			})
 	}
 
 	private fun reduceItem(type: MenuType) = when (type) {
-		MenuType.ADD_ACCOUNT -> { router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.PHONE)) }
 		MenuType.SETTINGS -> {}
 		MenuType.PARTNERS -> router.navigateTo(AppScreens.WEB_SCREEN_KEY,
 			WebData(BuildConfig.PARTNERS_URL, EMPTY))

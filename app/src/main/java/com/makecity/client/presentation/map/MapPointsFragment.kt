@@ -3,16 +3,20 @@ package com.makecity.client.presentation.map
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView.HORIZONTAL
 import android.view.MotionEvent
 import android.view.View
+import android.widget.SeekBar
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
+import com.makecity.client.data.auth.AuthState
 import com.makecity.core.data.entity.Location
 import com.makecity.core.extenstion.calculateDiffs
 import com.makecity.core.extenstion.hideWithScale
+import com.makecity.core.extenstion.isVisible
 import com.makecity.core.extenstion.showWithScale
 import com.makecity.core.plugin.connection.ConnectionState
 import com.makecity.core.plugin.location.LocationState
@@ -84,7 +88,7 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 			true
 		}
 
-		map_button_add_task clickReduce MapPointsAction.ShowCamera
+		map_button_add_task clickReduce MapPointsAction.CreateTask
 		map_show_as_list clickReduce MapPointsAction.ShowProblemsAsList
 		map_menu_button clickReduce MapPointsAction.ShowMenu
 
@@ -149,6 +153,11 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 			}
 			is PrimaryViewState.Loading -> map_group_message.showWithScale()
 		}
+
+		when (state.authState) {
+			AuthState.AUTH -> map_button_add_task.showWithScale()
+			else -> map_button_add_task.hideWithScale()
+		}
 	}
 
 	override fun onSnapPositionChange(position: Int) {
@@ -161,11 +170,7 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 		val bottomSheetBehavior = BottomSheetBehavior.from(view)
 		bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 		bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-			override fun onSlide(p0: View, slideOffset: Float) {
-				/*if (slideOffset.isNaN()) return
-				val offset = bottom_hide_button.height * (-1 - slideOffset)
-				bottom_hide_button.animate().translationY(offset).setDuration(0).start()*/
-			}
+			override fun onSlide(p0: View, slideOffset: Float) {}
 
 			override fun onStateChanged(p0: View, state: Int) {
 				when (state) {

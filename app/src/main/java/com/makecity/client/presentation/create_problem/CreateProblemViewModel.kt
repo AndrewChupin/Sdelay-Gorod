@@ -55,7 +55,9 @@ sealed class CreateProblemAction: ActionView {
 
 	object LoadPreview : CreateProblemAction()
 
-	object ApproveProblem : CreateProblemAction()
+	data class ApproveProblem(
+		val tempProblem: TempProblem
+	) : CreateProblemAction()
 }
 
 
@@ -77,7 +79,10 @@ class CreateProblemViewModel(
 	override fun reduce(action: CreateProblemAction) {
 		when (action) {
 			is CreateProblemAction.ChangePreviewData -> editDataBy(action.previewDataType)
-			is CreateProblemAction.ApproveProblem -> {}
+			is CreateProblemAction.ApproveProblem -> dataSource.createTask(action.tempProblem)
+				.bindSubscribe(onSuccess = {
+					router.backTo(AppScreens.MAP_SCREEN_KEY)
+				})
 			is CreateProblemAction.LoadPreview -> dataSource.getTempProblem()
 				.bindSubscribe(onSuccess = {
 					viewState.updateValue {

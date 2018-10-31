@@ -15,6 +15,7 @@ import com.makecity.client.data.common.AppDatabase
 import com.makecity.client.data.common.GoogleApi
 import com.makecity.client.di.common.BaseApiQualifier
 import com.makecity.client.di.common.GeoApiQualifier
+import com.makecity.client.utils.saver.FileSaverBitmap
 import com.makecity.core.di.module.NavigationModule
 import com.makecity.core.di.module.ResourceModule
 import com.makecity.core.plugin.connection.AndroidConnectionProvider
@@ -23,6 +24,7 @@ import com.makecity.core.utils.display.AndroidDisplayProvider
 import com.makecity.core.utils.display.DisplayInfoProvider
 import com.makecity.core.utils.image.CommonImageManager
 import com.makecity.core.utils.image.ImageManager
+import com.makecity.core.utils.saver.FileSaver
 import com.squareup.moshi.Moshi
 import dagger.*
 import okhttp3.OkHttpClient
@@ -104,6 +106,10 @@ interface ProviderModule {
     @Singleton
     @Binds
     fun provideTempGlideImageManager(manager: CommonImageManager): ImageManager
+
+    @Singleton
+    @Binds
+    fun provideFileSaverBitmap(manager: FileSaverBitmap): FileSaver
 
     @Singleton
     @Binds

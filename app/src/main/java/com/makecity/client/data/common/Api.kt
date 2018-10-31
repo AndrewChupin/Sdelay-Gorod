@@ -3,14 +3,22 @@ package com.makecity.client.data.common
 import com.makecity.client.data.auth.*
 import com.makecity.client.data.category.CategoryRemote
 import com.makecity.client.data.comments.CommentRemote
+import com.makecity.client.data.company.CompanyRemote
 import com.makecity.client.data.geo.GeoPointRemote
 import com.makecity.client.data.profile.ProfileRemote
 import com.makecity.client.data.task.TaskRemote
 import io.reactivex.Single
+import okhttp3.MultipartBody
 import retrofit2.http.*
 
 
 interface Api {
+
+	/**
+	 * MARK - Company
+	 */
+	@GET("profiles/organization/get-all-organizations")
+	fun loadCompanies(): Single<List<CompanyRemote>>
 
 	/**
 	 * MARK - Category
@@ -31,6 +39,15 @@ interface Api {
 	fun loadComments(
 		@Path("problem_id") problemId: Long
 	): Single<List<CommentRemote>>
+
+	@Multipart
+	@POST("problem")
+	fun createTask(
+		@Header("Authorization") token: String,
+		@PartMap parts: HashMap<String, Any>,
+		@Part firstImage: MultipartBody.Part? = null,
+		@Part secondImage: MultipartBody.Part? = null
+	): Single<Boolean>
 
 
 	/**

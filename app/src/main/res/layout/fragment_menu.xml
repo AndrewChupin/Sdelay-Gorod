@@ -123,34 +123,11 @@
                 android:textSize="28sp"
                 android:text="@string/menu"/>
 
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/menu_add_account"
+            <LinearLayout
+                android:id="@+id/menu_container_main"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_base"
-                android:visibility="gone"
-                android:background="@drawable/selector_background_main_light_to_secondary"
-                android:foreground="@drawable/ripple_main_light_secondary"
-                app:cardCornerRadius="0dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/space_base"
-                    android:drawableLeft="@drawable/ic_person_gray_24dp"
-                    android:drawablePadding="@dimen/space_base"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="15sp"
-                    android:text="Добавить аккаунт"/>
-
-            </android.support.v7.widget.CardView>
-
-        <LinearLayout
-            android:id="@+id/menu_container_main"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical"/>
 
         </LinearLayout>
 

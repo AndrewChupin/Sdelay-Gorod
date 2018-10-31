@@ -66,7 +66,7 @@ class CreateProblemFragment : CreateProblemStatement(), ToolbarScreen, ProblemPr
 	}
 
 	override fun onApproveCreating(tempProblem: TempProblem) {
-		reducer.reduce(CreateProblemAction.ApproveProblem)
+		reducer.reduce(CreateProblemAction.ApproveProblem(tempProblem))
 	}
 
 	override fun onChangeData(dataType: ProblemPreviewDataType) {

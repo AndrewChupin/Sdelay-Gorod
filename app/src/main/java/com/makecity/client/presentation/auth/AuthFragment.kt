@@ -213,8 +213,8 @@ class AuthFragment : AuthStatement(), ToolbarScreen, KeyboardScreen, SimpleAnima
 			auth_info_title.text = getString(R.string.auth_phone_title)
 			auth_info_description.text = getString(R.string.auth_phone_description)
 
-			auth_next_button.setOnClickListener {
-				reducer.reduce(AuthAction.CheckPassword(auth_input_field.text.toString()))
+			auth_next_button clickReduce {
+				AuthAction.CheckPassword(auth_input_field.text.toString())
 			}
 		}
 		AuthType.CREATE_PASSWORD -> {
@@ -224,8 +224,8 @@ class AuthFragment : AuthStatement(), ToolbarScreen, KeyboardScreen, SimpleAnima
 			auth_info_title.text = getString(R.string.auth_phone_title)
 			auth_info_description.text = getString(R.string.auth_phone_description)
 
-			auth_next_button.setOnClickListener {
-				reducer.reduce(AuthAction.CreatePassword(auth_input_field.text.toString()))
+			auth_next_button clickReduce  {
+				AuthAction.CreatePassword(auth_input_field.text.toString())
 			}
 		}
 	}

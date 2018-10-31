@@ -6,13 +6,6 @@
     android:orientation="vertical"
     android:layout_height="wrap_content">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/main_dark_description_bg"
-        android:layout_gravity="center"
-        />
-
     <android.support.v7.widget.CardView
         android:id="@+id/approve_problem_preview"
         android:layout_width="wrap_content"
@@ -34,14 +27,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_send_white_52dp"/>
-
-        <ProgressBar
-            android:id="@+id/approve_problem_progress"
-            android:theme="@style/ProgressBarPrimary"
-            android:visibility="gone"
-            android:layout_width="42dp"
-            android:layout_height="42dp"/>
-
     </android.support.v7.widget.CardView>
 
 
