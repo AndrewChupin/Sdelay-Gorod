@@ -45,19 +45,19 @@ class FeedFragment : FeedStatement(), ToolbarScreen {
 		feed_recycler.layoutManager = LinearLayoutManager(context)
 
 		adapter = TaskAdapter(imageManager) {
-			reducer.reduce(ShowProblemDetails(it.id))
+			reducer.reduce(FeedAction.ShowProblemDetails(it.id))
 		}
 
 		feed_recycler.adapter = adapter
 
 		feed_refresh.setOnRefreshListener {
-			reducer.reduce(LoadTasksAction)
+			reducer.reduce(FeedAction.RefreshTasksAction)
 		}
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		reducer.reduce(LoadTasksAction)
+		reducer.reduce(FeedAction.LoadTasksAction)
 	}
 
 	override fun render(state: FeedViewState) {

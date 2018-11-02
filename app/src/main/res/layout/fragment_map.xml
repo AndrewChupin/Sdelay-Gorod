@@ -95,7 +95,6 @@
             android:background="@drawable/shape_white_corner_big"
             android:fontFamily="@font/roboto_bold"
             android:foreground="@drawable/ripple_main_light_secondary"
-            android:alpha="0"
             app:cardCornerRadius="27dp"
             app:cardElevation="4dp"
             app:contentPaddingBottom="16dp"

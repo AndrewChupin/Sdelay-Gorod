@@ -5,7 +5,6 @@ import com.makecity.client.data.auth.AuthDataSource
 import com.makecity.client.data.auth.AuthState
 import com.makecity.client.data.auth.AuthType
 import com.makecity.client.data.auth.TokenNotFounded
-import com.makecity.client.data.profile.ProfileDataSource
 import com.makecity.client.data.task.Task
 import com.makecity.client.data.temp_problem.TempProblemDataSource
 import com.makecity.client.domain.map.TaskPointsInteractor
@@ -27,7 +26,6 @@ import com.makecity.core.presentation.viewmodel.BaseViewModel
 import com.makecity.core.presentation.viewmodel.StatementReducer
 import com.makecity.core.utils.permission.PermissionManager
 import com.makecity.core.utils.permission.PermissionState
-import com.makecity.core.utils.resources.ResourceManager
 import io.reactivex.disposables.CompositeDisposable
 import ru.terrakok.cicerone.Router
 
@@ -46,7 +44,7 @@ data class MapPointsViewState(
 // Action
 sealed class MapPointsAction: ActionView {
 	object CreateTask : MapPointsAction()
-	object LoadMapPoints : MapPointsAction()
+	object PrepareData : MapPointsAction()
 	object ShowProblemsAsList : MapPointsAction()
 	object ShowMenu : MapPointsAction()
 	object ShowAuth : MapPointsAction()
@@ -90,9 +88,9 @@ class MapPointsViewModel(
 			is MapPointsAction.ShowAuth -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.PHONE))
 			is MapPointsAction.ShowDetails -> router.navigateTo(AppScreens.PROBLEM_SCREEN_KEY, ProblemData(action.problemId))
 
-			is MapPointsAction.LoadMapPoints -> {
+			is MapPointsAction.PrepareData -> {
 				mapPointsInteractor
-					.loadProblems()
+					.getProblems()
 					.bindSubscribe(
 						onSuccess = ::reduceLoadTasksSuccess,
 						onError = Throwable::printStackTrace
@@ -101,7 +99,7 @@ class MapPointsViewModel(
 				authDataSource
 					.getToken()
 					.bindSubscribe(onSuccess = {
-						viewState.updateValue { copy(authState = AuthState.AUTH) }
+						router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.PHONE))
 					}, onError = {
 						if (it is TokenNotFounded) {
 							viewState.updateValue { copy(authState = AuthState.NOT_AUTH) }

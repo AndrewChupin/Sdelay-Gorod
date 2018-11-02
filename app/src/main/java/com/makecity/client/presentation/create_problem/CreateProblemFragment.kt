@@ -1,5 +1,6 @@
 package com.makecity.client.presentation.create_problem
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
@@ -10,6 +11,7 @@ import com.makecity.client.data.temp_problem.TempProblem
 import com.makecity.client.presentation.lists.ProblemPreviewAdapter
 import com.makecity.client.presentation.lists.ProblemPreviewDelegate
 import com.makecity.core.extenstion.calculateDiffs
+import com.makecity.core.extenstion.isVisible
 import com.makecity.core.extenstion.withArguments
 import com.makecity.core.presentation.screen.ToolbarConfig
 import com.makecity.core.presentation.screen.ToolbarScreen
@@ -74,10 +76,18 @@ class CreateProblemFragment : CreateProblemStatement(), ToolbarScreen, ProblemPr
 	}
 
 	override fun render(state: CreateProblemViewState) {
-		if (state.screenState == PrimaryViewState.Data) {
-			adapter.canEditInfo = state.canEdit
-			state.tempProblem?.let {
-				adapter.calculateDiffs(it)
+		when(state.screenState) {
+			is PrimaryViewState.Data -> {
+				create_problem_coordinator.isVisible = true
+				create_problem_loader.isVisible = false
+				adapter.canEditInfo = state.canEdit
+				state.tempProblem?.let {
+					adapter.calculateDiffs(it)
+				}
+			}
+			is PrimaryViewState.Loading -> {
+				create_problem_coordinator.isVisible = false
+				create_problem_loader.isVisible = true
 			}
 		}
 	}

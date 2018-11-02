@@ -27,11 +27,14 @@ data class FeedViewState(
 
 
 // Action
-sealed class FeedAction: ActionView
-object LoadTasksAction: FeedAction()
-data class ShowProblemDetails(
-	val problemId: Long
-): FeedAction()
+sealed class FeedAction: ActionView {
+
+	object LoadTasksAction: FeedAction()
+	object RefreshTasksAction: FeedAction()
+	data class ShowProblemDetails(
+		val problemId: Long
+	): FeedAction()
+}
 
 
 // Reducer
@@ -50,16 +53,23 @@ class FeedViewModel(
 
 	override fun reduce(action: FeedAction) {
 		when (action) {
-			is LoadTasksAction -> interactor.loadProblems()
+			is FeedAction.LoadTasksAction -> interactor.getProblems()
 				.bindSubscribe(
 					onSuccess = {
 						viewState.updateValue {
 							copy(screenState = PrimaryViewState.Data, tasks = it)
 						}
-					},
-					onError = Throwable::printStackTrace
+					}
 				)
-			is ShowProblemDetails -> router.navigateTo(AppScreens.PROBLEM_SCREEN_KEY, ProblemData(action.problemId))
+			is FeedAction.RefreshTasksAction -> interactor.refreshProblems()
+				.bindSubscribe(
+					onSuccess = {
+						viewState.updateValue {
+							copy(screenState = PrimaryViewState.Data, tasks = it)
+						}
+					}
+				)
+			is FeedAction.ShowProblemDetails -> router.navigateTo(AppScreens.PROBLEM_SCREEN_KEY, ProblemData(action.problemId))
 		}
 	}
 

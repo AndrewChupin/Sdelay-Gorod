@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_light"
-            android:text="180P"
+            android:text="180₽"
             android:textColor="@color/colorAccent"
             android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"

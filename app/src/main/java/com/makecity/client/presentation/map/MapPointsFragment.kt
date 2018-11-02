@@ -1,25 +1,26 @@
 package com.makecity.client.presentation.map
 
 import android.animation.ObjectAnimator
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
-import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView.HORIZONTAL
 import android.view.MotionEvent
 import android.view.View
-import android.widget.SeekBar
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
 import com.makecity.client.data.auth.AuthState
 import com.makecity.core.data.entity.Location
 import com.makecity.core.extenstion.calculateDiffs
 import com.makecity.core.extenstion.hideWithScale
-import com.makecity.core.extenstion.isVisible
 import com.makecity.core.extenstion.showWithScale
 import com.makecity.core.plugin.connection.ConnectionState
 import com.makecity.core.plugin.location.LocationState
+import com.makecity.core.presentation.dialog.DialogTwoWaysData
+import com.makecity.core.presentation.dialog.DialogTwoWaysDelegate
+import com.makecity.core.presentation.dialog.TwoWaysDialog
 import com.makecity.core.presentation.list.snap.OnSnapPositionChangeListener
 import com.makecity.core.presentation.list.snap.SnapOnScrollListener
 import com.makecity.core.presentation.state.PrimaryViewState
@@ -33,9 +34,11 @@ import kotlinx.android.synthetic.main.fragment_map.*
 typealias MapStatement = MapStatementFragment<MapPointsReducer, MapPointsViewState, MapPointsAction>
 
 
-class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
+class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener, DialogTwoWaysDelegate {
 
 	companion object {
+		const val REQUEST_TWO_WAY_DIALOG_MAP = 0;
+
 		fun newInstance() = MapPointsFragment()
 	}
 
@@ -88,7 +91,13 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 			true
 		}
 
-		map_button_add_task clickReduce MapPointsAction.CreateTask
+		map_button_add_task.setOnClickListener {
+			if (reducer.state.authState != AuthState.AUTH) {
+				showAuthDialog()
+			} else {
+				reducer.reduce(MapPointsAction.CreateTask)
+			}
+		}
 		map_show_as_list clickReduce MapPointsAction.ShowProblemsAsList
 		map_menu_button clickReduce MapPointsAction.ShowMenu
 
@@ -131,7 +140,7 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		map_view.mapInteractionReady = {
-			reducer.reduce(MapPointsAction.LoadMapPoints)
+			reducer.reduce(MapPointsAction.PrepareData)
 		}
 	}
 
@@ -153,11 +162,14 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 			}
 			is PrimaryViewState.Loading -> map_group_message.showWithScale()
 		}
+	}
 
-		when (state.authState) {
-			AuthState.AUTH -> map_button_add_task.showWithScale()
-			else -> map_button_add_task.hideWithScale()
-		}
+	private fun showAuthDialog() {
+		val dialog = TwoWaysDialog.newInstance(
+			DialogTwoWaysData("Ошибка", "Для создания задачи необходимо авторизоваться", "Войти", "Позже")
+		)
+		dialog.setTargetFragment(this@MapPointsFragment, REQUEST_TWO_WAY_DIALOG_MAP)
+		dialog.show(requireFragmentManager(), DialogTwoWaysData::class.java.canonicalName)
 	}
 
 	override fun onSnapPositionChange(position: Int) {
@@ -187,5 +199,15 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener {
 
 		})
 		return bottomSheetBehavior
+	}
+
+	override fun onPositiveClick(dialog: DialogInterface) {
+		reducer.reduce(MapPointsAction.ShowAuth)
+		dialog.dismiss()
+	}
+
+
+	override fun onNegativeClick(dialog: DialogInterface) {
+		dialog.dismiss()
 	}
 }

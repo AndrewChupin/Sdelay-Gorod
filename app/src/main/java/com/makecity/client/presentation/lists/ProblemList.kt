@@ -184,6 +184,11 @@ class LocationViewHolder(
 				height = 0
 			}
 			return
+		} else {
+			containerView.isVisible = true
+			containerView.layoutParams = containerView.layoutParams.apply {
+				height = ViewGroup.LayoutParams.WRAP_CONTENT
+			}
 		}
 
 		item_problem_location_address.text = item.address
@@ -220,6 +225,11 @@ class ProblemPhotosViewHolder(
 				height = 0
 			}
 			return
+		} else {
+			containerView.isVisible = true
+			containerView.layoutParams = containerView.layoutParams.apply {
+				height = ViewGroup.LayoutParams.WRAP_CONTENT
+			}
 		}
 
 		item.apply {
@@ -247,6 +257,11 @@ class ProblemTitleViewHolder(
 			containerView.isVisible = false
 			containerView.layoutParams = containerView.layoutParams.apply {
 				height = 0
+			}
+		} else {
+			containerView.isVisible = true
+			containerView.layoutParams = containerView.layoutParams.apply {
+				height = ViewGroup.LayoutParams.WRAP_CONTENT
 			}
 		}
 	}
@@ -289,10 +304,15 @@ class ProblemShowMoreViewHolder(
 	override fun bind(item: Task) {
 		super.bind(item)
 
-		if (item.commentsCount == 0) { // TODO
+		if (item.commentsCount == 10) { // TODO
 			containerView.isVisible = false
 			containerView.layoutParams = containerView.layoutParams.apply {
 				height = 0
+			}
+		} else {
+			containerView.isVisible = true
+			containerView.layoutParams = containerView.layoutParams.apply {
+				height = ViewGroup.LayoutParams.WRAP_CONTENT
 			}
 		}
 	}

@@ -25,6 +25,7 @@
         android:layout_marginBottom="@dimen/splash_retry_margin_bottom"
         android:scaleX="0"
         android:scaleY="0"
+        android:alpha="0"
         android:background="@drawable/shape_white_corner_big"
         android:text="@string/splash_retry"
         app:layout_constraintBottom_toBottomOf="parent"

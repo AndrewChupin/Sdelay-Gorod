@@ -95,7 +95,7 @@ class AuthViewModel(
 	override fun reduce(action: AuthAction) {
 		when (action) {
 			is AuthAction.ResearchContent -> researchContentConsumer(action)
-			is AuthAction.ShowNextStep -> showNextStepConsumer(authData.authType)
+			is AuthAction.ShowNextStep -> showNextStep(authData.authType)
 			is AuthAction.RefreshSms -> onRefreshSms()
 			is AuthAction.CheckPassword -> checkPassword(action.password)
 			is AuthAction.CreatePassword -> if (rememberedPassword.isEmpty()) {
@@ -111,6 +111,12 @@ class AuthViewModel(
 		AuthType.SMS -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.SMS))
 		AuthType.CREATE_PASSWORD -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.CREATE_PASSWORD))
 		AuthType.PASSWORD -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.PASSWORD))
+	}
+
+	private fun showNextStep(currentAuthType: AuthType) = when (currentAuthType) {
+		AuthType.PHONE -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.SMS))
+		AuthType.SMS -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.CREATE_PASSWORD))
+		else -> Unit
 	}
 
 	private fun researchContentConsumer(action: AuthAction.ResearchContent) {

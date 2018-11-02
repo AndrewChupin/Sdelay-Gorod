@@ -9,7 +9,8 @@ import javax.inject.Inject
 
 
 interface TaskPointsInteractor {
-	fun loadProblems(): Single<List<Task>>
+	fun refreshProblems(): Single<List<Task>>
+	fun getProblems(): Single<List<Task>>
 	fun loadProblemComments(problemId: Long): Single<ProblemDetail>
 }
 
@@ -17,8 +18,13 @@ interface TaskPointsInteractor {
 class TaskInteractorReactive @Inject constructor(
 	private val problemDataSource: ProblemDataSource
 ): TaskPointsInteractor {
-	override fun loadProblems(): Single<List<Task>> = Single.defer {
-		problemDataSource.getProblems(56L)
+
+	override fun refreshProblems(): Single<List<Task>> = Single.defer {
+		problemDataSource.refreshProblems()
+	}
+
+	override fun getProblems(): Single<List<Task>> = Single.defer {
+		problemDataSource.getProblems()
 	}
 	override fun loadProblemComments(problemId: Long): Single<ProblemDetail> = Single.defer {
 		problemDataSource.getProblemComments(problemId)

@@ -3,6 +3,7 @@ package com.makecity.client.data.task
 import com.makecity.client.data.comments.Comment
 import com.makecity.client.data.comments.CommentsAuthorMapperDtoToPersistence
 import com.makecity.client.data.comments.CommentsAuthorMapperPersistenceToCommon
+import com.makecity.client.data.geo.GeoDataSource
 import com.makecity.client.data.problem.ProblemDetail
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
@@ -10,12 +11,14 @@ import javax.inject.Inject
 
 
 interface ProblemDataSource {
-	fun getProblems(cityId: Long): Single<List<Task>>
+	fun getProblems(): Single<List<Task>>
+	fun refreshProblems(): Single<List<Task>>
 	fun getProblemComments(problemId: Long): Single<ProblemDetail>
 }
 
 class ProblemDataSourceRemote @Inject constructor(
 	private val problemService: ProblemService,
+	private val geoDataSource: GeoDataSource,
 	private val mapperProblemDto: ProblemMapperDtoToPersistence,
 	private val mapperProblemPersist: ProblemMapperPersistenceToCommon,
 	private val mapperCommentsDto: CommentsAuthorMapperDtoToPersistence,
@@ -24,9 +27,10 @@ class ProblemDataSourceRemote @Inject constructor(
 
 	private var tasks: List<Task> = emptyList()
 
-	override fun getProblems(cityId: Long): Single<List<Task>> = Single.defer {
+	override fun getProblems(): Single<List<Task>> = Single.defer {
 		if (tasks.isEmpty()) {
-			problemService.requestLoadProblems(LoadTaskRequest(cityId))
+			geoDataSource.getDefaultGeoPoint()
+				.flatMapSingle { problemService.requestLoadProblems(LoadTaskRequest(it.cityId)) }
 				.map(mapperProblemDto::transformAll)
 				.map(mapperProblemPersist::transformAll)
 				.doOnSuccess { tasks = it }
@@ -34,6 +38,13 @@ class ProblemDataSourceRemote @Inject constructor(
 			Single.fromCallable { tasks }
 		}
 	}
+
+	override fun refreshProblems(): Single<List<Task>> = geoDataSource
+		.getDefaultGeoPoint()
+		.flatMapSingle { problemService.requestLoadProblems(LoadTaskRequest(it.cityId)) }
+		.map(mapperProblemDto::transformAll)
+		.map(mapperProblemPersist::transformAll)
+		.doOnSuccess { tasks = it }
 
 	override fun getProblemComments(problemId: Long): Single<ProblemDetail> = Single.defer {
 		val task = Single.just(tasks.find { it.id == problemId }!!) // TODO

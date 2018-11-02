@@ -6,6 +6,7 @@ import com.makecity.client.data.geo.GeoPoint
 import com.makecity.client.data.geo.GeoPointStorage
 import com.makecity.client.data.geo.GeoService
 import com.makecity.core.domain.Mapper
+import com.makecity.core.extenstion.blockingCompletable
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
@@ -50,6 +51,7 @@ class TempProblemDataSourceDefault @Inject constructor(
 				CreateTaskRequest(tempProblem, geoPoint, token)
 			})
 			.flatMap(tempTaskService::createTask)
+			.blockingCompletable { storage.clear() }
 	}
 
 	override fun isProblemExist(): Single<Boolean> = Single.defer {

@@ -79,10 +79,19 @@ class CreateProblemViewModel(
 	override fun reduce(action: CreateProblemAction) {
 		when (action) {
 			is CreateProblemAction.ChangePreviewData -> editDataBy(action.previewDataType)
-			is CreateProblemAction.ApproveProblem -> dataSource.createTask(action.tempProblem)
-				.bindSubscribe(onSuccess = {
-					router.backTo(AppScreens.MAP_SCREEN_KEY)
-				})
+			is CreateProblemAction.ApproveProblem -> {
+				viewState.updateValue {
+					this.copy(screenState = PrimaryViewState.Loading)
+				}
+				dataSource.createTask(action.tempProblem)
+					.bindSubscribe(onSuccess = {
+						router.backTo(AppScreens.MAP_SCREEN_KEY)
+					}, onError = {
+						viewState.updateValue {
+							this.copy(screenState = PrimaryViewState.Data)
+						}
+					})
+			}
 			is CreateProblemAction.LoadPreview -> dataSource.getTempProblem()
 				.bindSubscribe(onSuccess = {
 					viewState.updateValue {
