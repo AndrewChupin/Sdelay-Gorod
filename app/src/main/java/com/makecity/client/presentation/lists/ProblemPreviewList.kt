@@ -1,6 +1,7 @@
 package com.makecity.client.presentation.lists
 
 import android.animation.ObjectAnimator
+import android.support.transition.TransitionManager
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.MotionEvent

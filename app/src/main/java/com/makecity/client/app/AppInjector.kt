@@ -13,6 +13,7 @@ import com.makecity.client.presentation.camera.CameraScreenData
 import com.makecity.client.presentation.category.CategoryScreenData
 import com.makecity.client.presentation.category.CategoryFragment
 import com.makecity.client.presentation.city.CityFragment
+import com.makecity.client.presentation.comments.CommentsFragment
 import com.makecity.client.presentation.create_problem.CreateProblemData
 import com.makecity.client.presentation.create_problem.CreateProblemFragment
 import com.makecity.client.presentation.description.DescriptionFragment
@@ -275,5 +276,14 @@ object AppInjector {
 			return
 		}
 		throw IllegalStateException("MainComponent must be initialized before DescriptionComponent")
+	}
+
+	fun inject(fragment: CommentsFragment) {
+		mainComponent.get()?.let {
+			injectorPlugin.representCommentsFragment(it, fragment)
+				.inject(fragment)
+			return
+		}
+		throw IllegalStateException("MainComponent must be initialized before CommentsComponent")
 	}
 }

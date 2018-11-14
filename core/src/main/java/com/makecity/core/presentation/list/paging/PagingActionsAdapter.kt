@@ -13,7 +13,7 @@ data class PagingConfig(
 
 
 interface PagingActionsAdapter {
-	var pagingDataActions: PagingDataActions?
+	var pagingDataActions: PagingDataDelegate?
 
 	@MainThread
 	fun initFirstPage()

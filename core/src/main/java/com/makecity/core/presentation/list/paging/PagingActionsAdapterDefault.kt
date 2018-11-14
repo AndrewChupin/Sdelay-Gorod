@@ -8,7 +8,7 @@ class PagingActionsAdapterDefault @Inject constructor(
 	private val pagingConfig: PagingConfig
 ): PagingActionsAdapter {
 
-	override var pagingDataActions: PagingDataActions? = null
+	override var pagingDataActions: PagingDataDelegate? = null
 
 	private var isLoading = false
 	private var isLastPage = false

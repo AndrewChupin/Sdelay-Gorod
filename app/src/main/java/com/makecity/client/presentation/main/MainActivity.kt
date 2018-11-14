@@ -1,5 +1,6 @@
 package com.makecity.client.presentation.main
 
+import android.app.Application
 import android.os.Bundle
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector

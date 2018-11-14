@@ -12,9 +12,9 @@ class PagingModule {
 	@Provides
 	@FragmentScope
 	fun providePagingConfig(): PagingConfig = PagingConfig(
-		firstPageSize = 30,
-		commonPageSize = 20,
-		loadingBound = 15
+		firstPageSize = 10,
+		commonPageSize = 10,
+		loadingBound = 10
 	)
 
 	@Provides

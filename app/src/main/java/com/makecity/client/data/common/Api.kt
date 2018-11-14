@@ -2,6 +2,7 @@ package com.makecity.client.data.common
 
 import com.makecity.client.data.auth.*
 import com.makecity.client.data.category.CategoryRemote
+import com.makecity.client.data.comments.Comment
 import com.makecity.client.data.comments.CommentRemote
 import com.makecity.client.data.company.CompanyRemote
 import com.makecity.client.data.geo.GeoPointRemote
@@ -13,6 +14,13 @@ import retrofit2.http.*
 
 
 interface Api {
+
+	/**
+	 * MARK - Comments}
+	 */
+	@GET("/comment/problem/1?page=2&expand=author")
+	fun loadComments(page: Int): Single<List<CommentRemote>>
+
 
 	/**
 	 * MARK - Company

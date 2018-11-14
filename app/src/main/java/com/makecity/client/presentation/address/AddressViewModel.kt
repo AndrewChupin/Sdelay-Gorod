@@ -36,7 +36,7 @@ class AddressViewModel(
 	override val disposables: CompositeDisposable = CompositeDisposable()
 ) : BaseViewModel(), AddressReducer, ReducerPluginConnection {
 
-	override val viewState: StateLiveData<AddressViewState> = StateLiveData.create(AddressViewState())
+	override val viewState = StateLiveData.create(AddressViewState())
 
 	override fun reduce(action: AddressAction) {
 

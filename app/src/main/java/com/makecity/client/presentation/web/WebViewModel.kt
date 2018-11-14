@@ -51,7 +51,7 @@ class WebViewModel(
 	override fun reduce(action: WebAction) = when(action) {
 		is WebAction.Error -> viewState.updateValue {
 			isFailed = true
-			copy(screenState = PrimaryViewState.Error(EMPTY))
+			copy(screenState = PrimaryViewState.Error(IllegalArgumentException()))
 		}
 		is WebAction.Success -> if (!isFailed) viewState.updateValue {
 			copy(screenState = PrimaryViewState.Data)

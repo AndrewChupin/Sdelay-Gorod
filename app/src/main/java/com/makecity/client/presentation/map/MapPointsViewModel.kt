@@ -99,7 +99,7 @@ class MapPointsViewModel(
 				authDataSource
 					.getToken()
 					.bindSubscribe(onSuccess = {
-						router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.PHONE))
+						viewState.updateValue { copy(authState = AuthState.AUTH) }
 					}, onError = {
 						if (it is TokenNotFounded) {
 							viewState.updateValue { copy(authState = AuthState.NOT_AUTH) }

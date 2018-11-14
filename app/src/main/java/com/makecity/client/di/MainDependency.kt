@@ -64,6 +64,7 @@ interface MainComponent{
 	fun categoryComponent(): CategoryComponent.Builder
 	fun descriptionComponent(): DescriptionComponent.Builder
 	fun restoreComponent(): RestoreComponent.Builder
+	fun commentsComponent(): CommentsComponent.Builder
 
 	@Subcomponent.Builder
 	interface Builder {

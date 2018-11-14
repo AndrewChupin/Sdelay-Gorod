@@ -9,6 +9,6 @@ data class PagingState(
 )
 
 
-interface PagingDataActions{
+interface PagingDataDelegate{
 	fun onLoadPage(state: PagingState, result: (Int) -> Unit)
 }
