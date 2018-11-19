@@ -83,6 +83,7 @@ class MapAddressViewModel(
 		startObserveLocation()
 		checkConnection()
 		startObserveConnection()
+		startObserveAddress()
 	}
 
 	override fun reduce(action: MapAddressAction) {
@@ -93,15 +94,10 @@ class MapAddressViewModel(
 					copy(locationState = LocationState.Unknown, address = null, screenState = PrimaryViewState.Loading)
 				}
 				addressDataSource.getAddress(action.locationCenter)
-					.bindSubscribe(onSuccess = {
-						viewState.updateValue {
-							copy(locationState = LocationState.Unknown, address = it, screenState = PrimaryViewState.Data)
-						}
-					})
 			}
 			is MapAddressAction.ShowProblemPreview -> saveAddress(
 				state.address
-					?: throw IllegalStateException("ShowProblemPreview with null address immposible") // TODO
+					?: throw IllegalStateException("ShowProblemPreview with null address immposible")
 			)
 		}
 	}
@@ -141,5 +137,15 @@ class MapAddressViewModel(
 		} else {
 			router.exit()
 		}
+	}
+
+	private fun startObserveAddress() {
+		addressDataSource
+			.observeAddress()
+			.bindSubscribe (onNext = {
+			viewState.updateValue {
+				copy(locationState = LocationState.Unknown, address = it, screenState = PrimaryViewState.Data)
+			}
+		})
 	}
 }

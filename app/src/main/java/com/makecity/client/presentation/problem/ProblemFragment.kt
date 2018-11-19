@@ -7,7 +7,9 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
+import com.makecity.client.presentation.lists.ProblemPreviewDelegate
 import com.makecity.client.presentation.lists.TaskDetailAdapter
+import com.makecity.client.presentation.lists.TaskDetailsDelegate
 import com.makecity.core.extenstion.calculateDiffs
 import com.makecity.core.extenstion.isVisible
 import com.makecity.core.extenstion.withArguments
@@ -23,7 +25,7 @@ import javax.inject.Inject
 typealias ProblemStatement = StatementFragment<ProblemReducer, ProblemViewState, ProblemAction>
 
 
-class ProblemFragment : ProblemStatement(), ToolbarScreen {
+class ProblemFragment : ProblemStatement(), ToolbarScreen, TaskDetailsDelegate {
 
 	companion object {
 		private const val ARGUMENT_PROBLEM_DATA = "ARGUMENT_PROBLEM_DATA"
@@ -42,6 +44,11 @@ class ProblemFragment : ProblemStatement(), ToolbarScreen {
 
 	override fun getToolbar(): Toolbar = toolbar
 
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		reducer.reduce(ProblemAction.LoadProblem)
+	}
+
 	override fun onViewCreatedBeforeRender(savedInstanceState: Bundle?) {
 		setupToolbarWith(requireActivity(), ToolbarConfig(
 			title = EMPTY,
@@ -49,7 +56,7 @@ class ProblemFragment : ProblemStatement(), ToolbarScreen {
 		))
 
 		problem_refresh.setOnRefreshListener {
-			reducer.reduce(LoadProblemAction)
+			reducer.reduce(ProblemAction.LoadProblem)
 		}
 
 		problem_recycler.layoutManager = LinearLayoutManager(context)
@@ -58,24 +65,14 @@ class ProblemFragment : ProblemStatement(), ToolbarScreen {
 
 		}, {
 
-		})
+		}, this)
 
 		//problem_recycler.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 		problem_recycler.adapter = adapter
 		ViewCompat.setElevation(problem_message_group, 100f)
 	}
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
 
-		trySetupContentSize(true)
-		reducer.reduce(LoadProblemAction)
-	}
-
-	override fun onDestroyView() {
-		super.onDestroyView()
-		trySetupContentSize(false)
-	}
 
 	override fun render(state: ProblemViewState) {
 		when (state.screenState) {
@@ -97,4 +94,6 @@ class ProblemFragment : ProblemStatement(), ToolbarScreen {
 			}
 		}
 	}
+
+	override fun showMoreCommentsClicked() = reducer.reduce(ProblemAction.ShowMoreComments)
 }

@@ -17,6 +17,7 @@ import com.makecity.client.di.common.BaseApiQualifier
 import com.makecity.client.di.common.GeoApiQualifier
 import com.makecity.client.utils.saver.FileSaverBitmap
 import com.makecity.core.di.module.NavigationModule
+import com.makecity.core.di.module.PagingModule
 import com.makecity.core.di.module.ResourceModule
 import com.makecity.core.plugin.connection.AndroidConnectionProvider
 import com.makecity.core.plugin.connection.ConnectionProvider

@@ -1,11 +1,9 @@
 package com.makecity.client.presentation.main
 
-import android.app.Application
 import android.os.Bundle
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
 import com.makecity.client.di.MainComponent
-import com.makecity.core.presentation.navigation.ParentScreenDelegate
 import com.makecity.core.presentation.view.ReducibleViewActivity
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
@@ -14,7 +12,7 @@ import javax.inject.Inject
 
 typealias MainView = ReducibleViewActivity<MainReducer, MainAction>
 
-class MainActivity : MainView(), ParentScreenDelegate {
+class MainActivity : MainView() {
 
 	@Inject
 	lateinit var navigatorHolder: NavigatorHolder
@@ -24,8 +22,6 @@ class MainActivity : MainView(), ParentScreenDelegate {
 	override val layoutId: Int? = R.layout.activity_main
 
 	private lateinit var mainComponent: MainComponent
-
-	override var isFillScreenChild: Boolean = false // TODO
 
 	override fun onInject() {
 		mainComponent = AppInjector.injectMain(this, supportFragmentManager, R.id.main_container)

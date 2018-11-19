@@ -41,7 +41,7 @@ class MapPointsView: BaseMapView, GoogleMap.OnMarkerClickListener {
 		try {
 			googleMap.setMapStyle(
 				MapStyleOptions.loadRawResourceStyle(
-					context, R.raw.sdelay_gorod_style)) // TODO CHECK SUCCESS
+					context, R.raw.sdelay_gorod_style))
 
 		} catch (e: Resources.NotFoundException) {
 			e.printStackTrace()

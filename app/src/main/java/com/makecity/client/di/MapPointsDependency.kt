@@ -47,7 +47,10 @@ open class MapPointsModule {
 
 	@Provides
 	@FragmentScope
-	fun provideMapPointsInteractor(problemDataSource: ProblemDataSource): TaskPointsInteractor = TaskInteractorReactive(problemDataSource)
+	fun provideMapPointsInteractor(
+		problemDataSource: ProblemDataSource,
+		authDataSource: AuthDataSource
+	): TaskPointsInteractor = TaskInteractorReactive(problemDataSource, authDataSource)
 
 	@Provides
 	@FragmentScope

@@ -1,8 +1,12 @@
 package com.makecity.client.presentation.problem
 
 import android.os.Parcelable
+import com.makecity.client.app.AppScreens
 import com.makecity.client.data.problem.ProblemDetail
+import com.makecity.client.data.task.FavoriteType
+import com.makecity.client.data.task.Task
 import com.makecity.client.domain.map.TaskPointsInteractor
+import com.makecity.client.presentation.comments.CommentsScreenData
 import com.makecity.core.plugin.connection.ConnectionState
 import com.makecity.core.plugin.connection.ViewStatePluginConnection
 import com.makecity.core.presentation.state.PrimaryViewState
@@ -21,12 +25,20 @@ import javax.inject.Inject
 @Parcelize
 data class ProblemData(
 	val id: Long
-): Parcelable
+) : Parcelable
 
 
 // Actions
-sealed class ProblemAction: ActionView
-object LoadProblemAction: ProblemAction()
+sealed class ProblemAction : ActionView {
+	object LoadProblem : ProblemAction()
+	object ShowMoreComments : ProblemAction()
+	data class ChangeFavorite(
+		val task: Task
+	) : ProblemAction()
+	data class CreateComment(
+		val text: String
+	) : ProblemAction()
+}
 
 
 // State
@@ -34,11 +46,11 @@ data class ProblemViewState(
 	override val screenState: PrimaryViewState = PrimaryViewState.Loading,
 	override val connectionState: ConnectionState = ConnectionState.Unknown,
 	val problemDetail: ProblemDetail? = null
-): ViewState, ViewStatePluginConnection
+) : ViewState, ViewStatePluginConnection
 
 
 // Reducer
-interface ProblemReducer: StatementReducer<ProblemViewState, ProblemAction>
+interface ProblemReducer : StatementReducer<ProblemViewState, ProblemAction>
 
 
 // View Model
@@ -51,8 +63,8 @@ class ProblemViewModel @Inject constructor(
 
 	override val viewState = StateLiveData.create(ProblemViewState())
 
-	override fun reduce(action: ProblemAction) {
-		if (action is LoadProblemAction) {
+	override fun reduce(action: ProblemAction) = when (action) {
+		is ProblemAction.LoadProblem -> {
 			interactor.loadProblemComments(problemData.id)
 				.bindSubscribe(onSuccess = {
 					viewState.updateValue {
@@ -62,5 +74,27 @@ class ProblemViewModel @Inject constructor(
 					it.printStackTrace()
 				})
 		}
+		is ProblemAction.ShowMoreComments -> {
+			router.navigateTo(AppScreens.COMMENTS_SCREEN_KEY, CommentsScreenData(problemData.id))
+		}
+		is ProblemAction.ChangeFavorite -> interactor
+			.changeFavorite(
+				action.task.id,
+				if (action.task.isLiked) FavoriteType.COMMON else FavoriteType.LIKE
+			).bindSubscribe(onSuccess = { _ ->
+				state.problemDetail?.task?.apply {
+					copy(isLiked = !isLiked)
+				}?.let {
+					viewState.updateValue {
+						val newDetails = problemDetail?.copy(task = it)
+						copy(problemDetail = newDetails)
+					}
+				}
+			})
+		is ProblemAction.CreateComment -> interactor
+			.createComment(problemData.id, action.text)
+			.bindSubscribe(onSuccess = {
+				// TODO
+			})
 	}
 }

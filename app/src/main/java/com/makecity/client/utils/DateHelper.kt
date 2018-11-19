@@ -6,6 +6,6 @@ import java.util.*
 object DateHelper {
 
 	fun convertDateToFormat(date: Date, locale: Locale = Locale.getDefault()): String {
-		return SimpleDateFormat("dd MMMM yyyy в HH:mm", locale).format(date) // TODO
+		return SimpleDateFormat("dd MMMM yyyy в HH:mm", locale).format(date) // TODO LATE
 	}
 }

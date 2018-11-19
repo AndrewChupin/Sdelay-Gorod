@@ -1,5 +1,6 @@
 package com.makecity.client.presentation.comments
 
+import android.os.Parcelable
 import com.makecity.client.data.comments.Comment
 import com.makecity.client.data.comments.CommentsDataSource
 import com.makecity.core.data.Presentation
@@ -16,9 +17,17 @@ import com.makecity.core.presentation.state.ViewState
 import com.makecity.core.presentation.viewmodel.ActionView
 import com.makecity.core.presentation.viewmodel.BaseViewModel
 import com.makecity.core.presentation.viewmodel.StatementReducer
+import io.reactivex.*
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.parcel.Parcelize
 import ru.terrakok.cicerone.Router
 
+
+// Data
+@Parcelize
+data class CommentsScreenData(
+	val problemId: Long
+): Parcelable
 
 // State
 @Presentation
@@ -30,7 +39,7 @@ data class CommentsViewState(
 
 // Action
 sealed class CommentsAction: ActionView {
-	object LoadComments: CommentsAction()
+
 }
 
 
@@ -40,9 +49,11 @@ interface CommentsReducer: StatementReducer<CommentsViewState, CommentsAction> {
 }
 
 
+
 // ViewModel
 class CommentsViewModel(
 	private val router: Router,
+	private val data: CommentsScreenData,
 	override val pagingAdapter: PagingActionsAdapter,
 	private val commentsDataSource: CommentsDataSource,
 	override val connectionProvider: ConnectionProvider,
@@ -50,6 +61,10 @@ class CommentsViewModel(
 ) : BaseViewModel(), CommentsReducer, ReducerPluginConnection, PagingDataDelegate {
 
 	override val viewState: StateLiveData<CommentsViewState> = StateLiveData.create(CommentsViewState())
+
+	init {
+		pagingAdapter.pagingDataActions = this
+	}
 
 	override fun reduce(action: CommentsAction) {
 
@@ -61,7 +76,7 @@ class CommentsViewModel(
 	}
 
 	override fun onLoadPage(state: PagingState, result: (Int) -> Unit) {
-		commentsDataSource.getComments(state.pageCounts + 1)
+		commentsDataSource.getComments(state.pageCounts + 1, data.problemId)
 			.bindSubscribe(onSuccess = {
 				result(it.size)
 				viewState.updateValue {

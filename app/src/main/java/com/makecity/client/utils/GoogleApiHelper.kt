@@ -7,8 +7,7 @@ import com.makecity.core.utils.ScreenUtils
 object GoogleApiHelper {
 	//
 	fun createStaticUrl(location: Location): String {
-		// TODO
-		ScreenUtils.screenWidth
+		// TODO LATE
 		var width = ScreenUtils.screenWidth - ScreenUtils.convertDpToPixel(32f)
 		var height = ScreenUtils.convertDpToPixel(150f)
 
@@ -26,5 +25,4 @@ object GoogleApiHelper {
 			"&markers=color:blue%7C${location.latitude},${location.longitude}" +
 			"&key=${BuildConfig.GOOGLE_MAPS_KEY}"
 	}
-
 }

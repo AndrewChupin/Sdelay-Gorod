@@ -9,8 +9,8 @@ import com.makecity.core.utils.image.ImageManager
 
 
 class CommentsAdapter(
-	private val delegate: (Comment) -> Unit,
-	private val imageManager: ImageManager
+	private val imageManager: ImageManager,
+	private val delegate: (Comment) -> Unit
 ): BaseMultiplyAdapter<Comment, CommentViewHolder>() {
 
 	override var data: List<Comment> = emptyList()

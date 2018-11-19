@@ -66,10 +66,10 @@ class TaskViewHolder(
 				imageManager.apply(CommonImageRules(feed_item_author_photo, it, R.drawable.placeholder_face, true))
 			}
 
-			imageFirst.checkNotEmpty {
-				// TODO feed_item_image.isVisible = true
+			/* DELETED FROM DESIGN imageFirst.checkNotEmpty {
+				feed_item_image.isVisible = true
 				imageManager.apply(CommonImageRules(feed_item_image, it, null, false))
-			}
+			}*/
 		}
 	}
 

@@ -27,10 +27,16 @@ import kotlinx.android.synthetic.main.item_problem_photo.*
 import java.util.*
 
 
+interface TaskDetailsDelegate {
+	fun showMoreCommentsClicked()
+}
+
+
 class TaskDetailAdapter(
 	private val imageManager: ImageManager,
 	private val problemDelegate: (Task) -> Unit,
-	private val commentDelegate: (Comment) -> Unit
+	private val commentDelegate: (Comment) -> Unit,
+	private val delegate: TaskDetailsDelegate
 ) : BaseSingleAdapters<ProblemDetail>(ProblemDiffUtils()) {
 
 	companion object {
@@ -71,7 +77,7 @@ class TaskDetailAdapter(
 		)
 		R.layout.item_problem_show_more -> ProblemShowMoreViewHolder(
 			containerView = LayoutInflater.from(parent.context).inflate(R.layout.item_problem_show_more, parent, false),
-			itemClickDelegate = problemDelegate
+			showMoreDelegate = delegate::showMoreCommentsClicked
 		)
 		else -> CommentViewHolder(
 			imageManager = imageManager,
@@ -297,14 +303,20 @@ class CommentViewHolder(
 
 class ProblemShowMoreViewHolder(
 	containerView: View,
-	override val itemClickDelegate: (Task) -> Unit
-) : ClickableViewHolder<Task>(containerView, itemClickDelegate) {
+	val showMoreDelegate: () -> Unit
+) : BaseViewHolder<Task>(containerView) {
 	override lateinit var item: Task
+
+	init {
+		containerView.setOnClickListener {
+			showMoreDelegate()
+		}
+	}
 
 	override fun bind(item: Task) {
 		super.bind(item)
 
-		if (item.commentsCount == 10) { // TODO
+		if (item.commentsCount > 10) {
 			containerView.isVisible = false
 			containerView.layoutParams = containerView.layoutParams.apply {
 				height = 0
@@ -321,7 +333,7 @@ class ProblemShowMoreViewHolder(
 class ProblemDiffUtils: SingleDiffUtil<ProblemDetail>() {
 
 	override fun areItemsTheSame(oldIndex: Int, newIndex: Int): Boolean {
-		val old = itemOld ?: return false
+		/*val old = itemOld ?: return false
 		val new = itemNew ?: return false
 
 		if (oldIndex == 0 && newIndex == 0) {
@@ -343,7 +355,7 @@ class ProblemDiffUtils: SingleDiffUtil<ProblemDetail>() {
 
 		if (oldIndex > 0 && newIndex > 0) {
 			return old.comments[oldIndex].id == new.comments[newIndex].id
-		}
+		}*/
 
 		return false
 	}
@@ -359,7 +371,7 @@ class ProblemDiffUtils: SingleDiffUtil<ProblemDetail>() {
 	}
 
 	override fun areContentsTheSame(oldIndex: Int, newIndex: Int): Boolean{
-		val old = itemOld ?: return false
+		/*val old = itemOld ?: return false
 		val new = itemNew ?: return false
 
 		if (oldIndex == 0 && newIndex == 0) {
@@ -381,7 +393,7 @@ class ProblemDiffUtils: SingleDiffUtil<ProblemDetail>() {
 
 		if (oldIndex > 0 && newIndex > 0) {
 			return old.comments[oldIndex] == new.comments[newIndex]
-		}
+		}*/
 
 		return false
 	}

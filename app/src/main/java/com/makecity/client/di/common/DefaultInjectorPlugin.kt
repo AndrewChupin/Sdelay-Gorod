@@ -13,6 +13,7 @@ import com.makecity.client.presentation.category.CategoryScreenData
 import com.makecity.client.presentation.category.CategoryFragment
 import com.makecity.client.presentation.city.CityFragment
 import com.makecity.client.presentation.comments.CommentsFragment
+import com.makecity.client.presentation.comments.CommentsScreenData
 import com.makecity.client.presentation.create_problem.CreateProblemData
 import com.makecity.client.presentation.create_problem.CreateProblemFragment
 import com.makecity.client.presentation.description.DescriptionFragment
@@ -38,6 +39,7 @@ import com.makecity.client.presentation.web.WebData
 import com.makecity.client.presentation.web.WebFragment
 
 
+// TODO LATE GENERATE THIS
 object DefaultInjectorPlugin : InjectorPlugin {
 
 	override fun representAppComponent(
@@ -261,9 +263,11 @@ object DefaultInjectorPlugin : InjectorPlugin {
 
 	override fun representCommentsFragment(
 		mainComponent: MainComponent,
-		fragment: CommentsFragment
+		fragment: CommentsFragment,
+		data: CommentsScreenData
 	): CommentsComponent = mainComponent
 		.commentsComponent()
 		.withFragment(fragment)
+		.withData(data)
 		.build()
 }

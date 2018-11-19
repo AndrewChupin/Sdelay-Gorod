@@ -17,6 +17,8 @@ import com.makecity.client.presentation.camera.CameraScreenData
 import com.makecity.client.presentation.category.CategoryScreenData
 import com.makecity.client.presentation.category.CategoryFragment
 import com.makecity.client.presentation.city.CityFragment
+import com.makecity.client.presentation.comments.CommentsFragment
+import com.makecity.client.presentation.comments.CommentsScreenData
 import com.makecity.client.presentation.create_problem.CreateProblemData
 import com.makecity.client.presentation.create_problem.CreateProblemFragment
 import com.makecity.client.presentation.description.DescriptionFragment
@@ -67,6 +69,12 @@ class MainNavigator @Inject constructor(
 			AppScreens.PROFILE_SCREEN_KEY -> ProfileFragment.newInstance()
 			AppScreens.EDIT_PROFILE_SCREEN_KEY -> EditProfileFragment.newInstance()
 			AppScreens.ADDRESS_SCREEN_KEY -> AddressFragment.newInstance()
+			AppScreens.COMMENTS_SCREEN_KEY -> {
+				if (data != null && data !is CommentsScreenData) {
+					throw IllegalArgumentException("data is null or type not CommentsScreenData")
+				}
+				CommentsFragment.newInstance(data as CommentsScreenData)
+			}
 			AppScreens.CREATE_PROBLEM_SCREEN_KEY -> {
 				if (data != null && data !is CreateProblemData) {
 					throw IllegalArgumentException("data is null or type not CreateProblemData")

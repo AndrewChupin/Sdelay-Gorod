@@ -22,7 +22,7 @@ interface AuthDataSource {
 
 	fun checkPassword(pass: String): Completable
 
-	fun getToken(): Single<String>
+	fun checkToken(): Single<String>
 
 	fun findPhone(): Single<String>
 
@@ -75,7 +75,7 @@ class AuthDataSourceDefault @Inject constructor(
 			.flatMapCompletable { authStorage.setAuthToken(it.token ?: throw TokenNotFounded) }
 	}
 
-	override fun getToken(): Single<String> = authStorage
+	override fun checkToken(): Single<String> = authStorage
 		.getAuthToken()
 		.map { if (it.isEmpty()) throw TokenNotFounded else it }
 

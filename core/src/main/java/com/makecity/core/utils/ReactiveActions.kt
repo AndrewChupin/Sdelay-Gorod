@@ -25,7 +25,11 @@ interface ReactiveActions {
     /**
      * Automatically puts [Disposable] inside [disposables]
      */
-    fun Disposable.bindDisposable() = disposables.add(this)
+    fun Disposable.bindDisposable() {
+        disposables.add(this)
+    }
+
+    fun Disposable.tryAddDisposable() = disposables.add(this)
 
     /**
      * Helper for [Single]

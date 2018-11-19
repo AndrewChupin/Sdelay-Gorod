@@ -1,6 +1,8 @@
 package com.makecity.client.presentation.feed
 
 import com.makecity.client.app.AppScreens
+import com.makecity.client.data.task.ChangeFavoriteRequest
+import com.makecity.client.data.task.FavoriteType
 import com.makecity.client.data.task.Task
 import com.makecity.client.domain.map.TaskPointsInteractor
 import com.makecity.client.presentation.problem.ProblemData
@@ -33,6 +35,9 @@ sealed class FeedAction: ActionView {
 	object RefreshTasksAction: FeedAction()
 	data class ShowProblemDetails(
 		val problemId: Long
+	): FeedAction()
+	data class ChangeFavorite(
+		val task: Task
 	): FeedAction()
 }
 
@@ -70,6 +75,18 @@ class FeedViewModel(
 					}
 				)
 			is FeedAction.ShowProblemDetails -> router.navigateTo(AppScreens.PROBLEM_SCREEN_KEY, ProblemData(action.problemId))
+			is FeedAction.ChangeFavorite -> interactor
+				.changeFavorite(action.task.id,
+					if (action.task.isLiked) FavoriteType.COMMON else FavoriteType.LIKE
+				)
+				.bindSubscribe(onSuccess = {
+					viewState.updateValue {
+						copy(tasks = tasks.map {
+							if (it.id == action.task.id) it.copy(isLiked = !it.isLiked)
+							else it
+						})
+					}
+				})
 		}
 	}
 

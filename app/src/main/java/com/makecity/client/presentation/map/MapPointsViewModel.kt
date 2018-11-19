@@ -97,7 +97,7 @@ class MapPointsViewModel(
 					)
 
 				authDataSource
-					.getToken()
+					.checkToken()
 					.bindSubscribe(onSuccess = {
 						viewState.updateValue { copy(authState = AuthState.AUTH) }
 					}, onError = {

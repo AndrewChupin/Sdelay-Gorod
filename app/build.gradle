@@ -85,6 +85,7 @@ android {
 dependencies {
     implementation project(includes.core)
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.google.firebase:firebase-core:16.0.4'
     implementation dependendency.tinkoff.decoro
     kapt dependendency.google.daggerProcessor
     kapt dependendency.android.roomCompiler
@@ -98,3 +99,6 @@ kapt {
 androidExtensions {
     experimental = true
 }
+
+
+apply plugin: 'com.google.gms.google-services'

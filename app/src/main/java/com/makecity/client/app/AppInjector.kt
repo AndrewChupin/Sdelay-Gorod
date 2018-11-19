@@ -14,6 +14,7 @@ import com.makecity.client.presentation.category.CategoryScreenData
 import com.makecity.client.presentation.category.CategoryFragment
 import com.makecity.client.presentation.city.CityFragment
 import com.makecity.client.presentation.comments.CommentsFragment
+import com.makecity.client.presentation.comments.CommentsScreenData
 import com.makecity.client.presentation.create_problem.CreateProblemData
 import com.makecity.client.presentation.create_problem.CreateProblemFragment
 import com.makecity.client.presentation.description.DescriptionFragment
@@ -39,7 +40,7 @@ import com.makecity.client.presentation.web.WebData
 import com.makecity.client.presentation.web.WebFragment
 import java.lang.ref.WeakReference
 
-
+// TODO LATE GENERATE THIS
 @Suppress("ReplaceSingleLineLet")
 object AppInjector {
 
@@ -278,9 +279,9 @@ object AppInjector {
 		throw IllegalStateException("MainComponent must be initialized before DescriptionComponent")
 	}
 
-	fun inject(fragment: CommentsFragment) {
+	fun inject(fragment: CommentsFragment, data: CommentsScreenData) {
 		mainComponent.get()?.let {
-			injectorPlugin.representCommentsFragment(it, fragment)
+			injectorPlugin.representCommentsFragment(it, fragment, data)
 				.inject(fragment)
 			return
 		}

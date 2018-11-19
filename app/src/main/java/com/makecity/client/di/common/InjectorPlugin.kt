@@ -13,6 +13,7 @@ import com.makecity.client.presentation.category.CategoryScreenData
 import com.makecity.client.presentation.category.CategoryFragment
 import com.makecity.client.presentation.city.CityFragment
 import com.makecity.client.presentation.comments.CommentsFragment
+import com.makecity.client.presentation.comments.CommentsScreenData
 import com.makecity.client.presentation.create_problem.CreateProblemData
 import com.makecity.client.presentation.create_problem.CreateProblemFragment
 import com.makecity.client.presentation.description.DescriptionFragment
@@ -177,6 +178,7 @@ interface InjectorPlugin {
 
 	fun representCommentsFragment(
 		mainComponent: MainComponent,
-		fragment: CommentsFragment
+		fragment: CommentsFragment,
+		data: CommentsScreenData
 	): CommentsComponent
 }

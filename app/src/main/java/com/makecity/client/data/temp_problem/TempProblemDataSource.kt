@@ -3,8 +3,6 @@ package com.makecity.client.data.temp_problem
 import com.makecity.client.data.auth.AuthDataSource
 import com.makecity.client.data.geo.GeoDataSource
 import com.makecity.client.data.geo.GeoPoint
-import com.makecity.client.data.geo.GeoPointStorage
-import com.makecity.client.data.geo.GeoService
 import com.makecity.core.domain.Mapper
 import com.makecity.core.extenstion.blockingCompletable
 import io.reactivex.Completable
@@ -47,7 +45,7 @@ class TempProblemDataSourceDefault @Inject constructor(
 	override fun createTask(tempProblem: TempProblem): Single<Boolean> = Single.defer {
 		Single.zip<GeoPoint, String, CreateTaskRequest>(
 			geoDataSource.getDefaultGeoPoint().toSingle(),
-			authDataSource.getToken(), BiFunction { geoPoint, token ->
+			authDataSource.checkToken(), BiFunction { geoPoint, token ->
 				CreateTaskRequest(tempProblem, geoPoint, token)
 			})
 			.flatMap(tempTaskService::createTask)

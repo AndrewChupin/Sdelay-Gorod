@@ -14,6 +14,7 @@ interface ProblemDataSource {
 	fun getProblems(): Single<List<Task>>
 	fun refreshProblems(): Single<List<Task>>
 	fun getProblemComments(problemId: Long): Single<ProblemDetail>
+	fun changeFavorite(problemId: Long, favoriteType: FavoriteType): Single<Boolean>
 }
 
 class ProblemDataSourceRemote @Inject constructor(
@@ -57,5 +58,20 @@ class ProblemDataSourceRemote @Inject constructor(
 		problemService.requestLoadComments(LoadCommentsRequest(problemId))
 			.map(mapperCommentsDto::transformAll)
 			.map(mapperCommentsPersist::transformAll)
+	}
+
+	override fun changeFavorite(
+		problemId: Long,
+		favoriteType: FavoriteType
+	): Single<Boolean> = Single.defer {
+		problemService.requestChangeFavorite(ChangeFavoriteRequest(
+			problemId = problemId,
+			favoriteType = favoriteType
+		)).doOnSuccess { _ ->
+			tasks.map {
+				if (it.id == problemId) it.copy(isLiked = !it.isLiked)
+				else it
+			}
+		}
 	}
 }

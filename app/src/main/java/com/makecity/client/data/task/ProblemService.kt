@@ -16,9 +16,20 @@ data class LoadCommentsRequest(
 )
 
 
+data class ChangeFavoriteRequest(
+	val problemId: Long,
+	val favoriteType: FavoriteType
+)
+
+enum class FavoriteType {
+	LIKE, COMMON
+}
+
+
 interface ProblemService {
 	fun requestLoadProblems(request: LoadTaskRequest): Single<List<TaskRemote>>
 	fun requestLoadComments(request: LoadCommentsRequest): Single<List<CommentRemote>>
+	fun requestChangeFavorite(request: ChangeFavoriteRequest): Single<Boolean>
 }
 
 
@@ -31,4 +42,12 @@ class ProblemServiceRetrofit @Inject constructor(
 
 	override fun requestLoadProblems(request: LoadTaskRequest)
 		= api.loadProblems(request.cityId)
+
+
+	override fun requestChangeFavorite(
+		request: ChangeFavoriteRequest
+	): Single<Boolean> = when (request.favoriteType) {
+		FavoriteType.LIKE -> api.makeLike(request.problemId)
+		FavoriteType.COMMON -> api.removeLike(request.problemId)
+	}
 }

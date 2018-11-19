@@ -15,11 +15,27 @@ import retrofit2.http.*
 
 interface Api {
 
+
 	/**
 	 * MARK - Comments}
 	 */
-	@GET("/comment/problem/1?page=2&expand=author")
-	fun loadComments(page: Int): Single<List<CommentRemote>>
+	@GET("/comment/problem/{problem_id}?page=2&expand=author")
+	fun loadCommentsPage(
+		@Path("problem_id") problemId: Int,
+		@Query("page") page: Long
+	): Single<List<CommentRemote>>
+
+	@POST("auth/phone-auth")
+	fun createComment(
+		@Field("text") text: String,
+		@Field("problem_id") problemId: Long,
+		@Field("name_guest") guestName: String
+	): Single<Boolean>
+
+	@GET("comment/problem/{problem_id}?page=1&expand=likeIs,org,count_likes,history,author")
+	fun loadComments(
+		@Path("problem_id") problemId: Long
+	): Single<List<CommentRemote>>
 
 
 	/**
@@ -43,11 +59,6 @@ interface Api {
 		@Query("pm[city_id]") cityId: Long
 	): Single<List<TaskRemote>>
 
-	@GET("comment/problem/{problem_id}?page=1&expand=likeIs,org,count_likes,history,author")
-	fun loadComments(
-		@Path("problem_id") problemId: Long
-	): Single<List<CommentRemote>>
-
 	@Multipart
 	@POST("problem")
 	fun createTask(
@@ -64,12 +75,12 @@ interface Api {
 	@GET("problem/{problem_id}/remove-like")
 	fun removeLike(
 		@Path("problem_id") problemId: Long
-	): Single<List<TaskRemote>>
+	): Single<Boolean>
 
 	@GET("problem/<problem_id>/put-like")
 	fun makeLike(
 		@Path("problem_id") problemId: Long
-	): Single<List<TaskRemote>>
+	): Single<Boolean>
 
 
 	/**
