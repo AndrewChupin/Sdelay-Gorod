@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "1069300865865",
+    "firebase_url": "https://makecity-fcafe.firebaseio.com",
+    "project_id": "makecity-fcafe",
+    "storage_bucket": "makecity-fcafe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069300865865:android:c74525fc48fb2e30",
+        "android_client_info": {
+          "package_name": "com.makecity.client"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1069300865865-776oilfo0hotr76daif7dea5v73tpber.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvPMPyvONr62uES6bk5fP9TfhKmilcglA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069300865865:android:5e4ceda87c69f36a",
+        "android_client_info": {
+          "package_name": "com.makecity.client.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1069300865865-776oilfo0hotr76daif7dea5v73tpber.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvPMPyvONr62uES6bk5fP9TfhKmilcglA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
