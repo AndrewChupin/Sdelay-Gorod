@@ -76,6 +76,10 @@ class CategoryViewModel(
 	override val viewState: StateLiveData<CategoryViewState>
 		= StateLiveData.create(CategoryViewState(title = resourceManager.getString(R.string.loading_data)))
 
+	init {
+		reduce(CategoryAction.LoadData)
+	}
+
 	override fun reduce(action: CategoryAction) {
 		when (action) {
 			is CategoryAction.LoadData -> when (categoryData.categoryType) {

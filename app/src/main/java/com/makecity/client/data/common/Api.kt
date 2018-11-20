@@ -5,6 +5,7 @@ import com.makecity.client.data.category.CategoryRemote
 import com.makecity.client.data.comments.Comment
 import com.makecity.client.data.comments.CommentRemote
 import com.makecity.client.data.company.CompanyRemote
+import com.makecity.client.data.geo.GeoPoint
 import com.makecity.client.data.geo.GeoPointRemote
 import com.makecity.client.data.profile.ProfileRemote
 import com.makecity.client.data.task.TaskRemote
@@ -131,4 +132,7 @@ interface Api {
 	fun getCity(
 		@Query("ip") ip: String
 	): Single<GeoPointRemote>
+
+	@GET("geolocator/city/cities-with-request")
+	fun getCities(): Single<List<GeoPointRemote>>
 }

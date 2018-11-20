@@ -1,7 +1,6 @@
 package com.makecity.client.presentation.comments
 
 import android.os.Bundle
-import android.os.Parcel
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
@@ -53,6 +52,12 @@ class CommentsFragment : CommentsStatement(), ToolbarScreen {
 			isDisplayHomeButton = true,
 			isEnableHomeButton = true
 		))
+
+
+
+		comments_send_button.clickReduce {
+			CommentsAction.CreateComment(comments_message_field.text.toString())
+		}
 
 		LinearLayoutManager(context).apply {
 			comments_list.layoutManager = this

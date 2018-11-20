@@ -87,4 +87,5 @@
     <string name="undefined">Отсутствует</string>
     <string name="name_format">%1$s %2$s</string>
     <string name="need_auth">Необходимо авторизоваться!</string>
+    <string name="cities">Выберите город</string>
 </resources>

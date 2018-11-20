@@ -56,6 +56,10 @@ class SplashViewModel @Inject constructor(
 			is SplashAction.PrepareData -> geoDataSource.refreshCity()
 				.bindSubscribe(onSuccess = {
 					router.replaceScreen(AppScreens.MAP_SCREEN_KEY)
+				}, onError = {
+					if (state.connectionState == ConnectionState.Connect) {
+						router.navigateTo(AppScreens.CITY_SCREEN_KEY)
+					}
 				})
 		}
 	}

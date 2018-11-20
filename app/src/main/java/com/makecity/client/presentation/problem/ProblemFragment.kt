@@ -59,6 +59,10 @@ class ProblemFragment : ProblemStatement(), ToolbarScreen, TaskDetailsDelegate {
 			reducer.reduce(ProblemAction.LoadProblem)
 		}
 
+		problem_send_comment_button.clickReduce {
+			ProblemAction.CreateComment(et_chat_message_input.text.toString())
+		}
+
 		problem_recycler.layoutManager = LinearLayoutManager(context)
 
 		adapter = TaskDetailAdapter(imageManager, {

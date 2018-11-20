@@ -10,6 +10,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.makecity.client.BuildConfig
 import com.makecity.client.app.AppDelegate
 import com.makecity.client.data.address.AddressAdapter
+import com.makecity.client.data.comments.*
 import com.makecity.client.data.common.Api
 import com.makecity.client.data.common.AppDatabase
 import com.makecity.client.data.common.GoogleApi
@@ -19,6 +20,8 @@ import com.makecity.client.utils.saver.FileSaverBitmap
 import com.makecity.core.di.module.NavigationModule
 import com.makecity.core.di.module.PagingModule
 import com.makecity.core.di.module.ResourceModule
+import com.makecity.core.di.scope.ActivityScope
+import com.makecity.core.di.scope.FragmentScope
 import com.makecity.core.plugin.connection.AndroidConnectionProvider
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.utils.display.AndroidDisplayProvider
@@ -95,7 +98,6 @@ open class DataModule {
 		= context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
 }
-
 
 @Module
 interface ProviderModule {

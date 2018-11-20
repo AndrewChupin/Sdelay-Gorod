@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.support.v4.app.Fragment
 import com.makecity.client.data.auth.AuthDataSource
+import com.makecity.client.data.comments.CommentsDataSource
 import com.makecity.client.data.task.ProblemDataSource
 import com.makecity.client.data.temp_problem.TempProblemDataSource
 import com.makecity.client.domain.map.TaskInteractorReactive
@@ -49,8 +50,9 @@ open class MapPointsModule {
 	@FragmentScope
 	fun provideMapPointsInteractor(
 		problemDataSource: ProblemDataSource,
-		authDataSource: AuthDataSource
-	): TaskPointsInteractor = TaskInteractorReactive(problemDataSource, authDataSource)
+		authDataSource: AuthDataSource,
+		commentsDataSource: CommentsDataSource
+	): TaskPointsInteractor = TaskInteractorReactive(problemDataSource, commentsDataSource, authDataSource)
 
 	@Provides
 	@FragmentScope

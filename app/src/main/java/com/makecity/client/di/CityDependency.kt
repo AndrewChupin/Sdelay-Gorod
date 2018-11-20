@@ -2,6 +2,7 @@ package com.makecity.client.di
 
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
+import com.makecity.client.data.geo.GeoDataSource
 import com.makecity.client.presentation.city.CityFragment
 import com.makecity.client.presentation.city.CityReducer
 import com.makecity.client.presentation.city.CityViewModel
@@ -38,8 +39,9 @@ open class CityModule {
 	@FragmentScope
 	fun provideViewModelFactory(
 		router: Router,
-		connectionProvider: ConnectionProvider
-	): CityViewModel = CityViewModel(router, connectionProvider)
+		connectionProvider: ConnectionProvider,
+		geoDataSource: GeoDataSource
+	): CityViewModel = CityViewModel(router, geoDataSource, connectionProvider)
 
 	@Provides
 	@FragmentScope

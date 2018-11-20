@@ -89,12 +89,12 @@
         android:paddingBottom="14dp"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintEnd_toStartOf="@+id/problem_send_comment_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <FrameLayout
-        android:id="@+id/imageButton"
+        android:id="@+id/problem_send_comment_button"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:background="@color/white"
@@ -118,7 +118,7 @@
         android:id="@+id/problem_message_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="et_chat_message_input,imageButton" />
+        app:constraint_referenced_ids="et_chat_message_input,problem_send_comment_button" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"

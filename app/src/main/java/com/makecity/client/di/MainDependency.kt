@@ -17,6 +17,7 @@ import com.makecity.client.presentation.main.MainNavigator
 import com.makecity.client.presentation.main.MainReducer
 import com.makecity.client.presentation.main.MainViewModel
 import com.makecity.core.di.scope.ActivityScope
+import com.makecity.core.di.scope.FragmentScope
 import com.makecity.core.domain.Mapper
 import com.makecity.core.presentation.viewmodel.ViewModelFactory
 import dagger.*
@@ -32,6 +33,7 @@ import javax.inject.Singleton
 	AuthDefaultModule::class,
 	TempProblemModule::class,
 	GeoPointModule::class,
+	CommentsDataModule::class,
 	ProfileDataModule::class
 ])
 interface MainComponent{
@@ -134,6 +136,25 @@ class AuthDefaultModule {
 		authStorage: AuthStorage,
 		mapper: AuthNextStepMapper
 	): AuthDataSource = AuthDataSourceDefault(authService, authStorage, mapper)
+}
+
+
+
+@Module
+class CommentsDataModule {
+
+	@Provides
+	@ActivityScope
+	fun provideCommentsService(service: CommentServiceRetrofit): CommentService = service
+
+
+	@Provides
+	@ActivityScope
+	fun provideDataSource(
+		service: CommentService,
+		mapperDto: CommentsAuthorMapperDtoToPersistence,
+		mapperPersist: CommentsAuthorMapperPersistenceToCommon
+	): CommentsDataSource = CommentsDataSourceDefault(service, mapperDto, mapperPersist)
 }
 
 

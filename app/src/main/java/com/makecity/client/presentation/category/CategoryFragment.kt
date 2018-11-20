@@ -50,11 +50,10 @@ class CategoryFragment : CategoryStatement(), ToolbarScreen {
 		}
 		category_recycler.adapter = adapter
 
-	}
+		category_refresh.setOnRefreshListener {
+			reducer.reduce(CategoryAction.LoadData)
+		}
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		reducer.reduce(CategoryAction.LoadData)
 	}
 
 	override fun render(state: CategoryViewState) {

@@ -1,6 +1,7 @@
 package com.makecity.client.domain.map
 
 import com.makecity.client.data.auth.AuthDataSource
+import com.makecity.client.data.comments.Comment
 import com.makecity.client.data.comments.CommentsDataSource
 import com.makecity.client.data.problem.ProblemDetail
 import com.makecity.client.data.task.FavoriteType
@@ -16,6 +17,7 @@ interface TaskPointsInteractor {
 	fun loadProblemComments(problemId: Long): Single<ProblemDetail>
 	fun changeFavorite(problemId: Long, favoriteType: FavoriteType): Single<Boolean>
 	fun createComment(problemId: Long, text: String): Single<Boolean>
+	fun getComments(page: Int, problemId: Long): Single<List<Comment>>
 }
 
 
@@ -59,4 +61,8 @@ class TaskInteractorReactive @Inject constructor(
 			}
 	}
 
+	override fun getComments(
+		page: Int,
+		problemId: Long
+	): Single<List<Comment>> = commentsDataSource.getComments(page, problemId)
 }

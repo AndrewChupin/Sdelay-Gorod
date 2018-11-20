@@ -2,7 +2,11 @@ package com.makecity.client.di
 
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
+import com.makecity.client.data.auth.AuthDataSource
 import com.makecity.client.data.comments.*
+import com.makecity.client.data.task.ProblemDataSource
+import com.makecity.client.domain.map.TaskInteractorReactive
+import com.makecity.client.domain.map.TaskPointsInteractor
 import com.makecity.client.presentation.comments.CommentsFragment
 import com.makecity.client.presentation.comments.CommentsReducer
 import com.makecity.client.presentation.comments.CommentsScreenData
@@ -47,27 +51,21 @@ open class CommentsModule {
 
 	@Provides
 	@FragmentScope
-	fun provideCommentsService(service: CommentServiceRetrofit): CommentService = service
-
-
-	@Provides
-	@FragmentScope
-	fun provideDataSource(
-		service: CommentService,
-		mapperDto: CommentsAuthorMapperDtoToPersistence,
-		mapperPersist: CommentsAuthorMapperPersistenceToCommon
-	): CommentsDataSource = CommentsDataSourceDefault(service, mapperDto, mapperPersist)
-
+	fun provideMapPointsInteractor(
+		problemDataSource: ProblemDataSource,
+		authDataSource: AuthDataSource,
+		commentsDataSource: CommentsDataSource
+	): TaskPointsInteractor = TaskInteractorReactive(problemDataSource, commentsDataSource, authDataSource)
 
 	@Provides
 	@FragmentScope
 	fun provideViewModelFactory(
 		router: Router,
 		data: CommentsScreenData,
-		commentsDataSource: CommentsDataSource,
+		interactor: TaskPointsInteractor,
 		pagingAdapter: PagingActionsAdapter,
 		connectionProvider: ConnectionProvider
-	): CommentsViewModel = CommentsViewModel(router, data, pagingAdapter, commentsDataSource, connectionProvider)
+	): CommentsViewModel = CommentsViewModel(router, data, pagingAdapter, interactor, connectionProvider)
 
 	@Provides
 	@FragmentScope

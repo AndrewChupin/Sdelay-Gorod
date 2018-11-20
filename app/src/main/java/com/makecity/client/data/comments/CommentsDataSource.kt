@@ -1,7 +1,5 @@
 package com.makecity.client.data.comments
 
-import com.makecity.client.data.auth.AuthDataSource
-import com.makecity.client.presentation.auth.AuthData
 import com.makecity.core.domain.Mapper
 import io.reactivex.Single
 import javax.inject.Inject

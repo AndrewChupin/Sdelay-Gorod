@@ -11,6 +11,7 @@ interface GeoService {
 
 	fun getUserCity(ip: String): Single<GeoPointRemote>
 
+	fun loadActiveCities(): Single<List<GeoPointRemote>>
 }
 
 
@@ -22,4 +23,5 @@ class GeoServiceRetrofit @Inject constructor (
 
 	override fun getUserCity(ip: String): Single<GeoPointRemote>  = api.getCity(ip)
 
+	override fun loadActiveCities(): Single<List<GeoPointRemote>> = api.getCities()
 }

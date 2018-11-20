@@ -2,7 +2,7 @@ package com.makecity.client.presentation.comments
 
 import android.os.Parcelable
 import com.makecity.client.data.comments.Comment
-import com.makecity.client.data.comments.CommentsDataSource
+import com.makecity.client.domain.map.TaskPointsInteractor
 import com.makecity.core.data.Presentation
 import com.makecity.core.extenstion.concat
 import com.makecity.core.plugin.connection.ConnectionProvider
@@ -17,7 +17,6 @@ import com.makecity.core.presentation.state.ViewState
 import com.makecity.core.presentation.viewmodel.ActionView
 import com.makecity.core.presentation.viewmodel.BaseViewModel
 import com.makecity.core.presentation.viewmodel.StatementReducer
-import io.reactivex.*
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.parcel.Parcelize
 import ru.terrakok.cicerone.Router
@@ -38,8 +37,8 @@ data class CommentsViewState(
 
 
 // Action
-sealed class CommentsAction: ActionView {
-
+sealed class CommentsAction : ActionView {
+	data class CreateComment(val text: String) : CommentsAction()
 }
 
 
@@ -55,7 +54,7 @@ class CommentsViewModel(
 	private val router: Router,
 	private val data: CommentsScreenData,
 	override val pagingAdapter: PagingActionsAdapter,
-	private val commentsDataSource: CommentsDataSource,
+	private val interactor: TaskPointsInteractor,
 	override val connectionProvider: ConnectionProvider,
 	override val disposables: CompositeDisposable = CompositeDisposable()
 ) : BaseViewModel(), CommentsReducer, ReducerPluginConnection, PagingDataDelegate {
@@ -67,7 +66,13 @@ class CommentsViewModel(
 	}
 
 	override fun reduce(action: CommentsAction) {
-
+		when (action) {
+			is CommentsAction.CreateComment -> interactor
+				.createComment(data.problemId, action.text)
+				.bindSubscribe(onSuccess = {
+					// TODO
+				})
+		}
 	}
 
 	// IMPLEMENT - ConnectionPlugin
@@ -75,19 +80,18 @@ class CommentsViewModel(
 
 	}
 
-	override fun onLoadPage(state: PagingState, result: (Int) -> Unit) {
-		commentsDataSource.getComments(state.pageCounts + 1, data.problemId)
-			.bindSubscribe(onSuccess = {
-				result(it.size)
-				viewState.updateValue {
-					copy(screenState = PrimaryViewState.Data, comments = comments.concat(it))
-				}
-			}, onError = {
-				viewState.updateValue {
-					copy(screenState = PrimaryViewState.Error(it))
-				}
-				it.printStackTrace()
-				result(0)
-			})
-	}
+	override fun onLoadPage(state: PagingState, result: (Int) -> Unit) = interactor
+		.getComments(state.pageCounts + 1, data.problemId)
+		.bindSubscribe(onSuccess = {
+			result(it.size)
+			viewState.updateValue {
+				copy(screenState = PrimaryViewState.Data, comments = comments.concat(it))
+			}
+		}, onError = {
+			viewState.updateValue {
+				copy(screenState = PrimaryViewState.Error(it))
+			}
+			it.printStackTrace()
+			result(0)
+		})
 }
