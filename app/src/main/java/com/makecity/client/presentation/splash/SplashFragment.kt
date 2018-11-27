@@ -35,7 +35,6 @@ class SplashFragment: SplashStatement() {
 	override fun render(state: SplashDataViewState) = when (state.screenState) {
 		is PrimaryViewState.Loading -> applyConnectionState(state.connectionState)
 		is PrimaryViewState.Error -> {
-			showMessage(state.screenState.toString()) // TODO
 			changeState(isVisibleRetry = true)
 		}
 		else -> Unit

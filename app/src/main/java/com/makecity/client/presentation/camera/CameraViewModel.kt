@@ -96,7 +96,7 @@ class CameraViewModel(
 							Log.d("Logod", "granted ${it.name}")
 						}
 						it.shouldShowRequestPermissionRationale -> {
-							// TODO
+							// TODO LATE
 							Log.d("Logod", "shouldShowRequestPermissionRationale")
 						}
 						else -> {

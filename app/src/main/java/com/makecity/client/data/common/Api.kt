@@ -27,8 +27,7 @@ interface Api {
 	@POST("auth/phone-auth")
 	fun createComment(
 		@Field("text") text: String,
-		@Field("problem_id") problemId: Long,
-		@Field("name_guest") guestName: String
+		@Field("problem_id") problemId: Long
 	): Single<Boolean>
 
 	@GET("comment/problem/{problem_id}?page=1&expand=likeIs,org,count_likes,history,author")

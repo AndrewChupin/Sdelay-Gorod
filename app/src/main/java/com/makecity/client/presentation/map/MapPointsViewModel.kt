@@ -5,6 +5,7 @@ import com.makecity.client.data.auth.AuthDataSource
 import com.makecity.client.data.auth.AuthState
 import com.makecity.client.data.auth.AuthType
 import com.makecity.client.data.auth.TokenNotFounded
+import com.makecity.client.data.task.FavoriteType
 import com.makecity.client.data.task.Task
 import com.makecity.client.data.temp_problem.TempProblemDataSource
 import com.makecity.client.domain.map.TaskPointsInteractor
@@ -49,9 +50,13 @@ sealed class MapPointsAction: ActionView {
 	object ShowMenu : MapPointsAction()
 	object ShowAuth : MapPointsAction()
 
+	data class ChangeFavorite(
+		val task: Task
+	) : MapPointsAction()
+
 	data class ShowDetails(
 		val problemId: Long
-	): MapPointsAction()
+	) : MapPointsAction()
 }
 
 
@@ -106,6 +111,19 @@ class MapPointsViewModel(
 						}
 					})
 			}
+
+			is MapPointsAction.ChangeFavorite -> mapPointsInteractor
+				.changeFavorite(
+					action.task.id,
+					if (action.task.isLiked) FavoriteType.COMMON else FavoriteType.LIKE
+				).bindSubscribe(onSuccess = { _ ->
+					viewState.updateValue {
+						copy(tasks = tasks.map {
+							if (it.id == action.task.id) it.copy(isLiked = !it.isLiked)
+							else it
+						})
+					}
+				})
 
 			is MapPointsAction.CreateTask -> tempProblemDataSource
 				.isProblemExist()

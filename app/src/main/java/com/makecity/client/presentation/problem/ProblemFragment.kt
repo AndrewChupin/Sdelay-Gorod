@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
-import android.view.View
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
-import com.makecity.client.presentation.lists.ProblemPreviewDelegate
+import com.makecity.client.data.task.Task
 import com.makecity.client.presentation.lists.TaskDetailAdapter
 import com.makecity.client.presentation.lists.TaskDetailsDelegate
 import com.makecity.core.extenstion.calculateDiffs
@@ -60,6 +59,7 @@ class ProblemFragment : ProblemStatement(), ToolbarScreen, TaskDetailsDelegate {
 		}
 
 		problem_send_comment_button.clickReduce {
+			et_chat_message_input.setText(EMPTY)
 			ProblemAction.CreateComment(et_chat_message_input.text.toString())
 		}
 
@@ -100,4 +100,7 @@ class ProblemFragment : ProblemStatement(), ToolbarScreen, TaskDetailsDelegate {
 	}
 
 	override fun showMoreCommentsClicked() = reducer.reduce(ProblemAction.ShowMoreComments)
+
+
+	override fun likeClicked(task: Task) = reducer.reduce(ProblemAction.ChangeFavorite(task))
 }

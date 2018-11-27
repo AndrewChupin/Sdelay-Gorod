@@ -12,6 +12,7 @@ import android.view.View
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
 import com.makecity.client.data.auth.AuthState
+import com.makecity.client.data.task.Task
 import com.makecity.core.data.entity.Location
 import com.makecity.core.extenstion.calculateDiffs
 import com.makecity.core.extenstion.hideWithScale
@@ -34,7 +35,7 @@ import kotlinx.android.synthetic.main.fragment_map.*
 typealias MapStatement = MapStatementFragment<MapPointsReducer, MapPointsViewState, MapPointsAction>
 
 
-class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener, DialogTwoWaysDelegate {
+class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener, DialogTwoWaysDelegate, ProblemsDelegate {
 
 	companion object {
 		const val REQUEST_TWO_WAY_DIALOG_MAP = 0;
@@ -56,7 +57,7 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener, DialogTw
 		bottomSheetBehavior = initBottomState(bottom_problems)
 
 
-		problemsMapAdapter = ProblemsMapAdapter {
+		problemsMapAdapter = ProblemsMapAdapter(this) {
 			reducer.reduce(MapPointsAction.ShowDetails(it.id))
 		}
 		bottom_problems_list.layoutManager = LinearLayoutManager(requireContext(), HORIZONTAL, false)
@@ -207,7 +208,7 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener, DialogTw
 	}
 
 
-	override fun onNegativeClick(dialog: DialogInterface) {
-		dialog.dismiss()
-	}
+	override fun onNegativeClick(dialog: DialogInterface) = dialog.dismiss()
+
+	override fun likeClicked(task: Task) = reducer.reduce(MapPointsAction.ChangeFavorite(task))
 }

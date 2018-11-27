@@ -15,6 +15,7 @@ class PagingActionsAdapterDefault @Inject constructor(
 
 	private var pageCounts: Int = pagingConfig.initialPage
 	private var currentSize: Int = pagingConfig.initialSize
+	override lateinit var state: PagingState
 
 	@MainThread
 	override fun initFirstPage() {
@@ -22,12 +23,14 @@ class PagingActionsAdapterDefault @Inject constructor(
 			return
 		}
 
-		load(PagingState(
+		state = PagingState(
 			currentPosition = 0,
 			currentSize = currentSize,
 			nextPageSize = pagingConfig.firstPageSize,
 			pageCounts = pageCounts
-		))
+		)
+
+		load(state)
 	}
 
 	@MainThread
@@ -38,12 +41,15 @@ class PagingActionsAdapterDefault @Inject constructor(
 
 		val bound = currentSize - lastVisible
 		if (bound < pagingConfig.loadingBound) {
-			load(PagingState(
-				currentPosition = lastVisible,
+
+			state = PagingState(
+				currentPosition = 0,
 				currentSize = currentSize,
-				nextPageSize = pagingConfig.commonPageSize,
+				nextPageSize = pagingConfig.firstPageSize,
 				pageCounts = pageCounts
-			))
+			)
+
+			load(state)
 		}
 	}
 

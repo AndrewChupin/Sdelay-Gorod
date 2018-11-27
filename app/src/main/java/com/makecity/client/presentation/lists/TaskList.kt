@@ -16,8 +16,13 @@ import com.makecity.core.utils.image.ImageManager
 import kotlinx.android.synthetic.main.item_feed_new.*
 import java.util.*
 
+interface TaskDelegate {
+	fun likeClicked(task: Task)
+}
+
 class TaskAdapter(
 	private val imageManager: ImageManager,
+	private val delegate: TaskDelegate,
 	private val itemDelegate: (Task) -> Unit
 ) : BaseMultiplyAdapter<Task, BaseViewHolder<Task>>() {
 
@@ -26,6 +31,7 @@ class TaskAdapter(
 	override fun onCreateViewHolder(parent: ViewGroup, position: Int): BaseViewHolder<Task> = TaskViewHolder(
 		imageManager = imageManager,
 		containerView = LayoutInflater.from(parent.context).inflate(R.layout.item_feed_new, parent, false),
+		likeClickedDelegate = delegate::likeClicked,
 		itemClickDelegate = itemDelegate
 	)
 
@@ -37,6 +43,7 @@ class TaskAdapter(
 class TaskViewHolder(
 	containerView: View,
 	override val itemClickDelegate: (Task) -> Unit,
+	private val likeClickedDelegate: (Task) -> Unit,
 	private val imageManager: ImageManager
 ) : ClickableViewHolder<Task>(containerView, itemClickDelegate) {
 
@@ -44,7 +51,7 @@ class TaskViewHolder(
 
 	init {
 		feed_item_like.setOnClickListener {
-			// TODO
+			likeClickedDelegate(item)
 		}
 	}
 

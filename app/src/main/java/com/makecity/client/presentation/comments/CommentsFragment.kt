@@ -15,6 +15,7 @@ import com.makecity.core.presentation.screen.ToolbarConfig
 import com.makecity.core.presentation.screen.ToolbarScreen
 import com.makecity.core.presentation.state.PrimaryViewState
 import com.makecity.core.presentation.view.StatementFragment
+import com.makecity.core.utils.Symbols.EMPTY
 import com.makecity.core.utils.image.ImageManager
 import kotlinx.android.synthetic.main.fragment_comments.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -56,6 +57,7 @@ class CommentsFragment : CommentsStatement(), ToolbarScreen {
 
 
 		comments_send_button.clickReduce {
+			comments_message_field.setText(EMPTY)
 			CommentsAction.CreateComment(comments_message_field.text.toString())
 		}
 

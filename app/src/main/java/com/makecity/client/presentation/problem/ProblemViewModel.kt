@@ -93,8 +93,11 @@ class ProblemViewModel @Inject constructor(
 			})
 		is ProblemAction.CreateComment -> interactor
 			.createComment(problemData.id, action.text)
+			.flatMap { interactor.loadProblemComments(problemData.id) }
 			.bindSubscribe(onSuccess = {
-				// TODO
+				viewState.updateValue {
+					copy(screenState = PrimaryViewState.Data, problemDetail = it)
+				}
 			})
 	}
 }

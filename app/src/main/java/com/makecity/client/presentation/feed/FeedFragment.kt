@@ -6,7 +6,9 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
+import com.makecity.client.data.task.Task
 import com.makecity.client.presentation.lists.TaskAdapter
+import com.makecity.client.presentation.lists.TaskDelegate
 import com.makecity.core.extenstion.calculateDiffs
 import com.makecity.core.extenstion.isVisible
 import com.makecity.core.presentation.screen.ToolbarConfig
@@ -20,7 +22,7 @@ import javax.inject.Inject
 
 typealias FeedStatement = StatementFragment<FeedReducer, FeedViewState, FeedAction>
 
-class FeedFragment : FeedStatement(), ToolbarScreen {
+class FeedFragment : FeedStatement(), ToolbarScreen, TaskDelegate {
 
 	companion object {
 		fun newInstance() = FeedFragment()
@@ -44,7 +46,7 @@ class FeedFragment : FeedStatement(), ToolbarScreen {
 
 		feed_recycler.layoutManager = LinearLayoutManager(context)
 
-		adapter = TaskAdapter(imageManager) {
+		adapter = TaskAdapter(imageManager, this) {
 			reducer.reduce(FeedAction.ShowProblemDetails(it.id))
 		}
 
@@ -75,4 +77,6 @@ class FeedFragment : FeedStatement(), ToolbarScreen {
 			}
 		}
 	}
+
+	override fun likeClicked(task: Task) = reducer.reduce(FeedAction.ChangeFavorite(task))
 }

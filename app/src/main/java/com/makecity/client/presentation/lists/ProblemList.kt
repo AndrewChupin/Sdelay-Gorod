@@ -29,6 +29,7 @@ import java.util.*
 
 interface TaskDetailsDelegate {
 	fun showMoreCommentsClicked()
+	fun likeClicked(task: Task)
 }
 
 
@@ -59,6 +60,7 @@ class TaskDetailAdapter(
 		R.layout.item_problem_content -> ProblemViewHolder(
 			containerView = LayoutInflater.from(parent.context).inflate(R.layout.item_problem_content, parent, false),
 			itemClickDelegate = problemDelegate,
+			likeClickedDelegate = delegate::likeClicked,
 			imageManager = imageManager
 		)
 		R.layout.item_problem_location -> LocationViewHolder(
@@ -137,13 +139,16 @@ class TaskDetailAdapter(
 class ProblemViewHolder(
 	containerView: View,
 	override val itemClickDelegate: (Task) -> Unit,
+	private val likeClickedDelegate: (Task) -> Unit,
 	private val imageManager: ImageManager
 ) : ClickableViewHolder<Task>(containerView, itemClickDelegate) {
 
 	override lateinit var item: Task
 
 	init {
-		problem_item_like.setOnClickListener {  }
+		problem_item_like.setOnClickListener {
+			likeClickedDelegate(item)
+		}
 	}
 
 	override fun bind(item: Task) {

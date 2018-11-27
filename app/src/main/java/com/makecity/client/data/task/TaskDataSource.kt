@@ -48,7 +48,7 @@ class ProblemDataSourceRemote @Inject constructor(
 		.doOnSuccess { tasks = it }
 
 	override fun getProblemComments(problemId: Long): Single<ProblemDetail> = Single.defer {
-		val task = Single.just(tasks.find { it.id == problemId }!!) // TODO
+		val task = Single.just(tasks.find { it.id == problemId }!!) // TODO LATE
 		Single.zip(getComments(problemId), task, BiFunction<List<Comment>, Task, ProblemDetail> { t1, t2 ->
 			ProblemDetail(t2, t1)
 		})

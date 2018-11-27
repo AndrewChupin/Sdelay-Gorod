@@ -24,7 +24,7 @@ class CommentsDataSourceDefault @Inject constructor(
 
 	override fun createComment(text: String, problemId: Long): Single<Boolean> = Single.defer {
 		commentService.requestCreateComment(CreateCommentRequest(
-			text, problemId, ""
-		))  // TODO
+			text, problemId
+		))
 	}
 }

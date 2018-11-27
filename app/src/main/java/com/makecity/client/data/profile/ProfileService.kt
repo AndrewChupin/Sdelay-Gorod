@@ -48,7 +48,7 @@ class ProfileServiceRetrofit @Inject constructor(
 				street = profile.street
 			).toMap(),
 
-			photo = if (profile.photo.isNotEmpty() && !profile.photo.startsWith("http")) { // TODO change startsWith
+			photo = if (profile.photo.isNotEmpty() && !profile.photo.startsWith("http")) { // TODO LATE change startsWith
 				val file = File(profile.photo)
 				val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
 				MultipartBody.Part.createFormData("photo", file.name, fileReqBody)

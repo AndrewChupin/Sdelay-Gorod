@@ -14,6 +14,7 @@ data class PagingConfig(
 
 interface PagingActionsAdapter {
 	var pagingDataActions: PagingDataDelegate?
+	val state: PagingState
 
 	@MainThread
 	fun initFirstPage()

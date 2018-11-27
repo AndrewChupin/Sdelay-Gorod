@@ -13,7 +13,12 @@ import com.makecity.core.presentation.list.ClickableViewHolder
 import kotlinx.android.synthetic.main.item_problem_bottom.*
 import java.util.*
 
+interface ProblemsDelegate {
+	fun likeClicked(task: Task)
+}
+
 class ProblemsMapAdapter(
+	private val delegate: ProblemsDelegate,
 	private val itemDelegate: (Task) -> Unit
 ) : BaseMultiplyAdapter<Task, BaseViewHolder<Task>>() {
 
@@ -21,7 +26,8 @@ class ProblemsMapAdapter(
 
 	override fun onCreateViewHolder(parent: ViewGroup, position: Int): BaseViewHolder<Task> = ProblemMapViewHolder(
 		containerView = LayoutInflater.from(parent.context).inflate(R.layout.item_problem_bottom, parent, false),
-		itemClickDelegate = itemDelegate
+		itemClickDelegate = itemDelegate,
+		likeClickDelegate = delegate::likeClicked
 	)
 
 	override fun getItemCount(): Int = data.size
@@ -35,14 +41,15 @@ class ProblemsMapAdapter(
 
 class ProblemMapViewHolder(
 	containerView: View,
-	override val itemClickDelegate: (Task) -> Unit
+	override val itemClickDelegate: (Task) -> Unit,
+	val likeClickDelegate: (Task) -> Unit
 ) : ClickableViewHolder<Task>(containerView, itemClickDelegate) {
 
 	override lateinit var item: Task
 
 	init {
 		problem_bottom_item_like.setOnClickListener {
-			// TODO
+			likeClickDelegate(item)
 		}
 	}
 

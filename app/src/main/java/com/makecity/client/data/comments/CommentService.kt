@@ -6,8 +6,7 @@ import javax.inject.Inject
 
 data class CreateCommentRequest(
 	val text: String,
-	val problemId: Long,
-	val guestName: String
+	val problemId: Long
 )
 
 
@@ -24,7 +23,6 @@ class CommentServiceRetrofit @Inject constructor(
 	override fun loadComments(page: Int, problemId: Long): Single<List<CommentRemote>>
 		= api.loadCommentsPage(page, problemId)
 
-	override fun requestCreateComment(request: CreateCommentRequest): Single<Boolean>
-		= api.createComment(request.text, request.problemId, request.guestName)
+	override fun requestCreateComment(request: CreateCommentRequest): Single<Boolean> = api.createComment(request.text, request.problemId)
 
 }
