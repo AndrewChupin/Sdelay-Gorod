@@ -2,6 +2,7 @@ package com.makecity.client.di
 
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
+import com.makecity.client.data.profile.ProfileDataSource
 import com.makecity.client.presentation.edit_profile.EditProfileFragment
 import com.makecity.client.presentation.edit_profile.EditProfileReducer
 import com.makecity.client.presentation.edit_profile.EditProfileViewModel
@@ -42,8 +43,9 @@ open class EditProfileModule {
 	fun provideViewModelFactory(
 		router: Router,
 		connectionProvider: ConnectionProvider,
+		profileDataSource: ProfileDataSource,
 		permissionManager: PermissionManager
-	): EditProfileViewModel = EditProfileViewModel(router, connectionProvider, permissionManager)
+	): EditProfileViewModel = EditProfileViewModel(router, profileDataSource, connectionProvider, permissionManager)
 
 	@Provides
 	@FragmentScope
