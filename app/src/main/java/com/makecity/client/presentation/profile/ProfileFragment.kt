@@ -5,13 +5,16 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
+import com.makecity.core.extenstion.checkNotEmpty
 import com.makecity.core.presentation.screen.ToolbarConfig
 import com.makecity.core.presentation.screen.ToolbarScreen
 import com.makecity.core.presentation.view.StatementFragment
+import com.makecity.core.utils.image.CommonImageRules
+import com.makecity.core.utils.image.ImageManager
 import kotlinx.android.synthetic.main.fragment_profile.*
 import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.slots.PredefinedSlots
-import ru.tinkoff.decoro.watchers.MaskFormatWatcher
+import javax.inject.Inject
 
 typealias ProfileStatement = StatementFragment<ProfileReducer, ProfileViewState, ProfileAction>
 
@@ -24,6 +27,9 @@ class ProfileFragment : ProfileStatement(), ToolbarScreen {
 
 	override val layoutId: Int = R.layout.fragment_profile
 	private var mask = MaskImpl(PredefinedSlots.RUS_PHONE_NUMBER, true)
+
+	@Inject
+	lateinit var imageManager: ImageManager
 
 	override fun onInject() = AppInjector.inject(this)
 
@@ -52,10 +58,32 @@ class ProfileFragment : ProfileStatement(), ToolbarScreen {
 			}
 
 			if (firstName.isEmpty() && lastName.isEmpty()) {
-				profile_name.text = getString(R.string.undefined)
+				profile_name.text = getString(R.string.name_undefined)
 			} else {
 				profile_name.text = getString(R.string.name_format, firstName, lastName)
 			}
+
+			if (street.isEmpty()) {
+				profile_address.text = getString(R.string.undefined_symbol)
+			} else {
+				val address = "$street $house"
+				profile_address.text = address
+			}
+
+			if (sex.isEmpty()) {
+				profile_gender.text = getString(R.string.undefined_symbol)
+			} else {
+				profile_gender.text = sex
+			}
+
+			photo.checkNotEmpty {
+				imageManager.apply(CommonImageRules(
+					image = profile_image,
+					url = it
+				))
+			}
+
+			profile_city.text = state.geoPoint?.title
 		}
 	}
 }

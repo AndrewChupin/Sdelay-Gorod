@@ -2,6 +2,7 @@ package com.makecity.client.di
 
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
+import com.makecity.client.data.geo.GeoDataSource
 import com.makecity.client.data.profile.ProfileDataSource
 import com.makecity.client.presentation.profile.ProfileFragment
 import com.makecity.client.presentation.profile.ProfileReducer
@@ -40,8 +41,9 @@ open class ProfileModule {
 	fun provideViewModelFactory(
 		router: Router,
 		connectionProvider: ConnectionProvider,
+		geoDataSource: GeoDataSource,
 		profileDataSource: ProfileDataSource
-	): ProfileViewModel = ProfileViewModel(router, profileDataSource, connectionProvider)
+	): ProfileViewModel = ProfileViewModel(router, profileDataSource, geoDataSource, connectionProvider)
 
 	@Provides
 	@FragmentScope

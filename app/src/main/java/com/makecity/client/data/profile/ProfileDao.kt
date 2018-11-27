@@ -13,5 +13,4 @@ abstract class ProfileDao: BaseDao<ProfilePersistence> {
 
 	@Query("DELETE FROM profile")
 	abstract fun deleteAll()
-
 }

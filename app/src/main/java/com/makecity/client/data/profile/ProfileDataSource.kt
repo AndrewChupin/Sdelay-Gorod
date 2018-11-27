@@ -8,7 +8,6 @@ import com.makecity.core.utils.Symbols.EMPTY
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Single
-import io.reactivex.internal.operators.maybe.MaybeDefer
 import javax.inject.Inject
 
 
@@ -16,6 +15,9 @@ interface ProfileDataSource {
 	fun refreshProfile(): Single<Profile>
 	fun getProfile(): Maybe<Profile>
 	fun deleteProfile(): Completable
+	fun editProfile(
+		profile: Profile
+	): Completable
 }
 
 
@@ -47,4 +49,11 @@ class ProfileDataSourceDefault @Inject constructor(
 		profileStorage.deleteAll()
 			.andThen(authStorage.setAuthToken(EMPTY))
 	}
+
+	override fun editProfile(
+		profile: Profile
+	): Completable = authStorage
+		.getAuthToken()
+		.flatMap { profileService.saveProfile(it, profile) }
+		.ignoreElement()
 }

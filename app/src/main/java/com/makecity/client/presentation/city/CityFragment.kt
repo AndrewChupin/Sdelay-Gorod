@@ -7,6 +7,7 @@ import com.makecity.client.R
 import com.makecity.client.app.AppInjector
 import com.makecity.client.presentation.lists.CategoryAdapter
 import com.makecity.core.extenstion.calculateDiffs
+import com.makecity.core.extenstion.isVisible
 import com.makecity.core.presentation.screen.ToolbarConfig
 import com.makecity.core.presentation.screen.ToolbarScreen
 import com.makecity.core.presentation.state.PrimaryViewState
@@ -33,7 +34,9 @@ class CityFragment : CityStatement(), ToolbarScreen {
 
 	override fun onViewCreatedBeforeRender(savedInstanceState: Bundle?) {
 		setupToolbarWith(requireActivity(), ToolbarConfig(
-			title = getString(R.string.loading_data)
+			title = getString(R.string.loading_data),
+			isEnableHomeButton = false,
+			isDisplayHomeButton = false
 		))
 
 		adapter = CategoryAdapter {
@@ -52,10 +55,13 @@ class CityFragment : CityStatement(), ToolbarScreen {
 		when (state.screenState) {
 			is PrimaryViewState.Loading -> {
 				city_collapse_toolbar.title = getString(R.string.loading_data)
+				city_recycler.isVisible = false
 			}
 			is PrimaryViewState.Data -> {
 				city_collapse_toolbar.title = getString(R.string.cities)
 				adapter.calculateDiffs(state.cities)
+				city_recycler.isVisible = true
+				city_refresh.isRefreshing = false
 			}
 		}
 	}

@@ -1,6 +1,8 @@
 package com.makecity.client.presentation.profile
 
 import com.makecity.client.app.AppScreens
+import com.makecity.client.data.geo.GeoDataSource
+import com.makecity.client.data.geo.GeoPoint
 import com.makecity.client.data.profile.Profile
 import com.makecity.client.data.profile.ProfileDataSource
 import com.makecity.core.data.Presentation
@@ -13,7 +15,9 @@ import com.makecity.core.presentation.state.ViewState
 import com.makecity.core.presentation.viewmodel.ActionView
 import com.makecity.core.presentation.viewmodel.BaseViewModel
 import com.makecity.core.presentation.viewmodel.StatementReducer
+import io.reactivex.Maybe
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.BiFunction
 import ru.terrakok.cicerone.Router
 
 
@@ -21,7 +25,8 @@ import ru.terrakok.cicerone.Router
 @Presentation
 data class ProfileViewState(
 	override val screenState: PrimaryViewState = PrimaryViewState.Loading,
-	val profile: Profile? = null
+	val profile: Profile? = null,
+	val geoPoint: GeoPoint? = null
 ) : ViewState
 
 
@@ -41,6 +46,7 @@ interface ProfileReducer: StatementReducer<ProfileViewState, ProfileAction>
 class ProfileViewModel(
 	private val router: Router,
 	private val profileDataSource: ProfileDataSource,
+	private val geoDataSource: GeoDataSource,
 	override val connectionProvider: ConnectionProvider,
 	override val disposables: CompositeDisposable = CompositeDisposable()
 ) : BaseViewModel(), ProfileReducer, ReducerPluginConnection {
@@ -55,13 +61,15 @@ class ProfileViewModel(
 		}
 	}
 
-	private fun onGetProfile() = profileDataSource
-		.getProfile()
-		.bindSubscribe(onSuccess = {
-			viewState.updateValue { copy(profile = it) }
-		}, onComplete = {
+	private fun onGetProfile() = Maybe.zip(
+		profileDataSource.getProfile(),
+		geoDataSource.getDefaultGeoPoint(),
+		BiFunction<Profile, GeoPoint, Pair<Profile, GeoPoint>> { profile, geo -> Pair(profile, geo) }
+	).bindSubscribe(onSuccess = {
+		viewState.updateValue { copy(profile = it.first, geoPoint = it.second) }
+	}, onComplete = {
 
-		})
+	})
 
 	private fun onLogout() = profileDataSource
 		.deleteProfile()

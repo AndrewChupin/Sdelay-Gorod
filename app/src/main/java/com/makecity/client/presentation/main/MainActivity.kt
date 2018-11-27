@@ -49,7 +49,6 @@ class MainActivity : MainView() {
 	override fun onResumeFragments() {
 		super.onResumeFragments()
 		navigatorHolder.setNavigator(navigator)
-
 	}
 
 	override fun onPause() {

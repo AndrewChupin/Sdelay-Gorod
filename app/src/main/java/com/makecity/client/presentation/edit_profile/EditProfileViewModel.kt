@@ -1,8 +1,9 @@
 package com.makecity.client.presentation.edit_profile
 
 import android.Manifest
-import android.util.Log
 import com.makecity.client.app.AppScreens
+import com.makecity.client.data.profile.Profile
+import com.makecity.client.data.profile.ProfileDataSource
 import com.makecity.core.data.Presentation
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.plugin.connection.ConnectionState
@@ -19,26 +20,37 @@ import io.reactivex.disposables.CompositeDisposable
 import ru.terrakok.cicerone.Router
 
 
-
 // State
 @Presentation
 data class EditProfileViewState(
-	override val screenState: PrimaryViewState = PrimaryViewState.Loading
+	override val screenState: PrimaryViewState = PrimaryViewState.Loading,
+	val profile: Profile? = null
 ) : ViewState
 
 
 // Action
 sealed class EditProfileAction: ActionView {
 	object PickPhoto: EditProfileAction()
+	data class SaveChanges(
+		val sex: String,
+		val name: String,
+		val address: String
+	) : EditProfileAction()
+
+	data class ChangePhoto(
+		val photo: String
+	) : EditProfileAction()
+
+	object LoadProfile : EditProfileAction()
 }
 
 // Reducer
 interface EditProfileReducer: StatementReducer<EditProfileViewState, EditProfileAction>
 
-
 // ViewModel
 class EditProfileViewModel(
 	private val router: Router,
+	private val profileDataSource: ProfileDataSource,
 	override val connectionProvider: ConnectionProvider,
 	private val permissionManager: PermissionManager,
 	override val disposables: CompositeDisposable = CompositeDisposable()
@@ -59,10 +71,10 @@ class EditProfileViewModel(
 									router.navigateTo(AppScreens.IMAGE_PICKER_SCREEN_KEY)
 								}
 								it.shouldShowRequestPermissionRationale -> {
-									Log.d("Logod", "shouldShowRequestPermissionRationale")
+
 								}
 								else -> {
-									Log.d("Logod", "danie")
+
 								}
 							}
 						},
@@ -70,6 +82,28 @@ class EditProfileViewModel(
 							it.printStackTrace()
 						})
 			}
+			is EditProfileAction.ChangePhoto -> viewState.updateValue {
+				copy(profile = profile?.copy(photo = action.photo))
+			}
+			is EditProfileAction.SaveChanges -> {
+				viewState.updateValue { copy(screenState = PrimaryViewState.Loading) }
+				state.profile
+					?.copy(sex = action.sex, street = action.address, firstName = action.name)
+					?.let { profile ->
+						profileDataSource
+							.deleteProfile()
+							.andThen { profileDataSource.editProfile(profile) }
+							.bindSubscribe(onSuccess = {
+								viewState.updateValue { copy(screenState = PrimaryViewState.Success) }
+							})
+					}
+			}
+			is EditProfileAction.LoadProfile -> profileDataSource.getProfile()
+				.bindSubscribe(onSuccess = {
+					viewState.updateValue {
+						copy(profile = it, screenState = PrimaryViewState.Data)
+					}
+				})
 		}
 	}
 

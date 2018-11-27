@@ -2,10 +2,8 @@ package com.makecity.client.data.common
 
 import com.makecity.client.data.auth.*
 import com.makecity.client.data.category.CategoryRemote
-import com.makecity.client.data.comments.Comment
 import com.makecity.client.data.comments.CommentRemote
 import com.makecity.client.data.company.CompanyRemote
-import com.makecity.client.data.geo.GeoPoint
 import com.makecity.client.data.geo.GeoPointRemote
 import com.makecity.client.data.profile.ProfileRemote
 import com.makecity.client.data.task.TaskRemote
@@ -18,7 +16,7 @@ interface Api {
 
 
 	/**
-	 * MARK - Comments}
+	 * MARK - Comments
 	 */
 	@GET("/comment/problem/{problem_id}?page=2&expand=author")
 	fun loadCommentsPage(
@@ -120,6 +118,13 @@ interface Api {
 	fun getProfile(
 		@Header("Authorization") token: String
 	): Single<ProfileRemote>
+
+	@GET("/profiles/user/update")
+	fun saveProfile(
+		@Header("Authorization") token: String,
+		@PartMap parts: HashMap<String, Any>,
+		@Part photo: MultipartBody.Part? = null
+	): Single<Boolean>
 
 
 	/**

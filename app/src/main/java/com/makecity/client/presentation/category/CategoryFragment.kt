@@ -3,7 +3,6 @@ package com.makecity.client.presentation.category
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
-import android.view.View
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
 import com.makecity.client.presentation.lists.CategoryAdapter
@@ -63,6 +62,7 @@ class CategoryFragment : CategoryStatement(), ToolbarScreen {
 			is PrimaryViewState.Data -> {
 				adapter.calculateDiffs(state.entries)
 				category_recycler.isVisible = true
+				category_refresh.isRefreshing = false
 			}
 		}
 	}
