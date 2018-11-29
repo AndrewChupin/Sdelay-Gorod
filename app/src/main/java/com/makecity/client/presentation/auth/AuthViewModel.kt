@@ -26,6 +26,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.parcel.Parcelize
 import ru.terrakok.cicerone.Router
+import java.lang.IllegalStateException
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -36,7 +37,7 @@ data class AuthViewState(
 	override val screenState: PrimaryViewState = PrimaryViewState.Data,
 	val authType: AuthType = AuthType.PHONE,
 	val authPhone: String = EMPTY,
-	val isPassRepeated: Boolean = false,
+	val isPassExist: Boolean = false,
 	val blockingSeconds: Int = 0,
 	val isResetContent: Boolean = false
 ) : ViewState
@@ -103,10 +104,19 @@ class AuthViewModel(
 			is AuthAction.ShowNextStep -> showNextStepOnButton(authData.authType)
 			is AuthAction.RefreshSms -> onRefreshSms()
 			is AuthAction.CheckPassword -> checkPassword(action.password)
-			is AuthAction.CreatePassword -> if (rememberedPassword.isEmpty()) {
-				onRememberPassword(action.password)
-			} else {
+
+			is AuthAction.CreatePassword -> if (rememberedPassword.isEmpty())
+				onSavePassword(action.password)
+			else
 				onRepeatPassword(action.password)
+
+			is AuthAction.BackClick -> if (rememberedPassword.isEmpty())
+				router.exit()
+			else {
+				rememberedPassword = EMPTY
+				viewState.updateValue { copy(isPassExist = false, isResetContent = false) }
+				channel?.invoke(DefaultMessage.ClearData)
+					?: throw IllegalStateException("Channel not found")
 			}
 		}
 	}
@@ -183,10 +193,10 @@ class AuthViewModel(
 		}
 
 	// MARK - Password Actions
-	private fun onRememberPassword(password: String) {
+	private fun onSavePassword(password: String) {
 		rememberedPassword = password
 		viewState.updateValue {
-			copy(isPassRepeated = true, isResetContent = true)
+			copy(isPassExist = true, isResetContent = true)
 		}
 	}
 
@@ -197,7 +207,7 @@ class AuthViewModel(
 					rememberedPassword = EMPTY
 
 					if (!it) {
-						viewState.updateValue { copy(isPassRepeated = false, isResetContent = true) }
+						viewState.updateValue { copy(isPassExist = false, isResetContent = true) }
 						return@doIfSuccess
 					}
 

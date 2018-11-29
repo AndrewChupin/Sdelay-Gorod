@@ -129,7 +129,7 @@ class AuthFragment : AuthStatement(), ToolbarScreen, KeyboardScreen, SimpleAnima
 		}
 
 		if (state.authType == AuthType.CREATE_PASSWORD) {
-			when (state.isPassRepeated) {
+			when (state.isPassExist) {
 				true -> auth_input_field.setHint(R.string.repeat_password)
 				false -> auth_input_field.setHint(R.string.make_password)
 			}
@@ -138,7 +138,7 @@ class AuthFragment : AuthStatement(), ToolbarScreen, KeyboardScreen, SimpleAnima
 		if (state.isResetContent) {
 			auth_input_field.setText(EMPTY)
 
-			if (!state.isPassRepeated) {
+			if (!state.isPassExist) {
 				IncorrectAnimator.add(view = auth_input_field, animatorListener = this)
 			}
 		}
