@@ -7,6 +7,8 @@ import com.makecity.client.data.auth.AuthType
 import com.makecity.client.domain.auth.AuthInteractor
 import com.makecity.core.data.Presentation
 import com.makecity.core.domain.Result
+import com.makecity.core.plugin.channel.DefaultMessage
+import com.makecity.core.plugin.channel.ReducerPluginChannel
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.plugin.connection.ConnectionState
 import com.makecity.core.plugin.connection.ReducerPluginConnection
@@ -44,6 +46,7 @@ data class AuthViewState(
 sealed class AuthAction: ActionView {
 	object ShowNextStep : AuthAction()
 	object RefreshSms : AuthAction()
+	object BackClick : AuthAction()
 	data class ResearchContent(
 		val content: String
 	) : AuthAction()
@@ -64,7 +67,7 @@ data class AuthData(
 
 
 // Reducer
-interface AuthReducer: StatementReducer<AuthViewState, AuthAction>
+interface AuthReducer: StatementReducer<AuthViewState, AuthAction>, ReducerPluginChannel<DefaultMessage>
 
 
 // ViewModel
@@ -78,6 +81,8 @@ class AuthViewModel(
 
 	override val viewState: StateLiveData<AuthViewState>
 		= StateLiveData.create(AuthViewState(authType = authData.authType))
+
+	override var channel: ((DefaultMessage) -> Unit)? = null
 
 	private var lastContent = EMPTY
 	private var rememberedPassword = EMPTY
@@ -95,7 +100,7 @@ class AuthViewModel(
 	override fun reduce(action: AuthAction) {
 		when (action) {
 			is AuthAction.ResearchContent -> researchContentConsumer(action)
-			is AuthAction.ShowNextStep -> showNextStep(authData.authType)
+			is AuthAction.ShowNextStep -> showNextStepOnButton(authData.authType)
 			is AuthAction.RefreshSms -> onRefreshSms()
 			is AuthAction.CheckPassword -> checkPassword(action.password)
 			is AuthAction.CreatePassword -> if (rememberedPassword.isEmpty()) {
@@ -106,14 +111,14 @@ class AuthViewModel(
 		}
 	}
 
-	private fun showNextStepConsumer(nextAuthType: AuthType) = when (nextAuthType) {
+	private fun showNextStepByType(nextAuthType: AuthType) = when (nextAuthType) {
 		AuthType.PHONE -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.PHONE))
 		AuthType.SMS -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.SMS))
-		AuthType.CREATE_PASSWORD -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.CREATE_PASSWORD))
-		AuthType.PASSWORD -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.PASSWORD))
+		AuthType.CREATE_PASSWORD -> router.replaceScreen(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.CREATE_PASSWORD))
+		AuthType.PASSWORD -> router.replaceScreen(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.PASSWORD))
 	}
 
-	private fun showNextStep(currentAuthType: AuthType) = when (currentAuthType) {
+	private fun showNextStepOnButton(currentAuthType: AuthType) = when (currentAuthType) {
 		AuthType.PHONE -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.SMS))
 		AuthType.SMS -> router.navigateTo(AppScreens.AUTH_SCREEN_KEY, AuthData(AuthType.CREATE_PASSWORD))
 		else -> Unit
@@ -162,7 +167,7 @@ class AuthViewModel(
 						.checkSms(content.toString())
 						.bindSubscribe(onSuccess = {
 							onSuccess()
-							showNextStepConsumer(it.nextStep)
+							showNextStepByType(it.nextStep)
 						})
 				}
 				AuthType.PHONE -> {
@@ -171,7 +176,7 @@ class AuthViewModel(
 						.sendPhone(content.toString())
 						.bindSubscribe(onSuccess = {
 							onSuccess()
-							showNextStepConsumer(it.nextStep)
+							showNextStepByType(it.nextStep)
 						})
 				}
 			}

@@ -63,12 +63,15 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener, DialogTw
 		bottom_problems_list.layoutManager = LinearLayoutManager(requireContext(), HORIZONTAL, false)
 		bottom_problems_list.adapter = problemsMapAdapter
 
-		val snapHelper = LinearSnapHelper()
-		val snapOnScrollListener = SnapOnScrollListener(snapHelper, this,
-			SnapOnScrollListener.Behavior.NOTIFY_ON_SCROLL_STATE_IDLE)
-
-		snapHelper.attachToRecyclerView(bottom_problems_list)
-		bottom_problems_list.addOnScrollListener(snapOnScrollListener)
+		LinearSnapHelper().let {
+			val snapOnScrollListener = SnapOnScrollListener(
+				it,
+				this,
+				SnapOnScrollListener.Behavior.NOTIFY_ON_SCROLL_STATE_IDLE
+			)
+			it.attachToRecyclerView(bottom_problems_list)
+			bottom_problems_list.addOnScrollListener(snapOnScrollListener)
+		}
 
 		bottom_hide_button.setOnClickListener {
 			val newState = when (bottomSheetBehavior.state) {
@@ -102,42 +105,7 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener, DialogTw
 		map_show_as_list clickReduce MapPointsAction.ShowProblemsAsList
 		map_menu_button clickReduce MapPointsAction.ShowMenu
 
-
-		// Animation
-		val animatorElevationDown = ObjectAnimator.ofFloat(
-			map_button_add_task,
-			"cardElevation",
-			ScreenUtils.convertDpToPixel(4f), // TODO LATE
-			ScreenUtils.convertDpToPixel(8f)
-		)
-
-		val animatorElevationUp = ObjectAnimator.ofFloat(
-			map_button_add_task,
-			"cardElevation",
-			ScreenUtils.convertDpToPixel(8f),
-			ScreenUtils.convertDpToPixel(4f)
-		)
-
-		map_button_add_task.setOnTouchListener { _, event ->
-			when (event.action) {
-				MotionEvent.ACTION_DOWN -> {
-					if (animatorElevationUp.isRunning || animatorElevationUp.isStarted) {
-						animatorElevationUp.cancel()
-					}
-					animatorElevationDown.start()
-					false
-				}
-				MotionEvent.ACTION_CANCEL,
-				MotionEvent.ACTION_UP -> {
-					if (animatorElevationDown.isRunning || animatorElevationDown.isStarted) {
-						animatorElevationDown.cancel()
-					}
-					animatorElevationUp.start()
-					false
-				}
-				else -> false
-			}
-		}
+		initAnimation()
 	}
 
 	override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -220,5 +188,43 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener, DialogTw
 			map_button_add_task.isVisible = false
 		}
 		else -> Unit
+	}
+
+	private fun initAnimation() {
+		// Animation
+		val animatorElevationDown = ObjectAnimator.ofFloat(
+			map_button_add_task,
+			"cardElevation",
+			ScreenUtils.convertDpToPixel(4f), // TODO LATE
+			ScreenUtils.convertDpToPixel(8f)
+		)
+
+		val animatorElevationUp = ObjectAnimator.ofFloat(
+			map_button_add_task,
+			"cardElevation",
+			ScreenUtils.convertDpToPixel(8f),
+			ScreenUtils.convertDpToPixel(4f)
+		)
+
+		map_button_add_task.setOnTouchListener { _, event ->
+			when (event.action) {
+				MotionEvent.ACTION_DOWN -> {
+					if (animatorElevationUp.isRunning || animatorElevationUp.isStarted) {
+						animatorElevationUp.cancel()
+					}
+					animatorElevationDown.start()
+					false
+				}
+				MotionEvent.ACTION_CANCEL,
+				MotionEvent.ACTION_UP -> {
+					if (animatorElevationDown.isRunning || animatorElevationDown.isStarted) {
+						animatorElevationDown.cancel()
+					}
+					animatorElevationUp.start()
+					false
+				}
+				else -> false
+			}
+		}
 	}
 }

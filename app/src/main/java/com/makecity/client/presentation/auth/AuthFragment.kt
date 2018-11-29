@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.View
-import android.widget.EditText
 import com.makecity.client.R
 import com.makecity.client.app.AppConst
 import com.makecity.client.app.AppInjector
@@ -33,9 +32,7 @@ import ru.tinkoff.decoro.slots.PredefinedSlots
 import ru.tinkoff.decoro.watchers.FormatWatcher
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher
 import android.text.InputType
-
-
-
+import com.makecity.core.plugin.channel.DefaultMessage
 
 
 typealias AuthStatement = StatementFragment<AuthReducer, AuthViewState, AuthAction>
@@ -88,6 +85,14 @@ class AuthFragment : AuthStatement(), ToolbarScreen, KeyboardScreen, SimpleAnima
 			}
 		}
 
+		reducer.channel = {
+			when (it) {
+				DefaultMessage.ClearData -> {
+					auth_input_field.text = null
+				}
+			}
+		}
+
 		auth_input_field.requestFocus()
 		showKeyboard()
 	}
@@ -101,12 +106,19 @@ class AuthFragment : AuthStatement(), ToolbarScreen, KeyboardScreen, SimpleAnima
 		super.onDestroyView()
 
 		hideKeyboard()
+		reducer.channel = null
 		IncorrectAnimator.destroy() // TODO LATE
+
+
 		textObserver?.let {
 			auth_input_field.removeTextChangedListener(it)
 		}
-
 		formatWatcher?.removeFromTextView()
+	}
+
+	override fun onBackClick(): Boolean {
+		reducer.reduce(AuthAction.BackClick)
+		return true
 	}
 
 	override fun render(state: AuthViewState) {
@@ -214,7 +226,7 @@ class AuthFragment : AuthStatement(), ToolbarScreen, KeyboardScreen, SimpleAnima
 		AuthType.PASSWORD -> {
 			auth_input_field.setHint(R.string.input_password)
 			auth_input_field.filters = arrayOf()
-			auth_input_field.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+			auth_input_field.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
 
 			auth_info_title.text = getString(R.string.auth_phone_title)
 			auth_info_description.text = getString(R.string.auth_phone_description)
@@ -226,7 +238,7 @@ class AuthFragment : AuthStatement(), ToolbarScreen, KeyboardScreen, SimpleAnima
 		AuthType.CREATE_PASSWORD -> {
 			auth_input_field.setHint(R.string.input_password)
 			auth_input_field.filters = arrayOf()
-			auth_input_field.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+			auth_input_field.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
 
 			auth_info_title.text = getString(R.string.auth_phone_title)
 			auth_info_description.text = getString(R.string.auth_phone_description)
