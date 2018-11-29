@@ -108,12 +108,13 @@ interface ReactiveActions {
      */
     fun Completable.bindSubscribe(scheduler: Scheduler = Schedulers.io(),
                                   onSuccess: () -> Unit = {},
-                                  onError: (Throwable) -> Unit  = {
-                                      Log.e("Error", "Reactive", it)
-                                  })
+                                  onError: (Throwable) -> Unit  = {})
             = subscribeOn(scheduler)
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(onSuccess, onError)
+            .subscribe(onSuccess, {
+                Log.e("Error", "Reactive", it)
+                onError(it)
+            })
             .bindDisposable()
 
     /**

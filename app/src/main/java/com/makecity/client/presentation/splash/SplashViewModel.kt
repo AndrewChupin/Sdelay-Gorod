@@ -1,6 +1,7 @@
 package com.makecity.client.presentation.splash
 
 import com.makecity.client.app.AppScreens
+import com.makecity.client.app.log
 import com.makecity.client.data.geo.GeoDataSource
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.plugin.connection.ConnectionState

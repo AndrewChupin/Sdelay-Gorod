@@ -1,5 +1,6 @@
 package com.makecity.client.data.profile
 
+import com.makecity.client.app.log
 import com.makecity.client.data.auth.AuthStorage
 import com.makecity.client.data.auth.TokenNotFounded
 import com.makecity.core.domain.Mapper
@@ -15,9 +16,7 @@ interface ProfileDataSource {
 	fun refreshProfile(): Single<Profile>
 	fun getProfile(): Maybe<Profile>
 	fun deleteProfile(): Completable
-	fun editProfile(
-		profile: Profile
-	): Completable
+	fun editProfile(profile: Profile): Completable
 }
 
 
@@ -26,7 +25,7 @@ class ProfileDataSourceDefault @Inject constructor(
 	private val profileStorage: ProfileStorage,
 	private val authStorage: AuthStorage,
 	private val mapperRemote: Mapper<ProfileRemote, ProfilePersistence>,
-	private val mapperCommon: Mapper<ProfilePersistence, Profile>
+	private val mapperPersist: Mapper<ProfilePersistence, Profile>
 ): ProfileDataSource {
 
 	override fun refreshProfile(): Single<Profile> = Single.defer {
@@ -35,14 +34,15 @@ class ProfileDataSourceDefault @Inject constructor(
 			.map { if (it.isEmpty()) throw TokenNotFounded else it  }
 			.flatMap(profileService::loadProfile)
 			.map(mapperRemote::transform)
+			.blockingCompletable { profileStorage.deleteAll() }
 			.blockingCompletable(profileStorage::saveProfile)
-			.map(mapperCommon::transform)
+			.map(mapperPersist::transform)
 	}
 
 	override fun getProfile(): Maybe<Profile> = Maybe.defer {
 		profileStorage
 			.getProfile()
-			.map(mapperCommon::transform)
+			.map(mapperPersist::transform)
 	}
 
 	override fun deleteProfile(): Completable = Completable.defer {
@@ -50,10 +50,12 @@ class ProfileDataSourceDefault @Inject constructor(
 			.andThen(authStorage.setAuthToken(EMPTY))
 	}
 
-	override fun editProfile(
-		profile: Profile
-	): Completable = authStorage
-		.getAuthToken()
-		.flatMap { profileService.saveProfile(it, profile) }
-		.ignoreElement()
+	override fun editProfile(profile: Profile): Completable = Completable.defer {
+		log("editProfile defer")
+		authStorage
+			.getAuthToken()
+			.flatMap { profileService.saveProfile(it, profile) }
+			.flatMap { refreshProfile() }
+			.ignoreElement()
+	}
 }

@@ -1,7 +1,9 @@
 package com.makecity.client.presentation.edit_profile
 
 import android.Manifest
+import android.util.Log
 import com.makecity.client.app.AppScreens
+import com.makecity.client.app.log
 import com.makecity.client.data.profile.Profile
 import com.makecity.client.data.profile.ProfileDataSource
 import com.makecity.core.data.Presentation
@@ -67,33 +69,27 @@ class EditProfileViewModel(
 						scheduler = AndroidSchedulers.mainThread(),
 						onNext = {
 							when {
-								it.granted -> {
-									router.navigateTo(AppScreens.IMAGE_PICKER_SCREEN_KEY)
-								}
-								it.shouldShowRequestPermissionRationale -> {
-
-								}
-								else -> {
-
-								}
+								it.granted -> { router.navigateTo(AppScreens.IMAGE_PICKER_SCREEN_KEY) }
+								it.shouldShowRequestPermissionRationale -> { }
+								else -> { }
 							}
 						},
-						onError = {
-							it.printStackTrace()
-						})
+						onError = { it.printStackTrace() })
 			}
 			is EditProfileAction.ChangePhoto -> viewState.updateValue {
 				copy(profile = profile?.copy(photo = action.photo))
 			}
 			is EditProfileAction.SaveChanges -> {
 				viewState.updateValue { copy(screenState = PrimaryViewState.Loading) }
+				log("SaveChanges")
 				state.profile
 					?.copy(sex = action.sex, street = action.address, firstName = action.name)
 					?.let { profile ->
+						log("deleteProfile")
 						profileDataSource
-							.deleteProfile()
-							.andThen { profileDataSource.editProfile(profile) }
+							.editProfile(profile)
 							.bindSubscribe(onSuccess = {
+								log("onSuccess")
 								viewState.updateValue { copy(screenState = PrimaryViewState.Success) }
 							})
 					}

@@ -16,7 +16,7 @@ data class SaveProfileRequest(
 	@Json(name = "sex") val sex: String
 ) {
 
-	fun toMap(): HashMap<String, Any> = hashMapOf(
+	fun toMap() = hashMapOf(
 		"first_name" to firstName,
 		"street" to street,
 		"sex" to sex

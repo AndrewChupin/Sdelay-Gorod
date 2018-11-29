@@ -118,10 +118,13 @@ interface Api {
 		@Header("Authorization") token: String
 	): Single<ProfileRemote>
 
-	@GET("/profiles/user/update")
+
+	@Headers("Content-Type: multipart/form-data")
+	@Multipart
+	@POST("/profiles/user/update")
 	fun saveProfile(
 		@Header("Authorization") token: String,
-		@PartMap parts: HashMap<String, Any>,
+		@PartMap parts: HashMap<String, String>,
 		@Part photo: MultipartBody.Part? = null
 	): Single<Boolean>
 

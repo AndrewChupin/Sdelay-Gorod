@@ -5,12 +5,16 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
 import com.makecity.core.presentation.screen.ToolbarConfig
 import com.makecity.core.presentation.screen.ToolbarScreen
 import com.makecity.core.presentation.state.PrimaryViewState
 import com.makecity.core.presentation.view.StatementFragment
+import com.makecity.core.utils.Symbols.EMPTY
 import com.makecity.core.utils.image.CommonImageRules
 import com.makecity.core.utils.image.ImageManager
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
@@ -46,6 +50,10 @@ class EditProfileFragment : EditProfileStatement(), ToolbarScreen {
 			isDisplayHomeButton = true
 		))
 
+		loadingDialog = ProgressDialog(requireContext())
+		loadingDialog.setMessage(getString(R.string.updating_profile))
+		loadingDialog.setCancelable(false)
+
 		edit_profile_change_photo clickReduce EditProfileAction.PickPhoto
 
 		val mask = MaskImpl(PredefinedSlots.RUS_PHONE_NUMBER, true)
@@ -62,6 +70,17 @@ class EditProfileFragment : EditProfileStatement(), ToolbarScreen {
 		}
 	}
 
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+		reducer.reduce(EditProfileAction.LoadProfile)
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+		loadingDialog.dismiss()
+	}
+
 	override fun onScreenResult(requestCode: Int, resultCode: Int, data: Intent?) {
 		super.onScreenResult(requestCode, resultCode, data)
 		data?.dataString?.let {
@@ -75,9 +94,7 @@ class EditProfileFragment : EditProfileStatement(), ToolbarScreen {
 	override fun render(state: EditProfileViewState) {
 
 		when (state.screenState) {
-			is PrimaryViewState.Loading -> loadingDialog = ProgressDialog.show(
-				context, getString(R.string.updating_profile), null, false, false
-			)
+			is PrimaryViewState.Loading -> loadingDialog.show()
 			else -> loadingDialog.dismiss()
 		}
 
@@ -94,9 +111,11 @@ class EditProfileFragment : EditProfileStatement(), ToolbarScreen {
 		}
 	}
 
+
+
 	private fun getGender(id: Int): String = when (id) {
 		R.id.edit_profile_sex_male -> "male"
 		R.id.edit_profile_sex_female -> "female"
-		else -> throw IllegalArgumentException("Sex with id $id not support")
+		else -> EMPTY
 	}
 }

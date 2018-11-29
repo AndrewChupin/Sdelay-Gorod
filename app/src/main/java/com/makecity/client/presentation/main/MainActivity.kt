@@ -1,6 +1,10 @@
 package com.makecity.client.presentation.main
 
+import android.app.Activity
+import android.app.Fragment
 import android.os.Bundle
+import android.support.v4.content.LocalBroadcastManager
+import android.view.View
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
 import com.makecity.client.di.MainComponent

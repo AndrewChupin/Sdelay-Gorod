@@ -1,9 +1,13 @@
 package com.makecity.client.presentation.comments
 
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
+import android.util.ArrayMap
+import android.util.SparseArray
 import com.makecity.client.R
 import com.makecity.client.app.AppInjector
 import com.makecity.client.presentation.lists.CommentsAdapter
@@ -19,6 +23,7 @@ import com.makecity.core.utils.Symbols.EMPTY
 import com.makecity.core.utils.image.ImageManager
 import kotlinx.android.synthetic.main.fragment_comments.*
 import kotlinx.android.synthetic.main.toolbar.*
+import java.util.HashMap
 import javax.inject.Inject
 
 
@@ -53,7 +58,6 @@ class CommentsFragment : CommentsStatement(), ToolbarScreen {
 			isDisplayHomeButton = true,
 			isEnableHomeButton = true
 		))
-
 
 
 		comments_send_button.clickReduce {

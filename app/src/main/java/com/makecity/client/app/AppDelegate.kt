@@ -1,5 +1,6 @@
 package com.makecity.client.app
 
+import android.content.ComponentCallbacks2
 import android.content.Context
 import com.facebook.stetho.Stetho
 import com.makecity.client.BuildConfig
