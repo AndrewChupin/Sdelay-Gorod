@@ -16,6 +16,7 @@ import com.makecity.client.data.task.Task
 import com.makecity.core.data.entity.Location
 import com.makecity.core.extenstion.calculateDiffs
 import com.makecity.core.extenstion.hideWithScale
+import com.makecity.core.extenstion.isVisible
 import com.makecity.core.extenstion.showWithScale
 import com.makecity.core.plugin.connection.ConnectionState
 import com.makecity.core.plugin.location.LocationState
@@ -56,7 +57,6 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener, DialogTw
 	override fun onViewCreatedBeforeRender(savedInstanceState: Bundle?) {
 		bottomSheetBehavior = initBottomState(bottom_problems)
 
-
 		problemsMapAdapter = ProblemsMapAdapter(this) {
 			reducer.reduce(MapPointsAction.ShowDetails(it.id))
 		}
@@ -71,14 +71,13 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener, DialogTw
 		bottom_problems_list.addOnScrollListener(snapOnScrollListener)
 
 		bottom_hide_button.setOnClickListener {
-			when (bottomSheetBehavior.state) {
-				BottomSheetBehavior.STATE_EXPANDED -> {
-					bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-				}
-				else -> {
-					bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-				}
+			val newState = when (bottomSheetBehavior.state) {
+				BottomSheetBehavior.STATE_EXPANDED -> BottomSheetBehavior.STATE_COLLAPSED
+				else -> BottomSheetBehavior.STATE_EXPANDED
 			}
+
+			bottomSheetBehavior.state = newState
+			switchAddButton(newState)
 		}
 
 		map_view.pointClickListener = {
@@ -105,7 +104,7 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener, DialogTw
 		val animatorElevationDown = ObjectAnimator.ofFloat(
 			map_button_add_task,
 			"cardElevation",
-			ScreenUtils.convertDpToPixel(4f),
+			ScreenUtils.convertDpToPixel(4f), // TODO LATE
 			ScreenUtils.convertDpToPixel(8f)
 		)
 
@@ -138,6 +137,11 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener, DialogTw
 		}
 	}
 
+	override fun onViewStateRestored(savedInstanceState: Bundle?) {
+		super.onViewStateRestored(savedInstanceState)
+		switchAddButton(bottomSheetBehavior.state)
+	}
+
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		map_view.mapInteractionReady = {
@@ -167,7 +171,8 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener, DialogTw
 
 	private fun showAuthDialog() {
 		val dialog = TwoWaysDialog.newInstance(
-			DialogTwoWaysData("Ошибка", "Для создания задачи необходимо авторизоваться", "Войти", "Позже")
+			DialogTwoWaysData(getString(R.string.error),
+				getString(R.string.need_auth_for_add_task), getString(R.string.sign_in), getString(R.string.later))
 		)
 		dialog.setTargetFragment(this@MapPointsFragment, REQUEST_TWO_WAY_DIALOG_MAP)
 		dialog.show(requireFragmentManager(), DialogTwoWaysData::class.java.canonicalName)
@@ -186,16 +191,7 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener, DialogTw
 			override fun onSlide(p0: View, slideOffset: Float) {}
 
 			override fun onStateChanged(p0: View, state: Int) {
-				when (state) {
-					BottomSheetBehavior.STATE_COLLAPSED -> {
-						bottom_hide_button.setImageResource(R.drawable.ic_expand_less_gray_24dp)
-						map_button_add_task.showWithScale()
-					}
-					BottomSheetBehavior.STATE_EXPANDED -> {
-						bottom_hide_button.setImageResource(R.drawable.ic_expand_more_gray_24dp)
-						map_button_add_task.hideWithScale()
-					}
-				}
+				switchAddButton(state)
 			}
 
 		})
@@ -211,4 +207,16 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener, DialogTw
 	override fun onNegativeClick(dialog: DialogInterface) = dialog.dismiss()
 
 	override fun likeClicked(task: Task) = reducer.reduce(MapPointsAction.ChangeFavorite(task))
+
+	private fun switchAddButton(bottomState: Int) = when (bottomState) {
+		BottomSheetBehavior.STATE_COLLAPSED -> {
+			bottom_hide_button.setImageResource(R.drawable.ic_expand_less_gray_24dp)
+			map_button_add_task.isVisible = true
+		}
+		BottomSheetBehavior.STATE_EXPANDED -> {
+			bottom_hide_button.setImageResource(R.drawable.ic_expand_more_gray_24dp)
+			map_button_add_task.isVisible = false
+		}
+		else -> Unit
+	}
 }

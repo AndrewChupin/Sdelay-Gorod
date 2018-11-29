@@ -9,7 +9,7 @@ import com.makecity.core.data.Persistence
 import com.squareup.moshi.Json
 
 enum class ProblemStatus {
-	NEW, IN_PROGRESS, DONE, CANCELED
+	NEW, IN_PROGRESS, DONE, CANCELED, REJECT
 }
 
 

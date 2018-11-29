@@ -67,6 +67,7 @@ class ProblemMapperPersistenceToCommon @Inject constructor(): Mapper<TaskPersist
 				2L -> ProblemStatus.IN_PROGRESS
 				3L -> ProblemStatus.DONE
 				4L -> ProblemStatus.CANCELED
+				5L -> ProblemStatus.REJECT
 				else -> throw IllegalStateException("Status with id ${status.id} not existing")
 			},
 			author = Author(

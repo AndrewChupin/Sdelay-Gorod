@@ -77,14 +77,18 @@ class MapPointsView: BaseMapView, GoogleMap.OnMarkerClickListener {
 			}?.let {
 				it.position = LatLng(point.latitude, point.longitude)
 				if (it.tag is Task && (it.tag as Task).statusType != point.statusType) {
-					if (point.statusType == ProblemStatus.DONE || point.statusType == ProblemStatus.CANCELED) {
+					if (point.statusType == ProblemStatus.DONE
+						|| point.statusType == ProblemStatus.CANCELED
+						|| point.statusType == ProblemStatus.REJECT) {
 						it.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.green))
 					} else {
 						it.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.red))
 					}
 				}
 			} ?: map?.run {
-				val marker = if (point.statusType == ProblemStatus.DONE || point.statusType == ProblemStatus.CANCELED) {
+				val marker = if (point.statusType == ProblemStatus.DONE
+					|| point.statusType == ProblemStatus.CANCELED
+					|| point.statusType == ProblemStatus.REJECT) {
 					this.addMarker(Location(point.latitude, point.longitude), R.drawable.green, point)
 				} else {
 					this.addMarker(Location(point.latitude, point.longitude), R.drawable.red, point)

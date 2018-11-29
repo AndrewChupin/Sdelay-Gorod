@@ -18,7 +18,7 @@
     <string name="about_project">О проекте</string>
     <string name="partners">Партнеры</string>
     <string name="archive_problems">Архив проблем</string>
-    <string name="sign_in">Авторизация</string>
+    <string name="sign_in">Войти</string>
 
     <!-- Splash Screen -->
     <string name="splash_retry">Попробовать снова</string>
@@ -102,4 +102,7 @@
     <string name="save">Сохранить</string>
     <string name="updating_profile">Обновление профиля</string>
     <string name="first_name">Имя</string>
+    <string name="need_auth_for_add_task">Для создания задачи необходимо авторизоваться</string>
+    <string name="error">Ошибка</string>
+    <string name="later">Позже</string>
 </resources>

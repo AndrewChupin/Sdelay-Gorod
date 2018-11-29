@@ -51,7 +51,7 @@ android {
             def googleKey = constants.googleMapDebugKey
             manifestPlaceholders = [GOOGLE_MAPS_KEY: googleKey]
             buildConfigField("String", "GOOGLE_MAPS_KEY", "\"${googleKey}\"")
-            buildConfigField "String", "URL_API", constants.urlApiDebug
+            buildConfigField "String", "URL_API", constants.urlApiRelease
         }
 
         applicationVariants.all { variant ->
