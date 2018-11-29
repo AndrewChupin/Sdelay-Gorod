@@ -105,8 +105,8 @@
     <string name="first_name">Имя</string>
     <string name="input_name">Введите имя</string>
 
-    <string name="street">Город</string>
-    <string name="input_street">Введите город</string>
+    <string name="street">Улица</string>
+    <string name="input_street">Укажите улицу</string>
 
     <string name="house">Дом</string>
     <string name="input_house">Укажите дом</string>

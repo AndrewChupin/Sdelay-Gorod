@@ -44,9 +44,4 @@ class TitledEditText : LinearLayout {
 		titled_view_field.hint = hint
 	}
 
-
-	override fun onDetachedFromWindow() {
-		super.onDetachedFromWindow()
-		clearFindViewByIdCache()
-	}
 }
