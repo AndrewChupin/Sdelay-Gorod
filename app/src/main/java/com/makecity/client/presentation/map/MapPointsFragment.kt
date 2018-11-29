@@ -174,8 +174,7 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener, DialogTw
 
 	private fun showAuthDialog() {
 		val dialog = TwoWaysDialog.newInstance(
-			DialogTwoWaysData(getString(R.string.error),
-				getString(R.string.need_auth_for_add_task), getString(R.string.sign_in), getString(R.string.later))
+			DialogTwoWaysData(getString(R.string.need_auth_for_add_task), getString(R.string.sign_in), getString(R.string.later))
 		)
 		dialog.setTargetFragment(this@MapPointsFragment, REQUEST_TWO_WAY_DIALOG_MAP)
 		dialog.show(requireFragmentManager(), DialogTwoWaysData::class.java.canonicalName)

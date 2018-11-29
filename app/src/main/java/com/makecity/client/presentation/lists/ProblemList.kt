@@ -321,7 +321,7 @@ class ProblemShowMoreViewHolder(
 	override fun bind(item: Task) {
 		super.bind(item)
 
-		if (item.commentsCount > 10) {
+		if (item.commentsCount < 10) { // TODO LATE
 			containerView.isVisible = false
 			containerView.layoutParams = containerView.layoutParams.apply {
 				height = 0

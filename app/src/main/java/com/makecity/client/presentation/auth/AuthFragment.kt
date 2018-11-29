@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.View
+import android.widget.EditText
 import com.makecity.client.R
 import com.makecity.client.app.AppConst
 import com.makecity.client.app.AppInjector
@@ -31,6 +32,9 @@ import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.slots.PredefinedSlots
 import ru.tinkoff.decoro.watchers.FormatWatcher
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher
+import android.text.InputType
+
+
 
 
 
@@ -96,7 +100,8 @@ class AuthFragment : AuthStatement(), ToolbarScreen, KeyboardScreen, SimpleAnima
 	override fun onDestroyView() {
 		super.onDestroyView()
 
-		IncorrectAnimator.destroy()
+		hideKeyboard()
+		IncorrectAnimator.destroy() // TODO LATE
 		textObserver?.let {
 			auth_input_field.removeTextChangedListener(it)
 		}
@@ -209,6 +214,7 @@ class AuthFragment : AuthStatement(), ToolbarScreen, KeyboardScreen, SimpleAnima
 		AuthType.PASSWORD -> {
 			auth_input_field.setHint(R.string.input_password)
 			auth_input_field.filters = arrayOf()
+			auth_input_field.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
 
 			auth_info_title.text = getString(R.string.auth_phone_title)
 			auth_info_description.text = getString(R.string.auth_phone_description)
@@ -220,6 +226,7 @@ class AuthFragment : AuthStatement(), ToolbarScreen, KeyboardScreen, SimpleAnima
 		AuthType.CREATE_PASSWORD -> {
 			auth_input_field.setHint(R.string.input_password)
 			auth_input_field.filters = arrayOf()
+			auth_input_field.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
 
 			auth_info_title.text = getString(R.string.auth_phone_title)
 			auth_info_description.text = getString(R.string.auth_phone_description)

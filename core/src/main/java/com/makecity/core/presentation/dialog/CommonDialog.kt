@@ -10,7 +10,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class DialogTwoWaysData(
-	val title: String,
 	val message: String,
 	val positiveButton: String,
 	val negativeButton: String
@@ -41,7 +40,6 @@ class TwoWaysDialog: DialogFragment() {
 		?.run {
 			AlertDialog.Builder(requireContext())
 			.setCancelable(true)
-			.setTitle(title)
 			.setMessage(message)
 			.setNegativeButton(negativeButton) { dialog, _ ->
 				val target = targetFragment
