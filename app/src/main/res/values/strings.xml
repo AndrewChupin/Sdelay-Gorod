@@ -67,7 +67,7 @@
     <string name="comments">Комментарии</string>
 
     <!-- CreateProblem -->
-    <string name="loading_data">Загрузка данных...</string>
+    <string name="loading_data">Загрузка данных…</string>
     <string name="preview">Предосмотр</string>
     <string name="problem_description">Описание проблемы</string>
     <string name="description">Описание</string>
@@ -88,21 +88,31 @@
     <string name="name_format">%1$s %2$s</string>
     <string name="need_auth">Необходимо авторизоваться!</string>
     <string name="cities">Выберите город</string>
-    <string name="address">Адрес</string>
     <string name="gender">Пол</string>
     <string name="city">Город</string>
     <string name="undefined_symbol">-</string>
-    <string name="sex">Пол</string>
     <string name="phone">Телефон</string>
-    <string name="full_name">Полное имя</string>
-    <string name="input_name">Введите ваше имя</string>
-    <string name="input_address">Введите адрес</string>
-    <string name="male">Мужчина</string>
-    <string name="female">Женщина</string>
     <string name="save">Сохранить</string>
     <string name="updating_profile">Обновление профиля</string>
-    <string name="first_name">Имя</string>
     <string name="need_auth_for_add_task">Для создания задачи необходимо авторизоваться!</string>
     <string name="error">Ошибка</string>
     <string name="later">Позже</string>
+
+    <string name="second_name">Фамилия</string>
+    <string name="input_family">Введите фамилию</string>
+
+    <string name="full_name">Полное имя</string>
+    <string name="first_name">Имя</string>
+    <string name="input_name">Введите имя</string>
+
+    <string name="street">Город</string>
+    <string name="input_street">Введите город</string>
+
+    <string name="house">Дом</string>
+    <string name="input_house">Укажите дом</string>
+
+    <string name="sex">Пол</string>
+    <string name="male">Мужчина</string>
+    <string name="female">Женщина</string>
+    <string name="address">Адрес</string>
 </resources>

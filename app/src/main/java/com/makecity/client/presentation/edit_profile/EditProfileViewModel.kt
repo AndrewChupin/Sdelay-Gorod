@@ -33,8 +33,10 @@ sealed class EditProfileAction: ActionView {
 	object PickPhoto: EditProfileAction()
 	data class SaveChanges(
 		val sex: String,
-		val name: String,
-		val address: String
+		val firstName: String,
+		val secondName: String,
+		val street: String,
+		val house: String
 	) : EditProfileAction()
 
 	data class ChangePhoto(
@@ -80,7 +82,13 @@ class EditProfileViewModel(
 			is EditProfileAction.SaveChanges -> {
 				viewState.updateValue { copy(screenState = PrimaryViewState.Loading) }
 				state.profile
-					?.copy(sex = action.sex, street = action.address, firstName = action.name)
+					?.copy(
+						sex = action.sex,
+						street = action.street,
+						house = action.house,
+						firstName = action.firstName,
+						lastName = action.secondName
+					)
 					?.let { profile ->
 						profileDataSource
 							.editProfile(profile)

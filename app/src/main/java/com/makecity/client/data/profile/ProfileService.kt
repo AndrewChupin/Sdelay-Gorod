@@ -12,13 +12,17 @@ import javax.inject.Inject
 
 data class SaveProfileRequest(
 	@Json(name = "first_name") val firstName: String,
+	@Json(name = "last_name") val lastName: String,
 	@Json(name = "street") val street: String,
+	@Json(name = "house") val house: String,
 	@Json(name = "sex") val sex: String
 ) {
 
 	fun toMap() = hashMapOf(
 		"first_name" to firstName,
+		"last_name" to lastName,
 		"street" to street,
+		"house" to house,
 		"sex" to sex
 	)
 
@@ -44,8 +48,10 @@ class ProfileServiceRetrofit @Inject constructor(
 
 			parts = SaveProfileRequest(
 				firstName = profile.firstName,
+				lastName = profile.lastName,
 				sex = profile.sex,
-				street = profile.street
+				street = profile.street,
+				house = profile.house
 			).toMap(),
 
 			photo = if (profile.photo.isNotEmpty() && !profile.photo.startsWith("http")) { // TODO LATE change startsWith

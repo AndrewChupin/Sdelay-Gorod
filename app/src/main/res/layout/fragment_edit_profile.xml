@@ -55,62 +55,78 @@
 
                 </LinearLayout>
 
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.makecity.client.presentation.views.TitledEditText
+                        android:id="@+id/edit_profile_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/input_name"
+                        app:layout_constraintEnd_toStartOf="@+id/edit_profile_name_space"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:title="@string/first_name" />
+
+                    <Space
+                        android:id="@+id/edit_profile_name_space"
+                        android:layout_width="@dimen/space_base"
+                        android:layout_height="match_parent"
+                        app:layout_constraintStart_toEndOf="@id/edit_profile_name"
+                        app:layout_constraintEnd_toStartOf="@id/edit_profile_family"/>
+
+                    <com.makecity.client.presentation.views.TitledEditText
+                        android:id="@+id/edit_profile_family"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/input_family"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/edit_profile_name_space"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:title="@string/second_name" />
+
+                </android.support.constraint.ConstraintLayout>
+
                 <com.makecity.client.presentation.views.TitledEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/space_base_lower_half"
-                    android:fontFamily="@font/roboto_bold"
-                    android:textColor="@color/text_dark_main"
-                    android:textSize="16sp"
-                    android:text="@string/first_name" />
-
-                <EditText
-                    android:id="@+id/edit_profile_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/space_base"
-                    android:textSize="16sp"
-                    android:hint="@string/input_name" />
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/space_base_lower_half"
-                    android:fontFamily="@font/roboto_bold"
-                    android:textColor="@color/text_dark_main"
-                    android:textSize="16sp"
-                    android:text="@string/phone" />
-
-                <EditText
                     android:id="@+id/edit_profile_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/space_base"
-                    android:textSize="16sp"
-                    android:hint="@string/input_phone" />
+                    android:hint="@string/input_phone"
+                    app:title="@string/phone"/>
 
-                <TextView
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/space_base_lower_half"
-                    android:fontFamily="@font/roboto_bold"
-                    android:textColor="@color/text_dark_main"
-                    android:textSize="16sp"
-                    android:text="@string/address" />
+                    android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/edit_profile_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/space_base"
-                    android:textSize="16sp"
-                    android:hint="@string/input_address"
-                    tools:text="Улица кедра митрея 31" />
+                    <com.makecity.client.presentation.views.TitledEditText
+                        android:id="@+id/edit_profile_street"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/input_street"
+                        app:layout_constraintEnd_toStartOf="@+id/edit_profile_address_space"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:title="@string/street" />
+
+                    <Space
+                        android:id="@+id/edit_profile_address_space"
+                        android:layout_width="@dimen/space_base"
+                        android:layout_height="match_parent"
+                        app:layout_constraintStart_toEndOf="@id/edit_profile_street"
+                        app:layout_constraintEnd_toStartOf="@id/edit_profile_house"/>
+
+                    <com.makecity.client.presentation.views.TitledEditText
+                        android:id="@+id/edit_profile_house"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/input_house"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/edit_profile_address_space"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:title="@string/house" />
+
+                </android.support.constraint.ConstraintLayout>
 
                 <TextView
                     android:layout_width="match_parent"
