@@ -37,17 +37,6 @@ class MainActivity : MainView() {
 		if (savedInstanceState == null) {
 			reducer.reduce(ShowSplash)
 		}
-
-		/*main_bottom_navigation.setOnNavigationItemSelectedListener {
-			when(it.itemId) {
-				R.problemId.main_navigation_feed -> reducer.reduce(ShowFeedAction)
-				R.problemId.main_navigation_map -> reducer.reduce(ShowMap)
-				R.problemId.main_navigation_notification -> reducer.reduce(ShowNotificationsAction)
-				R.problemId.main_navigation_menu -> reducer.reduce(ShowMenuAction)
-				else -> return@setOnNavigationItemSelectedListener false
-			}
-			true
-		}*/
 	}
 
 	override fun onResumeFragments() {

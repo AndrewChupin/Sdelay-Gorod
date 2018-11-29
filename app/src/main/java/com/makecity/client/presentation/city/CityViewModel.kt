@@ -60,7 +60,7 @@ class CityViewModel(
 					?.let {
 						source.setDefaultCity(it)
 							.bindSubscribe(onSuccess = {
-								router.replaceScreen(AppScreens.MAP_SCREEN_KEY)
+								router.newRootScreen(AppScreens.MAP_SCREEN_KEY)
 							})
 					}
 			}
@@ -69,16 +69,14 @@ class CityViewModel(
 	}
 
 	// IMPLEMENT - ConnectionPlugin
-	override fun onChangeConnection(connectionState: ConnectionState) {
-
-	}
+	override fun onChangeConnection(connectionState: ConnectionState) {}
 
 	private fun prepareCities() {
 		viewState.updateValue { copy(screenState = PrimaryViewState.Loading) }
 		source.getActiveCities()
 			.bindSubscribe(onSuccess = { list ->
+				geoPoints = list
 				viewState.updateValue {
-					geoPoints = list
 					copy(
 						screenState = PrimaryViewState.Data,
 						cities = list.map { Pair(it.cityId, it.title) }

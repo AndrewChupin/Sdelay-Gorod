@@ -101,4 +101,5 @@
     <string name="female">Женщина</string>
     <string name="save">Сохранить</string>
     <string name="updating_profile">Обновление профиля</string>
+    <string name="first_name">Имя</string>
 </resources>

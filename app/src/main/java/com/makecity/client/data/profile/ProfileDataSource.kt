@@ -1,6 +1,5 @@
 package com.makecity.client.data.profile
 
-import com.makecity.client.app.log
 import com.makecity.client.data.auth.AuthStorage
 import com.makecity.client.data.auth.TokenNotFounded
 import com.makecity.core.domain.Mapper
@@ -51,7 +50,6 @@ class ProfileDataSourceDefault @Inject constructor(
 	}
 
 	override fun editProfile(profile: Profile): Completable = Completable.defer {
-		log("editProfile defer")
 		authStorage
 			.getAuthToken()
 			.flatMap { profileService.saveProfile(it, profile) }

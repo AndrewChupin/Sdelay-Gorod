@@ -1,7 +1,6 @@
 package com.makecity.client.presentation.splash
 
 import com.makecity.client.app.AppScreens
-import com.makecity.client.app.log
 import com.makecity.client.data.geo.GeoDataSource
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.plugin.connection.ConnectionState
@@ -13,7 +12,9 @@ import com.makecity.core.presentation.state.ViewState
 import com.makecity.core.presentation.viewmodel.ActionView
 import com.makecity.core.presentation.viewmodel.ReactiveViewModel
 import com.makecity.core.presentation.viewmodel.StatementReducer
+import com.makecity.core.utils.log
 import com.makecity.core.utils.resources.ResourceManager
+import io.reactivex.Maybe
 import io.reactivex.disposables.CompositeDisposable
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
@@ -54,12 +55,19 @@ class SplashViewModel @Inject constructor(
 
 	override fun reduce(action: SplashAction) {
 		when(action) {
-			is SplashAction.PrepareData -> geoDataSource.refreshCity()
+			is SplashAction.PrepareData -> geoDataSource
+				.getDefaultGeoPoint()
+				.switchIfEmpty(Maybe.defer {
+					geoDataSource
+						.refreshCity()
+						.andThen(geoDataSource.getDefaultGeoPoint())
+				})
 				.bindSubscribe(onSuccess = {
-					router.replaceScreen(AppScreens.MAP_SCREEN_KEY)
+					router.newRootScreen(AppScreens.MAP_SCREEN_KEY)
 				}, onError = {
+					log(it)
 					if (state.connectionState == ConnectionState.Connect) {
-						router.navigateTo(AppScreens.CITY_SCREEN_KEY)
+						router.newRootScreen(AppScreens.CITY_SCREEN_KEY)
 					}
 				})
 		}
