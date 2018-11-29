@@ -98,9 +98,12 @@ class MapPointsFragment : MapStatement(), OnSnapPositionChangeListener, DialogTw
 				reducer.reduce(MapPointsAction.CreateTask)
 			}
 		}
+
 		map_show_as_list clickReduce MapPointsAction.ShowProblemsAsList
 		map_menu_button clickReduce MapPointsAction.ShowMenu
 
+
+		// Animation
 		val animatorElevationDown = ObjectAnimator.ofFloat(
 			map_button_add_task,
 			"cardElevation",
