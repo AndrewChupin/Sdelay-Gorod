@@ -1,7 +1,5 @@
 package com.makecity.client.data.temp_problem
 
-import android.graphics.BitmapFactory
-import android.util.Log
 import com.makecity.client.data.common.Api
 import com.makecity.client.data.geo.GeoPoint
 import com.squareup.moshi.Json
@@ -11,9 +9,6 @@ import javax.inject.Inject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
-import android.graphics.Bitmap
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
 
 
 data class CreateTaskRequestBody(
@@ -66,7 +61,7 @@ class TempTaskServiceRetrofit @Inject constructor(
 				longitude = tempProblem.longitude,
 				text = tempProblem.description,
 				companyId = tempProblem.companyId,
-				categoryId = tempProblem.categoryId,
+				categoryId = if (tempProblem.optionId < 0) tempProblem.categoryId else tempProblem.optionId,
 				address = tempProblem.address,
 				cityId = geoPoint.cityId,
 				latCity = geoPoint.latitude,

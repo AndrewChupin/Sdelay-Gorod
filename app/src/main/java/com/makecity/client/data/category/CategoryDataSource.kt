@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 interface CategoryDataSource {
 	fun getCategories(): Single<List<Category>>
-	fun getCategoty(categoryId: Long): Single<Category>
+	fun getCategory(categoryId: Long): Single<Category>
 }
 
 
@@ -30,7 +30,7 @@ class CategoryDataSourceDefault @Inject constructor(
 		}
 	}
 
-	override fun getCategoty(categoryId: Long): Single<Category> = Single.defer {
+	override fun getCategory(categoryId: Long): Single<Category> = Single.defer {
 		getCategories().map { list ->
 			list.find { it.id == categoryId }
 		}

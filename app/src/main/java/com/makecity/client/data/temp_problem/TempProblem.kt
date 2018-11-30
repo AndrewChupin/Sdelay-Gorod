@@ -11,7 +11,7 @@ class ImagesPathsConverter {
 	fun fromImages(images: List<String>): String = when(images.size) {
 		0 -> EMPTY
 		1 -> images[0]
-		else -> images.joinToString("||")
+		else -> images.joinToString("||") // TODO LATE
 	}
 
 	@TypeConverter

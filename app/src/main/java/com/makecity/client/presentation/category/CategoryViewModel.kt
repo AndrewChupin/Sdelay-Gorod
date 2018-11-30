@@ -10,6 +10,8 @@ import com.makecity.client.data.temp_problem.TempProblemDataSource
 import com.makecity.client.presentation.create_problem.ProblemCreatingType
 import com.makecity.client.presentation.description.DescriptionScreenData
 import com.makecity.core.data.Presentation
+import com.makecity.core.extenstion.blockingCompletable
+import com.makecity.core.extenstion.isNullValue
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.plugin.connection.ConnectionState
 import com.makecity.core.plugin.connection.ReducerPluginConnection
@@ -100,12 +102,20 @@ class CategoryViewModel(
 	private fun saveCategory(categoryPair: Pair<Long, String>) {
 		tempProblemDataSource.getTempProblem()
 			.map { it.copy(categoryId = categoryPair.first, categoryName = categoryPair.second) }
-			.flatMapCompletable(tempProblemDataSource::saveTempProblem)
+			.blockingCompletable(tempProblemDataSource::saveTempProblem)
+			.map(TempProblem::categoryId)
+			.flatMap(categoryDataSource::getCategory)
 			.bindSubscribe(onSuccess = {
-				router.navigateTo(
-					AppScreens.CATEGORY_SCREEN_KEY,
-					CategoryScreenData(CategoryType.OPTION, categoryData.problemCreatingType)
-				)
+				when {
+					it.options.isEmpty() -> router.navigateTo(
+						AppScreens.CATEGORY_SCREEN_KEY,
+						CategoryScreenData(CategoryType.COMPANY, categoryData.problemCreatingType)
+					)
+					else -> router.navigateTo(
+						AppScreens.CATEGORY_SCREEN_KEY,
+						CategoryScreenData(CategoryType.OPTION, categoryData.problemCreatingType)
+					)
+				}
 			})
 	}
 
@@ -147,7 +157,7 @@ class CategoryViewModel(
 	private fun loadOptions() {
 		tempProblemDataSource.getTempProblem()
 			.map(TempProblem::categoryId)
-			.flatMap(categoryDataSource::getCategoty)
+			.flatMap(categoryDataSource::getCategory)
 			.bindSubscribe(onSuccess = { data ->
 				viewState.updateValue {
 					copy(
