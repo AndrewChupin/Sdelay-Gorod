@@ -13,6 +13,8 @@ import com.makecity.client.R
 import com.makecity.client.app.AppInjector
 import com.makecity.client.data.auth.AuthState
 import com.makecity.client.data.task.Task
+import com.makecity.client.presentation.lists.ProblemsDelegate
+import com.makecity.client.presentation.lists.ProblemsMapAdapter
 import com.makecity.core.data.entity.Location
 import com.makecity.core.extenstion.calculateDiffs
 import com.makecity.core.extenstion.hideWithScale

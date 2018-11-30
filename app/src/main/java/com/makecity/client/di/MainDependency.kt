@@ -271,10 +271,11 @@ class MainModule {
 		problemService: ProblemService,
 		mapperPersistence: ProblemMapperDtoToPersistence,
 		geoDataSource: GeoDataSource,
+		authDataSource: AuthDataSource,
 		mapperCommon: ProblemMapperPersistenceToCommon,
 		mapperCommentsDto: CommentsAuthorMapperDtoToPersistence,
 		mapperCommentsPersist: CommentsAuthorMapperPersistenceToCommon
-	): ProblemDataSource = ProblemDataSourceRemote(problemService, geoDataSource, mapperPersistence, mapperCommon, mapperCommentsDto, mapperCommentsPersist)
+	): ProblemDataSource = ProblemDataSourceRemote(problemService, geoDataSource, authDataSource, mapperPersistence, mapperCommon, mapperCommentsDto, mapperCommentsPersist)
 
 	@Provides
 	@ActivityScope

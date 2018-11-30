@@ -54,6 +54,7 @@ interface Api {
 	 */
 	@GET("problem?expand=likeIs,org,count_likes,history,author")
 	fun loadProblems(
+		@Header("Authorization") token: String,
 		@Query("pm[city_id]") cityId: Long
 	): Single<List<TaskRemote>>
 

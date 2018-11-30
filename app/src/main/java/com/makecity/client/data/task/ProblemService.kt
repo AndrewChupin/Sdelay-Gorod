@@ -7,7 +7,8 @@ import javax.inject.Inject
 
 
 data class LoadTaskRequest(
-	val cityId: Long
+	val cityId: Long,
+	val token: String
 )
 
 
@@ -41,7 +42,7 @@ class ProblemServiceRetrofit @Inject constructor(
 		= api.loadComments(request.problemId)
 
 	override fun requestLoadProblems(request: LoadTaskRequest)
-		= api.loadProblems(request.cityId)
+		= api.loadProblems("Bearer ${request.token}", request.cityId)
 
 
 	override fun requestChangeFavorite(

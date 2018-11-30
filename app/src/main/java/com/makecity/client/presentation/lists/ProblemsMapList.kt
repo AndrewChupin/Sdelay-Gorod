@@ -1,4 +1,4 @@
-package com.makecity.client.presentation.map
+package com.makecity.client.presentation.lists
 
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater

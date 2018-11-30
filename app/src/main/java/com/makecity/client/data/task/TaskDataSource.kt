@@ -1,10 +1,13 @@
 package com.makecity.client.data.task
 
+import com.makecity.client.data.auth.AuthDataSource
+import com.makecity.client.data.auth.TokenNotFounded
 import com.makecity.client.data.comments.Comment
 import com.makecity.client.data.comments.CommentsAuthorMapperDtoToPersistence
 import com.makecity.client.data.comments.CommentsAuthorMapperPersistenceToCommon
 import com.makecity.client.data.geo.GeoDataSource
 import com.makecity.client.data.problem.ProblemDetail
+import com.makecity.core.utils.Symbols.EMPTY
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import javax.inject.Inject
@@ -20,6 +23,7 @@ interface ProblemDataSource {
 class ProblemDataSourceRemote @Inject constructor(
 	private val problemService: ProblemService,
 	private val geoDataSource: GeoDataSource,
+	private val authDataSource: AuthDataSource,
 	private val mapperProblemDto: ProblemMapperDtoToPersistence,
 	private val mapperProblemPersist: ProblemMapperPersistenceToCommon,
 	private val mapperCommentsDto: CommentsAuthorMapperDtoToPersistence,
@@ -30,11 +34,7 @@ class ProblemDataSourceRemote @Inject constructor(
 
 	override fun getProblems(): Single<List<Task>> = Single.defer {
 		if (tasks.isEmpty()) {
-			geoDataSource.getDefaultGeoPoint()
-				.flatMapSingle { problemService.requestLoadProblems(LoadTaskRequest(it.cityId)) }
-				.map(mapperProblemDto::transformAll)
-				.map(mapperProblemPersist::transformAll)
-				.doOnSuccess { tasks = it }
+			refreshProblems()
 		} else {
 			Single.fromCallable { tasks }
 		}
@@ -42,7 +42,20 @@ class ProblemDataSourceRemote @Inject constructor(
 
 	override fun refreshProblems(): Single<List<Task>> = geoDataSource
 		.getDefaultGeoPoint()
-		.flatMapSingle { problemService.requestLoadProblems(LoadTaskRequest(it.cityId)) }
+		.flatMapSingle {  point ->
+			authDataSource
+				.checkToken()
+				.onErrorResumeNext {
+					if (it is TokenNotFounded) {
+						Single.just(EMPTY)
+					}  else {
+						Single.error(it)
+					}
+				}
+				.flatMap { problemService.requestLoadProblems(
+					LoadTaskRequest(point.cityId, it)
+				)}
+		}
 		.map(mapperProblemDto::transformAll)
 		.map(mapperProblemPersist::transformAll)
 		.doOnSuccess { tasks = it }
