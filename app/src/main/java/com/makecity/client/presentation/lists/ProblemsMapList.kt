@@ -69,12 +69,11 @@ class ProblemMapViewHolder(
 	}
 
 	private fun changeLikeSelectable(isLiked: Boolean) {
-		if (isLiked) {
-			val image = ContextCompat.getDrawable(containerView.context, R.drawable.ic_favorite_border_gray_24dp)
-			problem_bottom_item_like.setCompoundDrawablesWithIntrinsicBounds(image, null, null, null)
+		val image = if (isLiked) {
+			ContextCompat.getDrawable(containerView.context, R.drawable.ic_favorite_red_24dp)
 		} else {
-			val image = ContextCompat.getDrawable(containerView.context, R.drawable.ic_favorite_red_24dp)
-			problem_bottom_item_like.setCompoundDrawablesWithIntrinsicBounds(image, null, null, null)
+			ContextCompat.getDrawable(containerView.context, R.drawable.ic_favorite_border_gray_24dp)
 		}
+		problem_bottom_item_like.setCompoundDrawablesWithIntrinsicBounds(image, null, null, null)
 	}
 }
