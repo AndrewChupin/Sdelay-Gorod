@@ -2,6 +2,7 @@ package com.makecity.client.data.task
 
 import com.makecity.client.data.comments.CommentRemote
 import com.makecity.client.data.common.Api
+import com.makecity.client.utils.bearer
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -19,7 +20,8 @@ data class LoadCommentsRequest(
 
 data class ChangeFavoriteRequest(
 	val problemId: Long,
-	val favoriteType: FavoriteType
+	val favoriteType: FavoriteType,
+	val token: String
 )
 
 enum class FavoriteType {
@@ -42,13 +44,15 @@ class ProblemServiceRetrofit @Inject constructor(
 		= api.loadComments(request.problemId)
 
 	override fun requestLoadProblems(request: LoadTaskRequest)
-		= api.loadProblems("Bearer ${request.token}", request.cityId)
+		= api.loadProblems(bearer(request.token), request.cityId)
 
 
 	override fun requestChangeFavorite(
 		request: ChangeFavoriteRequest
 	): Single<Boolean> = when (request.favoriteType) {
-		FavoriteType.LIKE -> api.makeLike(request.problemId)
-		FavoriteType.COMMON -> api.removeLike(request.problemId)
+		FavoriteType.LIKE -> api.makeLike(bearer(request.token), request.problemId)
+		FavoriteType.COMMON -> api.removeLike(bearer(request.token), request.problemId)
 	}
 }
+
+

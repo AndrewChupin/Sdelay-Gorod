@@ -43,10 +43,9 @@ class TaskInteractorReactive @Inject constructor(
 		problemId: Long,
 		favoriteType: FavoriteType
 	): Single<Boolean> = Single.defer {
-		authDataSource.checkToken()
-			.flatMap {
-				problemDataSource.changeFavorite(problemId, favoriteType)
-			}
+		authDataSource
+			.checkToken()
+			.flatMap { problemDataSource.changeFavorite(problemId, favoriteType) }
 	}
 
 	override fun createComment(
@@ -54,11 +53,7 @@ class TaskInteractorReactive @Inject constructor(
 		text: String
 	): Single<Boolean> = Single.defer {
 		authDataSource.checkToken()
-			.flatMap {
-				commentsDataSource.createComment(
-					text, problemId
-				)
-			}
+			.flatMap { commentsDataSource.createComment(text, problemId) }
 	}
 
 	override fun getComments(

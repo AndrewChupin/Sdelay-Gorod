@@ -6,6 +6,7 @@ import com.makecity.client.data.comments.AuthorRemote
 import com.makecity.core.data.Common
 import com.makecity.core.data.Dto
 import com.makecity.core.data.Persistence
+import com.makecity.core.data.entity.Identical
 import com.squareup.moshi.Json
 
 enum class ProblemStatus {
@@ -79,8 +80,8 @@ data class StatusPersistence(
 
 // COMMON MODELS
 @Common
-data class Task(
-	val id: Long,
+data class Task (
+	override val id: Long,
 	val status: String,
 	val title: String,
 	val text: String?,
@@ -96,4 +97,4 @@ data class Task(
 	val imageSecond: String,
 	val author: Author,
 	val isLiked: Boolean
-)
+) : Identical

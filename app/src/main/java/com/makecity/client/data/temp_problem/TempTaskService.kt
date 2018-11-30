@@ -2,6 +2,7 @@ package com.makecity.client.data.temp_problem
 
 import com.makecity.client.data.common.Api
 import com.makecity.client.data.geo.GeoPoint
+import com.makecity.client.utils.bearer
 import com.squareup.moshi.Json
 import io.reactivex.Single
 import okhttp3.MediaType
@@ -54,7 +55,7 @@ class TempTaskServiceRetrofit @Inject constructor(
 ) : TempTaskService {
 
 	override fun createTask(request: CreateTaskRequest) = api.createTask(
-		token = "Bearer ${request.token}",
+		token = bearer(request.token),
 		parts = request.run {
 			CreateTaskRequestBody(
 				latitude = tempProblem.latitude,

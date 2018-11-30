@@ -1,6 +1,7 @@
 package com.makecity.client.data.profile
 
 import com.makecity.client.data.common.Api
+import com.makecity.client.utils.bearer
 import com.squareup.moshi.Json
 import io.reactivex.Single
 import okhttp3.MediaType
@@ -40,11 +41,11 @@ class ProfileServiceRetrofit @Inject constructor(
 ): ProfileService {
 
 	override fun loadProfile(token: String): Single<ProfileRemote> =
-		api.getProfile("Bearer $token")
+		api.getProfile(bearer(token))
 
 	override fun saveProfile(token: String, profile: Profile): Single<Boolean> =
 		api.saveProfile(
-			token = "Bearer $token",
+			token = bearer(token),
 
 			parts = SaveProfileRequest(
 				firstName = profile.firstName,

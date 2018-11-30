@@ -77,14 +77,19 @@ class ProblemDataSourceRemote @Inject constructor(
 		problemId: Long,
 		favoriteType: FavoriteType
 	): Single<Boolean> = Single.defer {
-		problemService.requestChangeFavorite(ChangeFavoriteRequest(
-			problemId = problemId,
-			favoriteType = favoriteType
-		)).doOnSuccess { _ ->
-			tasks.map {
-				if (it.id == problemId) it.copy(isLiked = !it.isLiked)
-				else it
+		authDataSource.checkToken()
+			.flatMap { problemService.requestChangeFavorite(
+				ChangeFavoriteRequest(
+					problemId = problemId,
+					favoriteType = favoriteType,
+					token = it
+				)
+			)}
+			.doOnSuccess { _ ->
+				tasks = tasks.map {
+					if (it.id == problemId) it.copy(isLiked = !it.isLiked)
+					else it
+				}
 			}
-		}
 	}
 }

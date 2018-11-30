@@ -73,11 +73,13 @@ interface Api {
 	 */
 	@GET("problem/{problem_id}/remove-like")
 	fun removeLike(
+		@Header("Authorization") token: String,
 		@Path("problem_id") problemId: Long
 	): Single<Boolean>
 
-	@GET("problem/<problem_id>/put-like")
+	@GET("problem/{problem_id}/put-like")
 	fun makeLike(
+		@Header("Authorization") token: String,
 		@Path("problem_id") problemId: Long
 	): Single<Boolean>
 

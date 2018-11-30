@@ -10,6 +10,7 @@ import com.makecity.client.utils.DateHelper
 import com.makecity.core.presentation.list.BaseMultiplyAdapter
 import com.makecity.core.presentation.list.BaseViewHolder
 import com.makecity.core.presentation.list.ClickableViewHolder
+import com.makecity.core.utils.diff.BaseIdenticalDiffUtil
 import kotlinx.android.synthetic.main.item_problem_bottom.*
 import java.util.*
 
@@ -20,7 +21,9 @@ interface ProblemsDelegate {
 class ProblemsMapAdapter(
 	private val delegate: ProblemsDelegate,
 	private val itemDelegate: (Task) -> Unit
-) : BaseMultiplyAdapter<Task, BaseViewHolder<Task>>() {
+) : BaseMultiplyAdapter<Task, BaseViewHolder<Task>>(
+	diffUtilCallback = BaseIdenticalDiffUtil()
+) {
 
 	override var data: List<Task> = emptyList()
 

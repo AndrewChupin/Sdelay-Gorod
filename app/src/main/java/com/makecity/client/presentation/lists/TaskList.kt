@@ -11,6 +11,9 @@ import com.makecity.core.extenstion.checkNotEmpty
 import com.makecity.core.presentation.list.BaseMultiplyAdapter
 import com.makecity.core.presentation.list.BaseViewHolder
 import com.makecity.core.presentation.list.ClickableViewHolder
+import com.makecity.core.utils.diff.BaseDiffUtil
+import com.makecity.core.utils.diff.BaseIdenticalDiffUtil
+import com.makecity.core.utils.diff.SingleDiffUtil
 import com.makecity.core.utils.image.CommonImageRules
 import com.makecity.core.utils.image.ImageManager
 import kotlinx.android.synthetic.main.item_feed_new.*
@@ -24,7 +27,9 @@ class TaskAdapter(
 	private val imageManager: ImageManager,
 	private val delegate: TaskDelegate,
 	private val itemDelegate: (Task) -> Unit
-) : BaseMultiplyAdapter<Task, BaseViewHolder<Task>>() {
+) : BaseMultiplyAdapter<Task, BaseViewHolder<Task>>(
+	diffUtilCallback = BaseIdenticalDiffUtil()
+) {
 
 	override var data: List<Task> = emptyList()
 
@@ -72,11 +77,6 @@ class TaskViewHolder(
 			author.image.checkNotEmpty {
 				imageManager.apply(CommonImageRules(feed_item_author_photo, it, R.drawable.placeholder_face, true))
 			}
-
-			/* DELETED FROM DESIGN imageFirst.checkNotEmpty {
-				feed_item_image.isVisible = true
-				imageManager.apply(CommonImageRules(feed_item_image, it, null, false))
-			}*/
 		}
 	}
 
