@@ -83,6 +83,14 @@ class TaskViewHolder(
 			feed_item_like.text = likeCounts.toString()
 			feed_item_comments.text = commentsCount.toString()
 			feed_item_status.text = status
+			val shapeDrawable = feed_item_status.background as GradientDrawable
+			shapeDrawable.setColor(when (statusType) {
+				ProblemStatus.NEW -> ContextCompat.getColor(containerView.context, R.color.colorNew)
+				ProblemStatus.IN_PROGRESS -> ContextCompat.getColor(containerView.context, R.color.colorAccent)
+				ProblemStatus.DONE -> ContextCompat.getColor(containerView.context, R.color.colorSuccess)
+				ProblemStatus.CANCELED -> ContextCompat.getColor(containerView.context, R.color.colorDangerous)
+				ProblemStatus.REJECT -> ContextCompat.getColor(containerView.context, R.color.colorDangerous)
+			})
 			feed_item_author_name.text = author.userName
 			changeLikeSelectable(isLiked)
 
