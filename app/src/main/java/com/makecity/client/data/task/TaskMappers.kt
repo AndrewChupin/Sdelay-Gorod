@@ -42,10 +42,11 @@ class ProblemMapperDtoToPersistence @Inject constructor() : Mapper<TaskRemote, T
 			categories = TaskCategoriesPersistence(
 				main = TaskCategoryPersistence(
 					categories.main?.id ?: -1L,
-					categories.main?.name ?: EMPTY
+					categories.main?.name?.capitalize() ?: EMPTY
 				),
-				sub = categories.sub?.run { TaskCategoryPersistence(id, name) }
-			)
+				sub = categories.sub?.run { TaskCategoryPersistence(id, name.capitalize()) }
+			),
+			companyName = companies?.first()?.name ?: EMPTY
 		)
 	}
 }
@@ -89,7 +90,8 @@ class ProblemMapperPersistenceToCommon @Inject constructor(): Mapper<TaskPersist
 					categories.main.name
 				),
 				sub = categories.sub?.run { TaskCategory(id, name) }
-			)
+			),
+			companyName = companyName
 		)
 	}
 }

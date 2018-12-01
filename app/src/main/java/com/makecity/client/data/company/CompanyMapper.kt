@@ -13,7 +13,6 @@ class CompanyMapperDtoToCommon @Inject constructor(): Mapper<CompanyRemote, Comp
 			cityId = cityId,
 			name = name ?: EMPTY,
 			area = area ?: EMPTY,
-			phone = phone ?: EMPTY,
 			logo = logo ?: EMPTY
 		)
 	}

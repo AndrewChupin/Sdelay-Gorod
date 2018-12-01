@@ -3,6 +3,7 @@ package com.makecity.client.data.task
 import com.makecity.client.data.comments.Author
 import com.makecity.client.data.comments.AuthorPersistence
 import com.makecity.client.data.comments.AuthorRemote
+import com.makecity.client.data.company.CompanyRemote
 import com.makecity.core.data.Common
 import com.makecity.core.data.Dto
 import com.makecity.core.data.Persistence
@@ -37,7 +38,8 @@ data class TaskRemote(
 	@Json(name = "city_id") val cityId: Int,
 	@Json(name = "author") val author: AuthorRemote,
 	@Json(name = "likeIs") val isLiked: Boolean?,
-	@Json(name = "category") val categories: TaskCategoriesRemote
+	@Json(name = "category") val categories: TaskCategoriesRemote,
+	@Json(name = "orgs") val companies: List<CompanyRemote>?
 )
 
 @Dto
@@ -85,7 +87,8 @@ data class TaskPersistence(
 	val cityId: Int,
 	val author: AuthorPersistence,
 	val isLiked: Boolean,
-	val categories: TaskCategoriesPersistence
+	val categories: TaskCategoriesPersistence,
+	val companyName: String
 )
 
 @Persistence
@@ -126,7 +129,8 @@ data class Task (
 	val imageSecond: String,
 	val author: Author,
 	val isLiked: Boolean,
-	val categories: TaskCategories
+	val categories: TaskCategories,
+	val companyName: String
 ) : Identical
 
 

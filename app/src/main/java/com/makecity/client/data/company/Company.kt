@@ -11,8 +11,7 @@ data class CompanyRemote(
 	@Json(name = "city_id") val cityId: Long,
 	@Json(name = "name") val name: String?,
 	@Json(name = "area") val area: String?,
-	@Json(name = "logo") val logo: String?,
-	@Json(name = "phone") val phone: String?
+	@Json(name = "logo") val logo: String?
 )
 
 
@@ -22,6 +21,5 @@ data class Company(
 	val cityId: Long,
 	val name: String,
 	val area: String,
-	val logo: String,
-	val phone: String
+	val logo: String
 )

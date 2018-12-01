@@ -11,6 +11,7 @@ import com.makecity.client.data.problem.ProblemDetail
 import com.makecity.client.data.task.ProblemStatus
 import com.makecity.client.data.task.Task
 import com.makecity.client.presentation.lists.TaskDetailAdapter.Companion.ADDITIONAL_CELLS_COUNT
+import com.makecity.client.presentation.views.InfoView
 import com.makecity.client.utils.DateHelper
 import com.makecity.client.utils.GoogleApiHelper
 import com.makecity.core.data.entity.Location
@@ -25,6 +26,7 @@ import com.makecity.core.utils.image.ImageManager
 import kotlinx.android.synthetic.main.item_comment.*
 import kotlinx.android.synthetic.main.item_feed_new.*
 import kotlinx.android.synthetic.main.item_problem_content.*
+import kotlinx.android.synthetic.main.item_problem_info.*
 import kotlinx.android.synthetic.main.item_problem_location.*
 import kotlinx.android.synthetic.main.item_problem_photo.*
 import java.util.*
@@ -228,6 +230,22 @@ class ProblemInfoViewHolder(
 
 	override fun bind(item: Task) {
 		super.bind(item)
+
+		info_container.run {
+			removeAllViews()
+			item.categories.main.name.checkNotEmpty {
+				addView(InfoView(context, R.drawable.ic_archive_gray_24dp, context.getString(R.string.category), it))
+			}
+
+			item.categories.sub?.name?.checkNotEmpty {
+				addView(InfoView(context, R.drawable.ic_info_gray_24dp, context.getString(R.string.service), it))
+			}
+
+			item.companyName.checkNotEmpty {
+				addView(InfoView(context, R.drawable.ic_group_gray_24dp, context.getString(R.string.company), it))
+			}
+			requestLayout()
+		}
 	}
 }
 

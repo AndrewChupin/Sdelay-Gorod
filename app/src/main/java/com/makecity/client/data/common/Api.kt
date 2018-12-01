@@ -53,7 +53,7 @@ interface Api {
 	/**
 	 * MARK - Problems
 	 */
-	@GET("problem?expand=likeIs,org,count_likes,history,author")
+	@GET("problem?expand=likeIs,org,count_likes,history,author,orgs")
 	fun loadProblems(
 		@Header("Authorization") token: String,
 		@Query("pm[city_id]") cityId: Long
