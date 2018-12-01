@@ -38,7 +38,14 @@ class ProblemMapperDtoToPersistence @Inject constructor() : Mapper<TaskRemote, T
 				author.phone ?: EMPTY,
 				author.image ?: EMPTY
 			),
-			isLiked = isLiked ?: false
+			isLiked = isLiked ?: false,
+			categories = TaskCategoriesPersistence(
+				main = TaskCategoryPersistence(
+					categories.main?.id ?: -1L,
+					categories.main?.name ?: EMPTY
+				),
+				sub = categories.sub?.run { TaskCategoryPersistence(id, name) }
+			)
 		)
 	}
 }
@@ -75,6 +82,13 @@ class ProblemMapperPersistenceToCommon @Inject constructor(): Mapper<TaskPersist
 				author.role,
 				author.phone,
 				concatImage(BuildConfig.IMAGE_URL, author.image)
+			),
+			categories = TaskCategories(
+				main = TaskCategory(
+					categories.main.id,
+					categories.main.name
+				),
+				sub = categories.sub?.run { TaskCategory(id, name) }
 			)
 		)
 	}

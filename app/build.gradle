@@ -19,7 +19,6 @@ android {
 
         buildConfigField("String", "PARTNERS_URL", constants.partnersUrl)
         buildConfigField("String", "SUPPORT_URL", constants.supportUrl)
-        buildConfigField("String", "IMAGE_URL", constants.urlApiImage)
 
         buildConfigField("String", "GOOGLE_MAPS_KEY", constants.googleMapDebugKey)
         buildConfigField "String", "URL_GOOGLE_API", constants.googleApi
@@ -39,6 +38,7 @@ android {
             manifestPlaceholders = [GOOGLE_MAPS_KEY: googleKey]
             buildConfigField("String", "GOOGLE_MAPS_KEY", "\"${googleKey}\"")
             buildConfigField "String", "URL_API", constants.urlApiRelease
+            buildConfigField("String", "IMAGE_URL", constants.urlApiImageRelease)
         }
 
         debug {
@@ -52,6 +52,7 @@ android {
             manifestPlaceholders = [GOOGLE_MAPS_KEY: googleKey]
             buildConfigField("String", "GOOGLE_MAPS_KEY", "\"${googleKey}\"")
             buildConfigField "String", "URL_API", constants.urlApiRelease
+            buildConfigField("String", "IMAGE_URL", constants.urlApiImageRelease)
         }
 
         applicationVariants.all { variant ->

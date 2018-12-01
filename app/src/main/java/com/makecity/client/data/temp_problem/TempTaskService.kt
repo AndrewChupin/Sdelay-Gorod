@@ -3,6 +3,7 @@ package com.makecity.client.data.temp_problem
 import com.makecity.client.data.common.Api
 import com.makecity.client.data.geo.GeoPoint
 import com.makecity.client.utils.bearer
+import com.makecity.core.extenstion.part
 import com.squareup.moshi.Json
 import io.reactivex.Single
 import okhttp3.MediaType
@@ -25,15 +26,15 @@ data class CreateTaskRequestBody(
 ) {
 
 	fun toMap() : HashMap<String, Any> = hashMapOf(
-		"latitude" to latitude,
-		"longitude" to longitude,
-		"text" to text,
-		"city_id" to cityId,
-		"latCity" to latCity,
-		"lonCity" to lonCity,
-		"org_id" to companyId,
-		"category_id" to categoryId,
-		"address" to address
+		"latitude" to latitude.toString().part(),
+		"longitude" to longitude.toString().part(),
+		"text" to text.part(),
+		"city_id" to cityId.toString().part(),
+		"latCity" to latCity.toString().part(),
+		"lonCity" to lonCity.toString().part(),
+		"org_id" to companyId.toString().part(),
+		"category_id" to categoryId.toString().part(),
+		"address" to address.part()
 	)
 }
 

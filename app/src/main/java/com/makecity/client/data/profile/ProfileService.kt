@@ -2,6 +2,7 @@ package com.makecity.client.data.profile
 
 import com.makecity.client.data.common.Api
 import com.makecity.client.utils.bearer
+import com.makecity.core.extenstion.part
 import com.squareup.moshi.Json
 import io.reactivex.Single
 import okhttp3.MediaType
@@ -20,19 +21,18 @@ data class SaveProfileRequest(
 ) {
 
 	fun toMap() = hashMapOf(
-		"first_name" to firstName,
-		"last_name" to lastName,
-		"street" to street,
-		"house" to house,
-		"sex" to sex
+		"first_name" to firstName.part(),
+		"last_name" to lastName.part(),
+		"street" to street.part(),
+		"house" to house.part(),
+		"sex" to sex.part()
 	)
-
 }
 
 
 interface ProfileService {
 	fun loadProfile(token: String): Single<ProfileRemote>
-	fun saveProfile(token: String, profile: Profile): Single<Boolean>
+	fun saveProfile(token: String, profile: Profile): Single<ProfileRemote>
 }
 
 
@@ -43,7 +43,7 @@ class ProfileServiceRetrofit @Inject constructor(
 	override fun loadProfile(token: String): Single<ProfileRemote> =
 		api.getProfile(bearer(token))
 
-	override fun saveProfile(token: String, profile: Profile): Single<Boolean> =
+	override fun saveProfile(token: String, profile: Profile): Single<ProfileRemote> =
 		api.saveProfile(
 			token = bearer(token),
 
@@ -58,7 +58,7 @@ class ProfileServiceRetrofit @Inject constructor(
 			photo = if (profile.photo.isNotEmpty() && !profile.photo.startsWith("http")) { // TODO LATE change startsWith
 				val file = File(profile.photo)
 				val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
-				MultipartBody.Part.createFormData("photo", file.name, fileReqBody)
+				MultipartBody.Part.createFormData("foto", file.name, fileReqBody)
 			} else null
 		)
 }

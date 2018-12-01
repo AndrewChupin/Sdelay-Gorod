@@ -17,7 +17,8 @@ buildscript {
             // Network Api
             'urlApiRelease': '"https://api.sdelaigorod.ru/"',
             'urlApiDebug'  : '"http://dev-api.sdelaigorod.ru/"',
-            'urlApiImage'  : '"http://dev.sdelaigorod.ru/images/"',
+            'urlApiImageDebug'  : '"http://dev.sdelaigorod.ru/images/"',
+            'urlApiImageRelease'  : '"https://sdelaigorod.ru/images/"',
 
             'partnersUrl'  : '"https://sdelaigorod.ru/map/advert"',
             'supportUrl'  : '"https://yasobe.ru/na/sdelaigorodru"',

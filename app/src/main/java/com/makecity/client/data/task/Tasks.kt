@@ -36,7 +36,8 @@ data class TaskRemote(
 	@Json(name = "count_likes") val likeCounts: Int,
 	@Json(name = "city_id") val cityId: Int,
 	@Json(name = "author") val author: AuthorRemote,
-	@Json(name = "likeIs") val isLiked: Boolean?
+	@Json(name = "likeIs") val isLiked: Boolean?,
+	@Json(name = "category") val categories: TaskCategoriesRemote
 )
 
 @Dto
@@ -44,6 +45,21 @@ data class StatusRemote(
 	@Json(name = "id") val id: Long,
 	@Json(name = "name") val name: String?
 )
+
+
+@Dto
+data class TaskCategoriesRemote(
+	@Json(name = "main") val main: TaskCategoryRemote?,
+	@Json(name = "sub") val sub: TaskCategoryRemote?
+)
+
+
+@Dto
+data class TaskCategoryRemote(
+	@Json(name = "id") val id: Long,
+	@Json(name = "name") val name: String
+)
+
 
 
 // PERSISTENCE MODELS
@@ -68,7 +84,8 @@ data class TaskPersistence(
 	val likeCounts: Int,
 	val cityId: Int,
 	val author: AuthorPersistence,
-	val isLiked: Boolean
+	val isLiked: Boolean,
+	val categories: TaskCategoriesPersistence
 )
 
 @Persistence
@@ -77,6 +94,18 @@ data class StatusPersistence(
 	val name: String
 )
 
+@Persistence
+data class TaskCategoriesPersistence(
+	val main: TaskCategoryPersistence,
+	val sub: TaskCategoryPersistence?
+)
+
+
+@Persistence
+data class TaskCategoryPersistence(
+	val id: Long,
+	val name: String
+)
 
 // COMMON MODELS
 @Common
@@ -96,5 +125,20 @@ data class Task (
 	val imageFirst: String,
 	val imageSecond: String,
 	val author: Author,
-	val isLiked: Boolean
+	val isLiked: Boolean,
+	val categories: TaskCategories
 ) : Identical
+
+
+@Common
+data class TaskCategories(
+	val main: TaskCategory,
+	val sub: TaskCategory?
+)
+
+
+@Common
+data class TaskCategory(
+	val id: Long,
+	val name: String
+)

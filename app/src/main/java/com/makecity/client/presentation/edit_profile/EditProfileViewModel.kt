@@ -14,6 +14,7 @@ import com.makecity.core.presentation.state.ViewState
 import com.makecity.core.presentation.viewmodel.ActionView
 import com.makecity.core.presentation.viewmodel.BaseViewModel
 import com.makecity.core.presentation.viewmodel.StatementReducer
+import com.makecity.core.utils.log
 import com.makecity.core.utils.permission.PermissionManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -80,7 +81,6 @@ class EditProfileViewModel(
 				copy(profile = profile?.copy(photo = action.photo))
 			}
 			is EditProfileAction.SaveChanges -> {
-				viewState.updateValue { copy(screenState = PrimaryViewState.Loading) }
 				state.profile
 					?.copy(
 						sex = action.sex,
@@ -90,10 +90,14 @@ class EditProfileViewModel(
 						lastName = action.secondName
 					)
 					?.let { profile ->
+						viewState.updateValue { copy(screenState = PrimaryViewState.Loading, profile = profile) }
 						profileDataSource
 							.editProfile(profile)
 							.bindSubscribe(onSuccess = {
 								viewState.updateValue { copy(screenState = PrimaryViewState.Success) }
+								router.exit()
+							}, onError = {
+								log(it)
 							})
 					}
 			}

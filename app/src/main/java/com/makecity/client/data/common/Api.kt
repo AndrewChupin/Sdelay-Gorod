@@ -9,6 +9,7 @@ import com.makecity.client.data.profile.ProfileRemote
 import com.makecity.client.data.task.TaskRemote
 import io.reactivex.Single
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 
@@ -122,14 +123,13 @@ interface Api {
 	): Single<ProfileRemote>
 
 
-	@Headers("Content-Type: multipart/form-data")
 	@Multipart
 	@POST("/profiles/user/update")
 	fun saveProfile(
 		@Header("Authorization") token: String,
-		@PartMap parts: HashMap<String, String>,
+		@PartMap parts: HashMap<String, RequestBody>,
 		@Part photo: MultipartBody.Part? = null
-	): Single<Boolean>
+	): Single<ProfileRemote>
 
 
 	/**

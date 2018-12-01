@@ -53,7 +53,9 @@ class ProfileDataSourceDefault @Inject constructor(
 		authStorage
 			.getAuthToken()
 			.flatMap { profileService.saveProfile(it, profile) }
-			.flatMap { refreshProfile() }
+			.map(mapperRemote::transform)
+			.blockingCompletable { profileStorage.deleteAll() }
+			.blockingCompletable(profileStorage::saveProfile)
 			.ignoreElement()
 	}
 }

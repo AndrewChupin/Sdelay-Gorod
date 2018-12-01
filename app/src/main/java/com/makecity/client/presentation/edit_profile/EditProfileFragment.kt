@@ -7,7 +7,12 @@ import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import android.view.View
 import com.makecity.client.R
+import com.makecity.client.app.AppConst
 import com.makecity.client.app.AppInjector
+import com.makecity.client.presentation.camera.CameraAction
+import com.makecity.client.presentation.camera.Image
+import com.makecity.client.utils.PathParser
+import com.makecity.client.utils.saver.BitmapSaverRequest
 import com.makecity.core.presentation.screen.ToolbarConfig
 import com.makecity.core.presentation.screen.ToolbarScreen
 import com.makecity.core.presentation.state.PrimaryViewState
@@ -15,12 +20,14 @@ import com.makecity.core.presentation.view.StatementFragment
 import com.makecity.core.utils.Symbols.EMPTY
 import com.makecity.core.utils.image.CommonImageRules
 import com.makecity.core.utils.image.ImageManager
+import com.makecity.core.utils.saver.FileSaver
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.view_titled_edit_text.view.*
 import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.slots.PredefinedSlots
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher
+import java.io.File
 import javax.inject.Inject
 
 
@@ -35,6 +42,8 @@ class EditProfileFragment : EditProfileStatement(), ToolbarScreen {
 
 	@Inject
 	lateinit var imageManager: ImageManager
+	@Inject
+	lateinit var fileSaver: FileSaver
 
 	override val layoutId: Int = R.layout.fragment_edit_profile
 	private lateinit var loadingDialog: ProgressDialog
@@ -85,10 +94,17 @@ class EditProfileFragment : EditProfileStatement(), ToolbarScreen {
 
 	override fun onScreenResult(requestCode: Int, resultCode: Int, data: Intent?) {
 		super.onScreenResult(requestCode, resultCode, data)
-		data?.dataString?.let {
-			val rules = CommonImageRules(edit_profile_photo, it, R.drawable.placeholder_face, true)
-			imageManager.apply(rules)
-			reducer.reduce(EditProfileAction.ChangePhoto(it))
+		if (data != null && data.data != null) {
+			var file = File(PathParser.parseMedia(requireActivity().application.contentResolver, data.data))
+
+			if (file.length() > AppConst.MAX_IMAGE_SIZE) {
+				val newFile = imageManager.crateNewPictureFile()
+				newFile.createNewFile()
+				file = file.copyTo(newFile, overwrite = true)
+				fileSaver.save(BitmapSaverRequest(file))
+			}
+
+			reducer.reduce(EditProfileAction.ChangePhoto(file.absolutePath))
 		}
 	}
 
@@ -97,7 +113,7 @@ class EditProfileFragment : EditProfileStatement(), ToolbarScreen {
 
 		when (state.screenState) {
 			is PrimaryViewState.Loading -> loadingDialog.show()
-			else -> loadingDialog.dismiss()
+			else -> loadingDialog.hide()
 		}
 
 		state.profile?.apply {
