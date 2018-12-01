@@ -133,7 +133,7 @@ class CameraFragment : CameraStatement(), ToolbarScreen, ImagesListDelegate {
 
 	override fun onScreenResult(requestCode: Int, resultCode: Int, data: Intent?) {
 		super.onScreenResult(requestCode, resultCode, data)
-		if (data != null) {
+		if (data != null && data.data != null) {
 			var file = File(parseMedia(requireActivity().application.contentResolver, data.data))
 
 			if (file.length() > MAX_IMAGE_SIZE) {

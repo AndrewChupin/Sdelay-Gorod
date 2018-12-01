@@ -23,6 +23,9 @@ class ProfileFragment : ProfileStatement(), ToolbarScreen {
 
 	companion object {
 		fun newInstance() = ProfileFragment()
+
+		private const val MALE = "male"
+		private const val FEMALE = "female"
 	}
 
 	override val layoutId: Int = R.layout.fragment_profile
@@ -70,16 +73,17 @@ class ProfileFragment : ProfileStatement(), ToolbarScreen {
 				profile_address.text = address
 			}
 
-			if (sex.isEmpty()) {
-				profile_gender.text = getString(R.string.undefined_symbol)
-			} else {
-				profile_gender.text = sex
+			profile_gender.text = when (sex) {
+				MALE -> getString(R.string.male)
+				FEMALE -> getString(R.string.female)
+				else -> getString(R.string.undefined_symbol)
 			}
 
 			photo.checkNotEmpty {
 				imageManager.apply(CommonImageRules(
 					image = profile_image,
-					url = it
+					url = it,
+					placeholder = R.drawable.face_placeholder_bg
 				))
 			}
 

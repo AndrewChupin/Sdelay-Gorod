@@ -11,6 +11,7 @@ import com.makecity.core.presentation.screen.ToolbarScreen
 import com.makecity.core.presentation.state.PrimaryViewState
 import com.makecity.core.presentation.view.StatementFragment
 import com.makecity.core.utils.Symbols.EMPTY
+import com.makecity.core.utils.image.CommonImageRules
 import com.makecity.core.utils.image.ImageManager
 import kotlinx.android.synthetic.main.fragment_menu.*
 import ru.tinkoff.decoro.MaskImpl
@@ -89,6 +90,12 @@ class MenuFragment: MenuStatement(), ToolbarScreen {
 					}
 					else -> {
 						val profile = state.profile
+						imageManager.apply(CommonImageRules(
+							menu_profile_image,
+							profile.photo,
+							placeholder = R.drawable.placeholder_face,
+							withCircle = true
+						))
 						val name = if (profile.firstName.isEmpty() && profile.lastName.isEmpty()) {
 							mask.insertFront(profile.phone)
 							mask.toString()
