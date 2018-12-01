@@ -8,17 +8,17 @@ import java.lang.StringBuilder
 
 
 @Suppress("NOTHING_TO_INLINE")
-inline fun String.joinPath(vararg subPaths: String?): String {
+inline fun String.joinPath(separator: String, vararg subPaths: String?): String {
 	val builder = StringBuilder()
 	builder.append(this)
-	if (!this.endsWith(SLASH)) {
-		builder.append(SLASH)
+	if (!this.endsWith(separator)) {
+		builder.append(separator)
 	}
 	subPaths.forEachIndexed { index, path ->
 		path?.let {
 			builder.append(it)
 			if (index != subPaths.size - 1) {
-				builder.append(SLASH)
+				builder.append(separator)
 			}
 		}
 	}

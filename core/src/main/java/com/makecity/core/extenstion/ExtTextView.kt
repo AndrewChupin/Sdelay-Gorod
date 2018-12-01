@@ -1,9 +1,12 @@
 package com.makecity.core.extenstion
 
+import android.support.v4.content.ContextCompat
 import android.text.SpannableStringBuilder
+import android.text.TextPaint
 import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.TextView
+import com.makecity.core.R
 import java.util.regex.Pattern
 
 
@@ -41,6 +44,41 @@ inline fun TextView.textWithExecutableHref(htmlText: String, crossinline onExecu
 		spannableBuilder.setSpan(object : ClickableSpan() {
 			override fun onClick(widget: View) {
 				onExecute(entry.key)
+			}
+		}, entry.value.from, entry.value.to, 0)
+	}
+	text = spannableBuilder
+}
+
+fun TextView.textWithExecutable(lines: List<String>, onExecute: (String) -> Unit) {
+	val separator = ", "
+	val groups = mutableMapOf<String, ExecutableRange>()
+	val result = lines.joinToString(separator)
+
+	var currentIndex = 0
+
+	lines.forEachIndexed { index, text ->
+		val tempIndex = currentIndex + text.length
+		groups[text] = ExecutableRange(currentIndex, tempIndex)
+		currentIndex = tempIndex
+
+		val isLastIndex = index.inc() == lines.size
+
+		if (!isLastIndex) {
+			currentIndex += separator.length
+		}
+	}
+
+	val spannableBuilder = SpannableStringBuilder(result)
+	groups.forEach { entry ->
+		spannableBuilder.setSpan(object : ClickableSpan() {
+			override fun onClick(widget: View) {
+				onExecute(entry.key)
+			}
+
+			override fun updateDrawState(ds: TextPaint) {
+				ds.color = ContextCompat.getColor(context, R.color.colorAccent)
+				ds.isUnderlineText = true
 			}
 		}, entry.value.from, entry.value.to, 0)
 	}

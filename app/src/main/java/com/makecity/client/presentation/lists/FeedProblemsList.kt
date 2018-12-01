@@ -1,22 +1,28 @@
 package com.makecity.client.presentation.lists
 
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.ShapeDrawable
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.makecity.client.R
+import com.makecity.client.data.task.ProblemStatus
 import com.makecity.client.data.task.Task
 import com.makecity.client.utils.DateHelper
 import com.makecity.core.extenstion.checkNotEmpty
+import com.makecity.core.extenstion.textWithExecutable
 import com.makecity.core.presentation.list.BaseMultiplyAdapter
 import com.makecity.core.presentation.list.BaseViewHolder
 import com.makecity.core.presentation.list.ClickableViewHolder
+import com.makecity.core.utils.Symbols.EMPTY
 import com.makecity.core.utils.diff.BaseDiffUtil
 import com.makecity.core.utils.diff.BaseIdenticalDiffUtil
 import com.makecity.core.utils.diff.SingleDiffUtil
 import com.makecity.core.utils.image.CommonImageRules
 import com.makecity.core.utils.image.ImageManager
 import kotlinx.android.synthetic.main.item_feed_new.*
+import kotlinx.android.synthetic.main.item_problem_history.*
 import java.util.*
 
 interface TaskDelegate {
@@ -67,7 +73,13 @@ class TaskViewHolder(
 		item.apply {
 			feed_item_time.text = DateHelper.convertDateToFormat(Date(updatedTime))
 			feed_item_title.text = text
-			feed_item_content.text = "${categories.main.name.capitalize()} ${categories.sub?.name?.capitalize()}"
+			feed_item_content.textWithExecutable(listOf(
+				categories.main.name.capitalize(),
+				categories.sub?.name?.capitalize() ?: EMPTY
+			)) {
+
+			}
+
 			feed_item_like.text = likeCounts.toString()
 			feed_item_comments.text = commentsCount.toString()
 			feed_item_status.text = status
