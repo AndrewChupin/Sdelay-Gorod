@@ -66,8 +66,8 @@ class TaskViewHolder(
 
 		item.apply {
 			feed_item_time.text = DateHelper.convertDateToFormat(Date(updatedTime))
-			feed_item_title.text = title
-			feed_item_content.text = text
+			feed_item_title.text = text
+			feed_item_content.text = "${categories.main.name.capitalize()} ${categories.sub?.name?.capitalize()}"
 			feed_item_like.text = likeCounts.toString()
 			feed_item_comments.text = commentsCount.toString()
 			feed_item_status.text = status
