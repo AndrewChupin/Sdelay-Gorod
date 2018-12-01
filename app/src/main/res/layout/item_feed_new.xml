@@ -52,6 +52,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="16dp"
+                android:maxLines="4"
                 android:fontFamily="@font/roboto_bold"
                 tools:text="Починить велопарк"
                 android:textColor="@color/text_dark_main"
