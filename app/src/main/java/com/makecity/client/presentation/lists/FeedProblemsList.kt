@@ -76,9 +76,7 @@ class TaskViewHolder(
 			feed_item_content.textWithExecutable(listOf(
 				categories.main.name.capitalize(),
 				categories.sub?.name?.capitalize() ?: EMPTY
-			)) {
-
-			}
+			)) {}
 
 			feed_item_like.text = likeCounts.toString()
 			feed_item_comments.text = commentsCount.toString()
