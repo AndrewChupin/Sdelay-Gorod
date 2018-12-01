@@ -162,7 +162,7 @@ class ProblemViewHolder(
 			task_item_time.text = DateHelper.convertDateToFormat(Date(updatedTime))
 			task_item_content.text = text
 			task_item_status.text = status
-			val shapeDrawable = feed_item_status.background as GradientDrawable
+			val shapeDrawable = task_item_status.background as GradientDrawable
 			shapeDrawable.setColor(when (statusType) {
 				ProblemStatus.NEW -> ContextCompat.getColor(containerView.context, R.color.colorNew)
 				ProblemStatus.IN_PROGRESS -> ContextCompat.getColor(containerView.context, R.color.colorAccent)

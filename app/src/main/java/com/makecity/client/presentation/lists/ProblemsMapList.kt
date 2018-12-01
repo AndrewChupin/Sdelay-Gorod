@@ -71,7 +71,7 @@ class ProblemMapViewHolder(
 			problem_bottom_item_like.text = likeCounts.toString()
 			problem_bottom_item_comments.text = commentsCount.toString()
 			problem_bottom_item_status.text = status
-			val shapeDrawable = feed_item_status.background as GradientDrawable
+			val shapeDrawable = problem_bottom_item_status.background as GradientDrawable
 			shapeDrawable.setColor(when (statusType) {
 				ProblemStatus.NEW -> ContextCompat.getColor(containerView.context, R.color.colorNew)
 				ProblemStatus.IN_PROGRESS -> ContextCompat.getColor(containerView.context, R.color.colorAccent)
@@ -80,7 +80,7 @@ class ProblemMapViewHolder(
 				ProblemStatus.REJECT -> ContextCompat.getColor(containerView.context, R.color.colorDangerous)
 			})
 
-			feed_item_content.textWithExecutable(listOf(
+			problem_bottom_item_content.textWithExecutable(listOf(
 				categories.main.name.capitalize(),
 				categories.sub?.name?.capitalize() ?: Symbols.EMPTY
 			)) {}
