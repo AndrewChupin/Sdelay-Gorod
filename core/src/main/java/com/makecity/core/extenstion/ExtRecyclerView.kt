@@ -2,7 +2,8 @@ package com.makecity.core.extenstion
 
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
-import com.makecity.core.presentation.list.*
+import com.makecity.core.presentation.list.DataAdapter
+import com.makecity.core.presentation.list.DiffAdapter
 
 
 inline fun <reified Data, Adapter> Adapter.calculateDiffs(

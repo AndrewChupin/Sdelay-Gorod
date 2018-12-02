@@ -1,7 +1,8 @@
 package com.makecity.core.data.remote
 
-import io.reactivex.*
-import io.reactivex.functions.Function
+import io.reactivex.Single
+import io.reactivex.SingleSource
+import io.reactivex.SingleTransformer
 import retrofit2.HttpException
 
 

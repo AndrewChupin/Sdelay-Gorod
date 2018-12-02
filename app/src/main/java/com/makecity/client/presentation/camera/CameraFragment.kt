@@ -11,6 +11,7 @@ import com.makecity.client.app.AppConst.MAX_IMAGE_SIZE
 import com.makecity.client.app.AppInjector
 import com.makecity.client.presentation.lists.ImagesAdapter
 import com.makecity.client.presentation.lists.ImagesListDelegate
+import com.makecity.client.utils.PathParser.parseMedia
 import com.makecity.client.utils.saver.BitmapSaverRequest
 import com.makecity.core.extenstion.calculateDiffs
 import com.makecity.core.extenstion.withArguments
@@ -31,9 +32,8 @@ import io.fotoapparat.selector.back
 import io.fotoapparat.selector.off
 import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.android.synthetic.main.toolbar.*
-import java.io.*
+import java.io.File
 import javax.inject.Inject
-import com.makecity.client.utils.PathParser.parseMedia
 
 
 typealias CameraStatement = StatementFragment<CameraReducer, CameraViewState, CameraAction>

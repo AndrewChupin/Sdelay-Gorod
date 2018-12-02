@@ -24,7 +24,6 @@ import com.makecity.core.utils.diff.SingleDiffUtil
 import com.makecity.core.utils.image.CommonImageRules
 import com.makecity.core.utils.image.ImageManager
 import kotlinx.android.synthetic.main.item_comment.*
-import kotlinx.android.synthetic.main.item_feed_new.*
 import kotlinx.android.synthetic.main.item_problem_content.*
 import kotlinx.android.synthetic.main.item_problem_info.*
 import kotlinx.android.synthetic.main.item_problem_location.*

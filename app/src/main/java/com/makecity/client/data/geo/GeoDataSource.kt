@@ -1,8 +1,6 @@
 package com.makecity.client.data.geo
 
 import com.makecity.core.domain.Mapper
-import com.makecity.core.extenstion.blockingCompletable
-import com.makecity.core.utils.Symbols
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Single

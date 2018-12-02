@@ -11,7 +11,6 @@ import com.makecity.client.presentation.create_problem.ProblemCreatingType
 import com.makecity.client.presentation.description.DescriptionScreenData
 import com.makecity.core.data.Presentation
 import com.makecity.core.extenstion.blockingCompletable
-import com.makecity.core.extenstion.isNullValue
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.plugin.connection.ConnectionState
 import com.makecity.core.plugin.connection.ReducerPluginConnection

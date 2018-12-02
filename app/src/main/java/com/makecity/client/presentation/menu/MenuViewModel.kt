@@ -3,7 +3,6 @@ package com.makecity.client.presentation.menu
 import com.makecity.client.BuildConfig
 import com.makecity.client.app.AppScreens
 import com.makecity.client.data.auth.AuthType
-import com.makecity.client.data.auth.TokenNotFounded
 import com.makecity.client.data.profile.Profile
 import com.makecity.client.data.profile.ProfileDataSource
 import com.makecity.client.presentation.auth.AuthData

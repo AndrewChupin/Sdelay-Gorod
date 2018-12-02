@@ -10,7 +10,6 @@ import com.makecity.core.presentation.state.ViewState
 import com.makecity.core.presentation.viewmodel.ActionView
 import com.makecity.core.presentation.viewmodel.BaseViewModel
 import com.makecity.core.presentation.viewmodel.StatementReducer
-import com.makecity.core.utils.Symbols.EMPTY
 import io.reactivex.disposables.CompositeDisposable
 import ru.terrakok.cicerone.Router
 

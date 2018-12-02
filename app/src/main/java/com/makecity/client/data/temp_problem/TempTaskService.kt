@@ -7,10 +7,10 @@ import com.makecity.core.extenstion.part
 import com.squareup.moshi.Json
 import io.reactivex.Single
 import okhttp3.MediaType
-import javax.inject.Inject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import javax.inject.Inject
 
 
 data class CreateTaskRequestBody(

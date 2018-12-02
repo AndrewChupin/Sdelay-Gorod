@@ -1,7 +1,6 @@
 package com.makecity.client.presentation.feed
 
 import com.makecity.client.app.AppScreens
-import com.makecity.client.data.task.ChangeFavoriteRequest
 import com.makecity.client.data.task.FavoriteType
 import com.makecity.client.data.task.Task
 import com.makecity.client.domain.map.TaskPointsInteractor

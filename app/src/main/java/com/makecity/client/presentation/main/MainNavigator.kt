@@ -14,8 +14,8 @@ import com.makecity.client.presentation.auth.AuthData
 import com.makecity.client.presentation.auth.AuthFragment
 import com.makecity.client.presentation.camera.CameraFragment
 import com.makecity.client.presentation.camera.CameraScreenData
-import com.makecity.client.presentation.category.CategoryScreenData
 import com.makecity.client.presentation.category.CategoryFragment
+import com.makecity.client.presentation.category.CategoryScreenData
 import com.makecity.client.presentation.city.CityFragment
 import com.makecity.client.presentation.comments.CommentsFragment
 import com.makecity.client.presentation.comments.CommentsScreenData

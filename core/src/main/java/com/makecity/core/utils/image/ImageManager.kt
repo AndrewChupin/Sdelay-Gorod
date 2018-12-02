@@ -1,16 +1,11 @@
 package com.makecity.core.utils.image
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Environment
-import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.makecity.core.BuildConfig
-import com.makecity.core.R
-import com.makecity.core.utils.image.CommonImageRules
-import com.makecity.core.utils.image.ImageRules
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*

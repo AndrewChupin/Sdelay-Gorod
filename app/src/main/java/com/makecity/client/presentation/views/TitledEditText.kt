@@ -1,11 +1,10 @@
 package com.makecity.client.presentation.views
 
 import android.content.Context
-import android.widget.LinearLayout
 import android.util.AttributeSet
+import android.widget.LinearLayout
 import com.makecity.client.R
 import com.makecity.core.utils.Symbols.EMPTY
-import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.view_titled_edit_text.view.*
 
 

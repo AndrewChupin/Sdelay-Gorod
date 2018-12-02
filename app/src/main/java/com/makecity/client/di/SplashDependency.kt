@@ -2,12 +2,11 @@ package com.makecity.client.di
 
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
-import com.makecity.client.data.geo.*
+import com.makecity.client.data.geo.GeoDataSource
 import com.makecity.client.presentation.splash.SplashFragment
 import com.makecity.client.presentation.splash.SplashReducer
 import com.makecity.client.presentation.splash.SplashViewModel
 import com.makecity.core.di.scope.FragmentScope
-import com.makecity.core.domain.Mapper
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.presentation.viewmodel.ViewModelFactory
 import com.makecity.core.utils.resources.ResourceManager

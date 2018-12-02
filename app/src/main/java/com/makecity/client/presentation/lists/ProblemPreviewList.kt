@@ -1,19 +1,15 @@
 package com.makecity.client.presentation.lists
 
 import android.animation.ObjectAnimator
-import android.support.transition.TransitionManager
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import com.makecity.client.R
 import com.makecity.client.data.temp_problem.TempProblem
 import com.makecity.client.presentation.create_problem.ProblemPreviewDataType
 import com.makecity.client.presentation.lists.ProblemPreviewAdapter.Companion.PROBLEM_PREVIEW_ADDITIONAL_CELLS_COUNT
-import com.makecity.client.presentation.aimation.EndAnimationListener
 import com.makecity.client.presentation.views.InfoView
 import com.makecity.client.utils.GoogleApiHelper
 import com.makecity.core.data.entity.Location
@@ -25,13 +21,11 @@ import com.makecity.core.utils.ScreenUtils
 import com.makecity.core.utils.diff.SingleDiffUtil
 import com.makecity.core.utils.image.CommonImageRules
 import com.makecity.core.utils.image.ImageManager
-import io.reactivex.Observable
 import kotlinx.android.synthetic.main.item_problem_info.*
 import kotlinx.android.synthetic.main.item_problem_location.*
 import kotlinx.android.synthetic.main.item_problem_photo.*
 import kotlinx.android.synthetic.main.item_problem_preview.*
 import kotlinx.android.synthetic.main.item_problem_preview_button.*
-import java.util.*
 
 
 interface ProblemPreviewDelegate {

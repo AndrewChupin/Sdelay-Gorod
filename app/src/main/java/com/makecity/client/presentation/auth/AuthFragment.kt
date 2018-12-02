@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.Toolbar
 import android.text.InputFilter
+import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
 import com.makecity.client.R
@@ -19,6 +20,7 @@ import com.makecity.core.extenstion.addOnTextChangeListener
 import com.makecity.core.extenstion.fromHtml
 import com.makecity.core.extenstion.isVisible
 import com.makecity.core.extenstion.withArguments
+import com.makecity.core.plugin.channel.DefaultMessage
 import com.makecity.core.presentation.screen.KeyboardScreen
 import com.makecity.core.presentation.screen.ToolbarConfig
 import com.makecity.core.presentation.screen.ToolbarScreen
@@ -31,8 +33,6 @@ import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.slots.PredefinedSlots
 import ru.tinkoff.decoro.watchers.FormatWatcher
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher
-import android.text.InputType
-import com.makecity.core.plugin.channel.DefaultMessage
 
 
 typealias AuthStatement = StatementFragment<AuthReducer, AuthViewState, AuthAction>

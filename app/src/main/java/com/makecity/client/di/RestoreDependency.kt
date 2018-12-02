@@ -7,7 +7,6 @@ import com.makecity.client.presentation.restore.RestoreFragment
 import com.makecity.client.presentation.restore.RestoreReducer
 import com.makecity.client.presentation.restore.RestoreViewModel
 import com.makecity.core.di.scope.FragmentScope
-import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.presentation.viewmodel.ViewModelFactory
 import dagger.BindsInstance
 import dagger.Module

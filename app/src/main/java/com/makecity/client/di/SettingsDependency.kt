@@ -2,7 +2,6 @@ package com.makecity.client.di
 
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
-import com.makecity.client.presentation.camera.CameraScreenData
 import com.makecity.client.presentation.settings.SettingsFragment
 import com.makecity.client.presentation.settings.SettingsReducer
 import com.makecity.client.presentation.settings.SettingsViewModel

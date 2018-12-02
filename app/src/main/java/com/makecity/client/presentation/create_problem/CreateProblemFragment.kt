@@ -1,6 +1,5 @@
 package com.makecity.client.presentation.create_problem
 
-import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar

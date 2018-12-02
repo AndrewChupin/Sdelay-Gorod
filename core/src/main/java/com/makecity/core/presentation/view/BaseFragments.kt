@@ -14,10 +14,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.makecity.core.presentation.navigation.FragmentConsumer
 import com.makecity.core.presentation.navigation.FragmentDelegate
+import com.makecity.core.presentation.state.ViewState
 import com.makecity.core.presentation.viewmodel.ActionView
 import com.makecity.core.presentation.viewmodel.BaseReducer
 import com.makecity.core.presentation.viewmodel.StatementReducer
-import com.makecity.core.presentation.state.ViewState
 import kotlinx.android.synthetic.*
 import javax.inject.Inject
 

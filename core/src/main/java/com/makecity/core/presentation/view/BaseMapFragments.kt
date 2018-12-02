@@ -6,11 +6,11 @@ import android.support.annotation.CallSuper
 import android.view.View
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.makecity.core.presentation.state.ViewState
+import com.makecity.core.presentation.view.map.BaseMapView
 import com.makecity.core.presentation.viewmodel.ActionView
 import com.makecity.core.presentation.viewmodel.BaseReducer
 import com.makecity.core.presentation.viewmodel.StatementReducer
-import com.makecity.core.presentation.state.ViewState
-import com.makecity.core.presentation.view.map.BaseMapView
 import javax.inject.Inject
 
 

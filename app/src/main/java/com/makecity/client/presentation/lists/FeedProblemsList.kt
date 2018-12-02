@@ -1,7 +1,6 @@
 package com.makecity.client.presentation.lists
 
 import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.ShapeDrawable
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
@@ -16,13 +15,10 @@ import com.makecity.core.presentation.list.BaseMultiplyAdapter
 import com.makecity.core.presentation.list.BaseViewHolder
 import com.makecity.core.presentation.list.ClickableViewHolder
 import com.makecity.core.utils.Symbols.EMPTY
-import com.makecity.core.utils.diff.BaseDiffUtil
 import com.makecity.core.utils.diff.BaseIdenticalDiffUtil
-import com.makecity.core.utils.diff.SingleDiffUtil
 import com.makecity.core.utils.image.CommonImageRules
 import com.makecity.core.utils.image.ImageManager
 import kotlinx.android.synthetic.main.item_feed_new.*
-import kotlinx.android.synthetic.main.item_problem_history.*
 import java.util.*
 
 interface TaskDelegate {

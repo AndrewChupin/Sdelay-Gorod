@@ -15,7 +15,6 @@ import com.makecity.core.presentation.list.BaseViewHolder
 import com.makecity.core.presentation.list.ClickableViewHolder
 import com.makecity.core.utils.Symbols
 import com.makecity.core.utils.diff.BaseIdenticalDiffUtil
-import kotlinx.android.synthetic.main.item_feed_new.*
 import kotlinx.android.synthetic.main.item_problem_bottom.*
 import java.util.*
 

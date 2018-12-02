@@ -17,7 +17,6 @@ import com.makecity.client.presentation.main.MainNavigator
 import com.makecity.client.presentation.main.MainReducer
 import com.makecity.client.presentation.main.MainViewModel
 import com.makecity.core.di.scope.ActivityScope
-import com.makecity.core.di.scope.FragmentScope
 import com.makecity.core.domain.Mapper
 import com.makecity.core.presentation.viewmodel.ViewModelFactory
 import dagger.*

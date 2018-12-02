@@ -3,8 +3,6 @@ package com.makecity.client.data.address
 import com.makecity.client.data.common.GoogleApi
 import com.makecity.core.data.entity.Location
 import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit

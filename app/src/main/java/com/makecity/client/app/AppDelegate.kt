@@ -1,13 +1,12 @@
 package com.makecity.client.app
 
-import android.content.ComponentCallbacks2
 import android.content.Context
+import android.support.multidex.MultiDex
+import android.support.multidex.MultiDexApplication
 import com.facebook.stetho.Stetho
 import com.makecity.client.BuildConfig
 import com.makecity.client.di.AppComponent
 import com.makecity.client.di.common.DefaultInjectorPlugin
-import android.support.multidex.MultiDex
-import android.support.multidex.MultiDexApplication
 
 
 class AppDelegate: MultiDexApplication() {

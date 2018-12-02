@@ -9,8 +9,6 @@ import android.view.View
 import com.makecity.client.R
 import com.makecity.client.app.AppConst
 import com.makecity.client.app.AppInjector
-import com.makecity.client.presentation.camera.CameraAction
-import com.makecity.client.presentation.camera.Image
 import com.makecity.client.utils.PathParser
 import com.makecity.client.utils.saver.BitmapSaverRequest
 import com.makecity.core.presentation.screen.ToolbarConfig

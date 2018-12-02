@@ -4,10 +4,10 @@ import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
 import com.makecity.client.data.category.*
 import com.makecity.client.data.company.*
-import com.makecity.client.data.temp_problem.*
-import com.makecity.client.presentation.category.CategoryScreenData
+import com.makecity.client.data.temp_problem.TempProblemDataSource
 import com.makecity.client.presentation.category.CategoryFragment
 import com.makecity.client.presentation.category.CategoryReducer
+import com.makecity.client.presentation.category.CategoryScreenData
 import com.makecity.client.presentation.category.CategoryViewModel
 import com.makecity.core.di.scope.FragmentScope
 import com.makecity.core.domain.Mapper

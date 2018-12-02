@@ -26,7 +26,6 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.parcel.Parcelize
 import ru.terrakok.cicerone.Router
-import java.lang.IllegalStateException
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 

@@ -1,7 +1,7 @@
 package com.makecity.core.presentation.viewmodel
 
-import com.makecity.core.presentation.state.ViewState
 import com.makecity.core.presentation.state.StateLiveData
+import com.makecity.core.presentation.state.ViewState
 
 
 /**

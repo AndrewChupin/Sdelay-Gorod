@@ -3,7 +3,6 @@ package com.makecity.client.di
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.support.v4.app.Fragment
-import android.text.style.BulletSpan
 import com.makecity.client.data.address.*
 import com.makecity.client.data.temp_problem.TempProblemDataSource
 import com.makecity.client.presentation.map_address.MapAddressFragment

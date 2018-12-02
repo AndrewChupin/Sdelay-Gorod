@@ -5,13 +5,10 @@ import com.makecity.client.app.AppScreens
 import com.makecity.client.data.address.Address
 import com.makecity.client.data.address.AddressDataSource
 import com.makecity.client.data.temp_problem.TempProblemDataSource
-import com.makecity.client.presentation.category.CategoryType
 import com.makecity.client.presentation.create_problem.CreateProblemData
 import com.makecity.client.presentation.create_problem.ProblemCreatingType
-import com.makecity.client.presentation.description.DescriptionScreenData
 import com.makecity.core.data.Presentation
 import com.makecity.core.data.entity.Location
-import com.makecity.core.extenstion.blockingCompletable
 import com.makecity.core.plugin.connection.ConnectionProvider
 import com.makecity.core.plugin.connection.ConnectionState
 import com.makecity.core.plugin.connection.ReducerPluginConnection
@@ -25,11 +22,9 @@ import com.makecity.core.presentation.viewmodel.BaseViewModel
 import com.makecity.core.presentation.viewmodel.StatementReducer
 import com.makecity.core.utils.permission.PermissionManager
 import com.makecity.core.utils.permission.PermissionState
-import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.parcel.Parcelize
 import ru.terrakok.cicerone.Router
-import java.util.concurrent.TimeUnit
 
 
 // Data

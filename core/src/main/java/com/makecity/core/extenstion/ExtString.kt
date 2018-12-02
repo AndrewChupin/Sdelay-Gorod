@@ -3,8 +3,6 @@ package com.makecity.core.extenstion
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
-import com.makecity.core.utils.Symbols.SLASH
-import java.lang.StringBuilder
 
 
 @Suppress("NOTHING_TO_INLINE")

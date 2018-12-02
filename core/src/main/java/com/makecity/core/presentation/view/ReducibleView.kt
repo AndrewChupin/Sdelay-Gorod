@@ -1,8 +1,8 @@
 package com.makecity.core.presentation.view
 
-import com.makecity.core.presentation.viewmodel.BaseViewModel
 import com.makecity.core.presentation.viewmodel.ActionView
 import com.makecity.core.presentation.viewmodel.BaseReducer
+import com.makecity.core.presentation.viewmodel.BaseViewModel
 
 
 /**
