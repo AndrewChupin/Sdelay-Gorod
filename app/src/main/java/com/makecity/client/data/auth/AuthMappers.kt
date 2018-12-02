@@ -4,7 +4,7 @@ import com.makecity.core.domain.Mapper
 import javax.inject.Inject
 
 
-class AuthNextStepMapper @Inject constructor(): Mapper<String, NextAuthStep> {
+class AuthNextStepMapper @Inject constructor() : Mapper<String, NextAuthStep> {
 
 	companion object {
 		private const val SMS = "get-reg-token"

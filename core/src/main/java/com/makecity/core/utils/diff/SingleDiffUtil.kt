@@ -4,7 +4,7 @@ import android.support.annotation.MainThread
 import android.support.v7.util.DiffUtil
 
 
-abstract class SingleDiffUtil<Data>: DiffUtil.Callback() {
+abstract class SingleDiffUtil<Data> : DiffUtil.Callback() {
 
 	protected var itemOld: Data? = null
 	protected var itemNew: Data? = null

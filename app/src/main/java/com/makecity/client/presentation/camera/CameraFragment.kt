@@ -98,7 +98,7 @@ class CameraFragment : CameraStatement(), ToolbarScreen, ImagesListDelegate {
 					val mode = if (params.flashMode == Flash.Off) {
 						camera_lightning_button.setImageResource(R.drawable.ic_lightning_enable)
 						autoFlash()
-					} else  {
+					} else {
 						camera_lightning_button.setImageResource(R.drawable.ic_lightning_disable)
 						off()
 					}
@@ -170,7 +170,7 @@ class CameraFragment : CameraStatement(), ToolbarScreen, ImagesListDelegate {
 	)
 
 	private fun cameraButtonMotionHandler(
-		view : View,
+		view: View,
 		event: MotionEvent
 	): Boolean = when (event.action) {
 		MotionEvent.ACTION_CANCEL,

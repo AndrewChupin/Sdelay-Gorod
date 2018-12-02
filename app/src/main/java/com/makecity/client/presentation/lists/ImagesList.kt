@@ -20,7 +20,7 @@ interface ImagesListDelegate {
 class ImagesAdapter(
 	private val imageManager: ImageManager,
 	private val delegate: ImagesListDelegate
-): BaseMultiplyAdapter<Image, ImageViewHolder>() {
+) : BaseMultiplyAdapter<Image, ImageViewHolder>() {
 
 	override var data: List<Image> = emptyList()
 

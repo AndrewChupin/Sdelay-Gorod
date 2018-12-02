@@ -26,7 +26,7 @@ import ru.terrakok.cicerone.Router
 @Parcelize
 data class CommentsScreenData(
 	val problemId: Long
-): Parcelable
+) : Parcelable
 
 // State
 @Presentation
@@ -43,10 +43,9 @@ sealed class CommentsAction : ActionView {
 
 
 // Reducer
-interface CommentsReducer: StatementReducer<CommentsViewState, CommentsAction> {
+interface CommentsReducer : StatementReducer<CommentsViewState, CommentsAction> {
 	val pagingAdapter: PagingActionsAdapter
 }
-
 
 
 // ViewModel

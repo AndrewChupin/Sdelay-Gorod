@@ -25,7 +25,7 @@ class TaskInteractorReactive @Inject constructor(
 	private val problemDataSource: ProblemDataSource,
 	private val commentsDataSource: CommentsDataSource,
 	private val authDataSource: AuthDataSource
-): TaskPointsInteractor {
+) : TaskPointsInteractor {
 
 	override fun refreshProblems(): Single<List<Task>> = Single.defer {
 		problemDataSource.refreshProblems()

@@ -31,8 +31,7 @@ import ru.terrakok.cicerone.Router
 @Parcelize
 data class MapAddressScreenData(
 	val problemCreatingType: ProblemCreatingType
-): Parcelable
-
+) : Parcelable
 
 
 // State
@@ -46,17 +45,18 @@ data class MapAddressViewState(
 
 
 // Action
-sealed class MapAddressAction: ActionView {
-	object FindOwnLocation: MapAddressAction()
+sealed class MapAddressAction : ActionView {
+	object FindOwnLocation : MapAddressAction()
 	data class GetPoints(
 		val locationCenter: Location
-	): MapAddressAction()
-	object ShowProblemPreview: MapAddressAction()
+	) : MapAddressAction()
+
+	object ShowProblemPreview : MapAddressAction()
 }
 
 
 // Reducer
-interface MapAddressReducer: StatementReducer<MapAddressViewState, MapAddressAction>
+interface MapAddressReducer : StatementReducer<MapAddressViewState, MapAddressAction>
 
 
 // ViewModel
@@ -99,10 +99,11 @@ class MapAddressViewModel(
 
 	private fun saveAddress(address: Address) {
 		problemDataSource.getTempProblem()
-			.map { it.copy(
-				latitude = address.location.latitude,
-				longitude = address.location.longitude,
-				address = "${address.street}, ${address.homeNumber}")
+			.map {
+				it.copy(
+					latitude = address.location.latitude,
+					longitude = address.location.longitude,
+					address = "${address.street}, ${address.homeNumber}")
 			}
 			.flatMapCompletable(problemDataSource::saveTempProblem)
 			.bindSubscribe(onSuccess = ::navigateComplete)
@@ -137,10 +138,10 @@ class MapAddressViewModel(
 	private fun startObserveAddress() {
 		addressDataSource
 			.observeAddress()
-			.bindSubscribe (onNext = {
-			viewState.updateValue {
-				copy(locationState = LocationState.Unknown, address = it, screenState = PrimaryViewState.Data)
-			}
-		})
+			.bindSubscribe(onNext = {
+				viewState.updateValue {
+					copy(locationState = LocationState.Unknown, address = it, screenState = PrimaryViewState.Data)
+				}
+			})
 	}
 }

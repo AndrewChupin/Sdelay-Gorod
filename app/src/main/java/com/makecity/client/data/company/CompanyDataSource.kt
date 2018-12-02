@@ -10,7 +10,7 @@ interface CompanyDataSource {
 }
 
 
-class CompanyDataSourceDefault @Inject constructor (
+class CompanyDataSourceDefault @Inject constructor(
 	private val companyService: CompanyService,
 	private val mapper: Mapper<CompanyRemote, Company>
 ) : CompanyDataSource {

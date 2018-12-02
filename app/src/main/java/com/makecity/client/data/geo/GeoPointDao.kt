@@ -5,7 +5,7 @@ import android.arch.persistence.room.Query
 import com.makecity.core.data.BaseDao
 
 @Dao
-abstract class GeoPointDao: BaseDao<GeoPointPersistence> {
+abstract class GeoPointDao : BaseDao<GeoPointPersistence> {
 
 	@Query("DELETE FROM geo_point")
 	abstract fun deleteAll()

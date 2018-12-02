@@ -35,7 +35,7 @@ class FileSaverBitmap @Inject constructor() : FileSaver {
 				}
 
 		}
-		Log.d("Logos", "New file size ${file.length()/1024}")
+		Log.d("Logos", "New file size ${file.length() / 1024}")
 	}
 
 	private fun writeExifOrientation(file: File, rotationDegrees: Int) {

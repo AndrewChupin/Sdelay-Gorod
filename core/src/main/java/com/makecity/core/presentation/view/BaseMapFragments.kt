@@ -14,7 +14,7 @@ import com.makecity.core.presentation.viewmodel.StatementReducer
 import javax.inject.Inject
 
 
-abstract class BaseMapFragment: BaseFragment(), OnMapReadyCallback {
+abstract class BaseMapFragment : BaseFragment(), OnMapReadyCallback {
 
 	private lateinit var mapView: BaseMapView
 	lateinit var googleMap: GoogleMap
@@ -75,7 +75,7 @@ abstract class BaseMapFragment: BaseFragment(), OnMapReadyCallback {
 }
 
 
-abstract class ReducibleViewMapFragment<Reducer: BaseReducer<AG>, AG: ActionView>: BaseMapFragment(), ReducibleView<Reducer, AG>, InjectableView {
+abstract class ReducibleViewMapFragment<Reducer : BaseReducer<AG>, AG : ActionView> : BaseMapFragment(), ReducibleView<Reducer, AG>, InjectableView {
 
 	@Inject
 	override lateinit var reducer: Reducer
@@ -92,7 +92,7 @@ abstract class ReducibleViewMapFragment<Reducer: BaseReducer<AG>, AG: ActionView
 	}
 }
 
-abstract class MapStatementFragment<Reducer: StatementReducer<State, AG>, State: ViewState, AG: ActionView>
+abstract class MapStatementFragment<Reducer : StatementReducer<State, AG>, State : ViewState, AG : ActionView>
 	: ReducibleViewMapFragment<Reducer, AG>(), RenderableView<State> {
 
 	private var isInstanceSaved: Boolean = false

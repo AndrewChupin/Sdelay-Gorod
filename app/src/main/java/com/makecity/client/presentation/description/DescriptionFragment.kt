@@ -25,8 +25,8 @@ class DescriptionFragment : DescriptionStatement(), ToolbarScreen, KeyboardScree
 		fun newInstance(
 			descriptionScreenData: DescriptionScreenData
 		) = DescriptionFragment().withArguments {
-				putParcelable(ARGUMENT_DESCRIPTION_DATA, descriptionScreenData)
-			}
+			putParcelable(ARGUMENT_DESCRIPTION_DATA, descriptionScreenData)
+		}
 	}
 
 	override val layoutId: Int = R.layout.fragment_description

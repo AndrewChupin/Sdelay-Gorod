@@ -5,10 +5,10 @@ import android.support.annotation.CallSuper
 import com.makecity.core.utils.ReactiveActions
 
 
-abstract class BaseViewModel: ViewModel()
+abstract class BaseViewModel : ViewModel()
 
 
-abstract class ReactiveViewModel: BaseViewModel(), ReactiveActions {
+abstract class ReactiveViewModel : BaseViewModel(), ReactiveActions {
 
 	@CallSuper
 	override fun onCleared() {

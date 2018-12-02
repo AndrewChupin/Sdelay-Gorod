@@ -35,8 +35,10 @@ interface MapAddressComponent {
 	interface Builder {
 		@BindsInstance
 		fun withFragment(fragment: Fragment): Builder
+
 		@BindsInstance
 		fun withData(data: MapAddressScreenData): Builder
+
 		fun build(): MapAddressComponent
 	}
 }

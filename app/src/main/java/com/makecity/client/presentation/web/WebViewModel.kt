@@ -23,16 +23,16 @@ data class WebViewState(
 
 
 // Action
-sealed class WebAction: ActionView {
-	object Error: WebAction()
-	object Success: WebAction()
-	object Exit: WebAction()
-	object Loading: WebAction()
+sealed class WebAction : ActionView {
+	object Error : WebAction()
+	object Success : WebAction()
+	object Exit : WebAction()
+	object Loading : WebAction()
 }
 
 
 // Reducer
-interface WebReducer: StatementReducer<WebViewState, WebAction>
+interface WebReducer : StatementReducer<WebViewState, WebAction>
 
 
 // ViewModel
@@ -47,7 +47,7 @@ class WebViewModel(
 
 	override val viewState = StateLiveData.create(WebViewState(webData = webData))
 
-	override fun reduce(action: WebAction) = when(action) {
+	override fun reduce(action: WebAction) = when (action) {
 		is WebAction.Error -> viewState.updateValue {
 			isFailed = true
 			copy(screenState = PrimaryViewState.Error(IllegalArgumentException()))

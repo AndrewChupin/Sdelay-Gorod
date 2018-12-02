@@ -18,10 +18,9 @@ interface CommentService {
 
 class CommentServiceRetrofit @Inject constructor(
 	private val api: Api
-): CommentService {
+) : CommentService {
 
-	override fun loadComments(page: Int, problemId: Long): Single<List<CommentRemote>>
-		= api.loadCommentsPage(page, problemId)
+	override fun loadComments(page: Int, problemId: Long): Single<List<CommentRemote>> = api.loadCommentsPage(page, problemId)
 
 	override fun requestCreateComment(request: CreateCommentRequest): Single<Boolean> = api.createComment(request.text, request.problemId)
 

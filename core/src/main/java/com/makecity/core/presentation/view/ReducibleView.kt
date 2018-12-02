@@ -10,7 +10,7 @@ import com.makecity.core.presentation.viewmodel.BaseViewModel
  * </br>
  * @author Andrew Chupin
  */
-interface ReducibleView<Reducer: BaseReducer<AG>, AG: ActionView> {
+interface ReducibleView<Reducer : BaseReducer<AG>, AG : ActionView> {
 	/**
 	 * [BaseViewModel] which you can provide with [javax.inject.Inject] annotation
 	 */

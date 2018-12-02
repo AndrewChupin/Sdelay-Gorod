@@ -21,11 +21,12 @@ interface ImageManager {
 	 * @param url - it may be HTTP or File url to resource witch will be load to [imageView] with something library
 	 */
 	fun apply(rules: ImageRules)
+
 	fun crateNewPictureFile(): File
 }
 
 
-class CommonImageManager @Inject constructor(): ImageManager {
+class CommonImageManager @Inject constructor() : ImageManager {
 
 	override fun apply(rules: ImageRules) = when (rules) {
 		is CommonImageRules -> loadGlideImage(rules)

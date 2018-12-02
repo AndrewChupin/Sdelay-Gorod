@@ -51,7 +51,7 @@ class MainNavigator @Inject constructor(
 	private val activity: FragmentActivity,
 	fragmentManager: FragmentManager,
 	@IdRes containerId: Int
-): BaseNavigator(activity, fragmentManager, containerId) {
+) : BaseNavigator(activity, fragmentManager, containerId) {
 
 	companion object {
 		private const val PHOTO_REQ_CODE = 533
@@ -110,7 +110,7 @@ class MainNavigator @Inject constructor(
 				}
 				CategoryFragment.newInstance(data as CategoryScreenData)
 			}
-			AppScreens.AUTH_SCREEN_KEY ->  {
+			AppScreens.AUTH_SCREEN_KEY -> {
 				if (data != null && data !is AuthData) {
 					throw IllegalArgumentException("data is null or type not AuthData")
 				}

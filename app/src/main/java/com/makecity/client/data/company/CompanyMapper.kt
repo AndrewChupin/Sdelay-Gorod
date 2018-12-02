@@ -5,7 +5,7 @@ import com.makecity.core.utils.Symbols.EMPTY
 import javax.inject.Inject
 
 
-class CompanyMapperDtoToCommon @Inject constructor(): Mapper<CompanyRemote, Company> {
+class CompanyMapperDtoToCommon @Inject constructor() : Mapper<CompanyRemote, Company> {
 
 	override fun transform(entity: CompanyRemote): Company = entity.run {
 		Company(

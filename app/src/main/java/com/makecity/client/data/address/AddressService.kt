@@ -21,7 +21,7 @@ interface AddressService {
 }
 
 
-class AddressServiceRetrofit @Inject constructor (
+class AddressServiceRetrofit @Inject constructor(
 	private val geoApi: GoogleApi
 ) : AddressService {
 

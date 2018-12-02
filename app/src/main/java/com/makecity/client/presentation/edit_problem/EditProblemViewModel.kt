@@ -22,11 +22,11 @@ data class EditProblemViewState(
 
 
 // Action
-class EditProblemAction: ActionView
+class EditProblemAction : ActionView
 
 
 // Reducer
-interface EditProblemReducer: StatementReducer<EditProblemViewState, EditProblemAction>
+interface EditProblemReducer : StatementReducer<EditProblemViewState, EditProblemAction>
 
 
 // ViewModel

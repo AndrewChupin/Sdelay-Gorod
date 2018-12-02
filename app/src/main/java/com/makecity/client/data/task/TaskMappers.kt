@@ -52,7 +52,7 @@ class ProblemMapperDtoToPersistence @Inject constructor() : Mapper<TaskRemote, T
 }
 
 
-class ProblemMapperPersistenceToCommon @Inject constructor(): Mapper<TaskPersistence, Task> {
+class ProblemMapperPersistenceToCommon @Inject constructor() : Mapper<TaskPersistence, Task> {
 
 	override fun transform(entity: TaskPersistence) = entity.run {
 		Task(

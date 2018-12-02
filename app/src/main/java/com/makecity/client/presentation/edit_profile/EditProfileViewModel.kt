@@ -30,8 +30,8 @@ data class EditProfileViewState(
 
 
 // Action
-sealed class EditProfileAction: ActionView {
-	object PickPhoto: EditProfileAction()
+sealed class EditProfileAction : ActionView {
+	object PickPhoto : EditProfileAction()
 	data class SaveChanges(
 		val sex: String,
 		val firstName: String,
@@ -48,7 +48,7 @@ sealed class EditProfileAction: ActionView {
 }
 
 // Reducer
-interface EditProfileReducer: StatementReducer<EditProfileViewState, EditProfileAction>
+interface EditProfileReducer : StatementReducer<EditProfileViewState, EditProfileAction>
 
 // ViewModel
 class EditProfileViewModel(
@@ -70,9 +70,13 @@ class EditProfileViewModel(
 						scheduler = AndroidSchedulers.mainThread(),
 						onNext = {
 							when {
-								it.granted -> { router.navigateTo(AppScreens.IMAGE_PICKER_SCREEN_KEY) }
-								it.shouldShowRequestPermissionRationale -> { }
-								else -> { }
+								it.granted -> {
+									router.navigateTo(AppScreens.IMAGE_PICKER_SCREEN_KEY)
+								}
+								it.shouldShowRequestPermissionRationale -> {
+								}
+								else -> {
+								}
 							}
 						},
 						onError = { it.printStackTrace() })

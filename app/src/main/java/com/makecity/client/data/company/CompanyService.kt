@@ -13,7 +13,7 @@ interface CompanyService {
 
 class CompanyServiceRetrofit @Inject constructor(
 	private val api: Api
-): CompanyService {
+) : CompanyService {
 
 	override fun loadCompanies(): Single<List<CompanyRemote>> = api.loadCompanies()
 

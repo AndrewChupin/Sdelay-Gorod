@@ -43,16 +43,18 @@ data class AuthViewState(
 
 
 // Action
-sealed class AuthAction: ActionView {
+sealed class AuthAction : ActionView {
 	object ShowNextStep : AuthAction()
 	object RefreshSms : AuthAction()
 	object BackClick : AuthAction()
 	data class ResearchContent(
 		val content: String
 	) : AuthAction()
+
 	data class CheckPassword(
 		val password: String
 	) : AuthAction()
+
 	data class CreatePassword(
 		val password: String
 	) : AuthAction()
@@ -63,11 +65,11 @@ sealed class AuthAction: ActionView {
 @Parcelize
 data class AuthData(
 	val authType: AuthType
-): Parcelable
+) : Parcelable
 
 
 // Reducer
-interface AuthReducer: StatementReducer<AuthViewState, AuthAction>, ReducerPluginChannel<DefaultMessage>
+interface AuthReducer : StatementReducer<AuthViewState, AuthAction>, ReducerPluginChannel<DefaultMessage>
 
 
 // ViewModel
@@ -79,8 +81,7 @@ class AuthViewModel(
 	override val disposables: CompositeDisposable = CompositeDisposable()
 ) : BaseViewModel(), AuthReducer, ReducerPluginConnection {
 
-	override val viewState: StateLiveData<AuthViewState>
-		= StateLiveData.create(AuthViewState(authType = authData.authType))
+	override val viewState: StateLiveData<AuthViewState> = StateLiveData.create(AuthViewState(authType = authData.authType))
 
 	override var channel: ((DefaultMessage) -> Unit)? = null
 

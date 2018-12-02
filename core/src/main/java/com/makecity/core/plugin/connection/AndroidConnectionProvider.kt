@@ -13,32 +13,32 @@ import javax.inject.Inject
 
 
 class AndroidConnectionProvider @Inject constructor(
-    context: Context,
-    private val manager: ConnectivityManager
+	context: Context,
+	private val manager: ConnectivityManager
 ) : ConnectionProvider, BroadcastReceiver() {
 
-    private val subject = BehaviorSubject.createDefault<Boolean>(checkStatus())
+	private val subject = BehaviorSubject.createDefault<Boolean>(checkStatus())
 
-    init {
-        context.registerReceiver(this, IntentFilter(CONNECTIVITY_ACTION))
-    }
+	init {
+		context.registerReceiver(this, IntentFilter(CONNECTIVITY_ACTION))
+	}
 
-    override fun isConnected(): Single<Boolean> = Single.fromCallable {
-        checkStatus()
-    }
+	override fun isConnected(): Single<Boolean> = Single.fromCallable {
+		checkStatus()
+	}
 
-    override fun observeConnectionState(): Observable<Boolean> = subject
+	override fun observeConnectionState(): Observable<Boolean> = subject
 
-    override fun onReceive(context: Context?, intent: Intent?) {
-        publishStatus()
-    }
+	override fun onReceive(context: Context?, intent: Intent?) {
+		publishStatus()
+	}
 
-    private fun checkStatus(): Boolean {
-        val netInfo = manager.activeNetworkInfo
-        return netInfo != null && netInfo.isConnectedOrConnecting
-    }
+	private fun checkStatus(): Boolean {
+		val netInfo = manager.activeNetworkInfo
+		return netInfo != null && netInfo.isConnectedOrConnecting
+	}
 
-    private fun publishStatus() {
-        subject.onNext(checkStatus())
-    }
+	private fun publishStatus() {
+		subject.onNext(checkStatus())
+	}
 }

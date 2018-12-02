@@ -12,10 +12,10 @@ import javax.inject.Inject
 
 interface TempProblemDataSource {
 
-	fun saveTempProblem(tempProblem: TempProblem) : Completable
-	fun getTempProblem() : Single<TempProblem>
-	fun isProblemExist() : Single<Boolean>
-	fun createTask(tempProblem: TempProblem) : Single<Boolean>
+	fun saveTempProblem(tempProblem: TempProblem): Completable
+	fun getTempProblem(): Single<TempProblem>
+	fun isProblemExist(): Single<Boolean>
+	fun createTask(tempProblem: TempProblem): Single<Boolean>
 	fun deleteAll(): Completable
 }
 
@@ -26,7 +26,7 @@ class TempProblemDataSourceDefault @Inject constructor(
 	private val geoDataSource: GeoDataSource,
 	private val authDataSource: AuthDataSource,
 	private val mapperCommonToPersistence: Mapper<TempProblem, TempProblemPersistence>,
-	private  val mapperPersistenceToCommon: Mapper<TempProblemPersistence, TempProblem>
+	private val mapperPersistenceToCommon: Mapper<TempProblemPersistence, TempProblem>
 ) : TempProblemDataSource {
 
 
@@ -46,8 +46,8 @@ class TempProblemDataSourceDefault @Inject constructor(
 		Single.zip<GeoPoint, String, CreateTaskRequest>(
 			geoDataSource.getDefaultGeoPoint().toSingle(),
 			authDataSource.checkToken(), BiFunction { geoPoint, token ->
-				CreateTaskRequest(tempProblem, geoPoint, token)
-			})
+			CreateTaskRequest(tempProblem, geoPoint, token)
+		})
 			.flatMap(tempTaskService::createTask)
 			.blockingCompletable { storage.clear() }
 	}

@@ -35,6 +35,7 @@ sealed class ProblemAction : ActionView {
 	data class ChangeFavorite(
 		val task: Task
 	) : ProblemAction()
+
 	data class CreateComment(
 		val text: String
 	) : ProblemAction()

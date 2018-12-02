@@ -20,7 +20,6 @@ fun View.changeVisibleWithAnimation(isVisible: Boolean) {
 }
 
 
-
 @Suppress("RecursivePropertyAccessor")
 fun View.hideWithScale(duration: Long = 250, scaleX: Float = 0.5f, scaleY: Float = 0.5f) {
 	if (alpha > 0f) {

@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class GoogleLocationProvider @Inject constructor(
 	context: Context
-): LocationProvider {
+) : LocationProvider {
 
 	companion object {
 		private const val UPDATE_INTERVAL = 10L * 1000L
@@ -37,6 +37,7 @@ class GoogleLocationProvider @Inject constructor(
 		return RxFusedLocationProviderFlowable.create(client, request)
 			.map { Location(it.latitude, it.longitude) }
 	}
+
 	override fun getLocation(): Single<Location> = FusedLocationProviderSingle.create(client)
 		.map { Location(it.latitude, it.longitude) }
 

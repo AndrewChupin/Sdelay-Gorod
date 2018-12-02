@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class MapState(
 	val position: Position
-): Parcelable
+) : Parcelable
 
 
 @Presentation
@@ -18,4 +18,4 @@ data class Position(
 	val latitude: Double,
 	val longitude: Double,
 	val zoom: Float
-): Parcelable
+) : Parcelable

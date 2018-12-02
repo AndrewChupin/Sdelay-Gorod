@@ -14,7 +14,7 @@ import com.makecity.client.data.temp_problem.TempProblemPersistence
 	TempProblemPersistence::class,
 	ProfilePersistence::class
 ], version = 1, exportSchema = true)
-abstract class AppDatabase: RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
 	abstract fun getGeoPointDao(): GeoPointDao
 	abstract fun getTempProblemDao(): TempProblemDao
 	abstract fun getProfileDao(): ProfileDao

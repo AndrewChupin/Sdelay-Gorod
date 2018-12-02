@@ -26,6 +26,7 @@ interface MenuComponent {
 	interface Builder {
 		@BindsInstance
 		fun withFragment(fragment: Fragment): Builder
+
 		fun build(): MenuComponent
 	}
 

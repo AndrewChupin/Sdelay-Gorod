@@ -18,7 +18,7 @@ typealias SplashStatement = StatementFragment<SplashReducer, SplashDataViewState
 
 
 // Fragment
-class SplashFragment: SplashStatement() {
+class SplashFragment : SplashStatement() {
 
 	companion object {
 		fun newInstance() = SplashFragment()

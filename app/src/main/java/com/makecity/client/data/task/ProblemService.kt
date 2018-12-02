@@ -38,13 +38,11 @@ interface ProblemService {
 
 class ProblemServiceRetrofit @Inject constructor(
 	private val api: Api
-): ProblemService {
+) : ProblemService {
 
-	override fun requestLoadComments(request: LoadCommentsRequest): Single<List<CommentRemote>>
-		= api.loadComments(request.problemId)
+	override fun requestLoadComments(request: LoadCommentsRequest): Single<List<CommentRemote>> = api.loadComments(request.problemId)
 
-	override fun requestLoadProblems(request: LoadTaskRequest)
-		= api.loadProblems(bearer(request.token), request.cityId)
+	override fun requestLoadProblems(request: LoadTaskRequest) = api.loadProblems(bearer(request.token), request.cityId)
 
 
 	override fun requestChangeFavorite(

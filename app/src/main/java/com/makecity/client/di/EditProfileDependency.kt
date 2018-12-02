@@ -29,6 +29,7 @@ interface EditProfileComponent {
 	interface Builder {
 		@BindsInstance
 		fun withFragment(fragment: Fragment): Builder
+
 		fun build(): EditProfileComponent
 	}
 

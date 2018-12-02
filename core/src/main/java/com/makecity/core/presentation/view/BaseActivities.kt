@@ -12,57 +12,56 @@ import com.makecity.core.presentation.viewmodel.BaseReducer
 import javax.inject.Inject
 
 
-abstract class BaseActivity: AppCompatActivity(), FragmentConsumer {
+abstract class BaseActivity : AppCompatActivity(), FragmentConsumer {
 
-    @LayoutRes
-    open val layoutId: Int? = null
-    override var fragmentelegate: FragmentDelegate? = null
+	@LayoutRes
+	open val layoutId: Int? = null
+	override var fragmentelegate: FragmentDelegate? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        layoutId?.let {
-            setContentView(it)
-        }
-    }
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		layoutId?.let {
+			setContentView(it)
+		}
+	}
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        android.R.id.home -> {
-            onBackPressed()
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
-    }
+	override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+		android.R.id.home -> {
+			onBackPressed()
+			true
+		}
+		else -> super.onOptionsItemSelected(item)
+	}
 
-    override fun onBackPressed() {
-        val isReturn = fragmentelegate?.let {
-            fragmentelegate = null
-            it.onBackClick()
-        } ?: run {
-            super.onBackPressed()
-            return
-        }
+	override fun onBackPressed() {
+		val isReturn = fragmentelegate?.let {
+			fragmentelegate = null
+			it.onBackClick()
+		} ?: run {
+			super.onBackPressed()
+			return
+		}
 
-        if (isReturn) return
-        super.onBackPressed()
-    }
+		if (isReturn) return
+		super.onBackPressed()
+	}
 
 
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        fragmentelegate?.onScreenResult(requestCode, resultCode, data)
-    }
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		super.onActivityResult(requestCode, resultCode, data)
+		fragmentelegate?.onScreenResult(requestCode, resultCode, data)
+	}
 }
 
 
-abstract class ReducibleViewActivity<Reducer: BaseReducer<AG>, AG: ActionView>: BaseActivity(), ReducibleView<Reducer, AG>, InjectableView {
+abstract class ReducibleViewActivity<Reducer : BaseReducer<AG>, AG : ActionView> : BaseActivity(), ReducibleView<Reducer, AG>, InjectableView {
 
-    @Inject
-    override lateinit var reducer: Reducer
+	@Inject
+	override lateinit var reducer: Reducer
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        onInject()
-        super.onCreate(savedInstanceState)
-    }
+	override fun onCreate(savedInstanceState: Bundle?) {
+		onInject()
+		super.onCreate(savedInstanceState)
+	}
 
 }

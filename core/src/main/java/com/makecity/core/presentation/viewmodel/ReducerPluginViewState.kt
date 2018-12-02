@@ -10,6 +10,6 @@ import com.makecity.core.presentation.state.ViewState
  * </br>
  * @author Andrew Chupin
  */
-interface ReducerPluginViewState<State: ViewState> {
+interface ReducerPluginViewState<State : ViewState> {
 	val viewState: StateLiveData<State>
 }

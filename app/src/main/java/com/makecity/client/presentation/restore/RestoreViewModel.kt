@@ -29,15 +29,15 @@ data class RestoreViewState(
 
 
 // Action
-sealed class RestoreAction: ActionView {
+sealed class RestoreAction : ActionView {
 	object RestoreAllow : RestoreAction()
-	object RestoreDeny: RestoreAction()
-	object RestoreDetails: RestoreAction()
+	object RestoreDeny : RestoreAction()
+	object RestoreDetails : RestoreAction()
 }
 
 
 // Reducer
-interface RestoreReducer: StatementReducer<RestoreViewState, RestoreAction>
+interface RestoreReducer : StatementReducer<RestoreViewState, RestoreAction>
 
 
 // ViewModel

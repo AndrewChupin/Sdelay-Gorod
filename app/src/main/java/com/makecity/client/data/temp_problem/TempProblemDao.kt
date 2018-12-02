@@ -5,7 +5,7 @@ import android.arch.persistence.room.Query
 import com.makecity.core.data.BaseDao
 
 @Dao
-abstract class TempProblemDao: BaseDao<TempProblemPersistence> {
+abstract class TempProblemDao : BaseDao<TempProblemPersistence> {
 
 	@Query("DELETE FROM temp_problem")
 	abstract fun deleteAll()

@@ -22,11 +22,11 @@ data class AddressViewState(
 
 
 // Action
-class AddressAction: ActionView
+class AddressAction : ActionView
 
 
 // Reducer
-interface AddressReducer: StatementReducer<AddressViewState, AddressAction>
+interface AddressReducer : StatementReducer<AddressViewState, AddressAction>
 
 
 // ViewModel

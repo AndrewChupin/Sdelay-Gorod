@@ -27,8 +27,10 @@ interface CreateProblemComponent {
 	interface Builder {
 		@BindsInstance
 		fun withFragment(fragment: Fragment): Builder
+
 		@BindsInstance
 		fun withData(data: CreateProblemData): Builder
+
 		fun build(): CreateProblemComponent
 	}
 

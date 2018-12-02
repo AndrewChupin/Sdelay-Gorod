@@ -31,7 +31,7 @@ data class ProfileViewState(
 
 
 // Action
-sealed class ProfileAction: ActionView {
+sealed class ProfileAction : ActionView {
 	object ShowEditProfile : ProfileAction()
 	object GetProfileData : ProfileAction()
 	object Logout : ProfileAction()
@@ -39,7 +39,7 @@ sealed class ProfileAction: ActionView {
 
 
 // Reducer
-interface ProfileReducer: StatementReducer<ProfileViewState, ProfileAction>
+interface ProfileReducer : StatementReducer<ProfileViewState, ProfileAction>
 
 
 // ViewModel

@@ -247,7 +247,7 @@ object DefaultInjectorPlugin : InjectorPlugin {
 		mainComponent: MainComponent,
 		fragment: DescriptionFragment,
 		descriptionScreenData: DescriptionScreenData
-	): DescriptionComponent =  mainComponent
+	): DescriptionComponent = mainComponent
 		.descriptionComponent()
 		.withFragment(fragment)
 		.withData(descriptionScreenData)

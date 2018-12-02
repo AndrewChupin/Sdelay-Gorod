@@ -8,7 +8,7 @@ import com.makecity.core.utils.ReactiveActions
  * </br>
  * @author Andrew Chupin
  */
-interface ReducerPluginConnection: ReactiveActions {
+interface ReducerPluginConnection : ReactiveActions {
 
 	/**
 	 * Abstract variable witch will be provide connection valueOrInitial

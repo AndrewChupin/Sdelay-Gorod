@@ -31,7 +31,7 @@ import ru.terrakok.cicerone.Router
 data class CategoryScreenData(
 	val categoryType: CategoryType,
 	val problemCreatingType: ProblemCreatingType
-): Parcelable
+) : Parcelable
 
 
 enum class CategoryType {
@@ -49,17 +49,17 @@ data class CategoryViewState(
 
 
 // Action
-sealed class CategoryAction: ActionView {
-	object LoadData: CategoryAction()
+sealed class CategoryAction : ActionView {
+	object LoadData : CategoryAction()
 
 	data class SelectItem(
 		val pair: Pair<Long, String>
-	): CategoryAction()
+	) : CategoryAction()
 }
 
 
 // Reducer
-interface CategoryReducer: StatementReducer<CategoryViewState, CategoryAction>
+interface CategoryReducer : StatementReducer<CategoryViewState, CategoryAction>
 
 
 // ViewModel
@@ -74,8 +74,7 @@ class CategoryViewModel(
 	override val disposables: CompositeDisposable = CompositeDisposable()
 ) : BaseViewModel(), CategoryReducer, ReducerPluginConnection {
 
-	override val viewState: StateLiveData<CategoryViewState>
-		= StateLiveData.create(CategoryViewState(title = resourceManager.getString(R.string.loading_data)))
+	override val viewState: StateLiveData<CategoryViewState> = StateLiveData.create(CategoryViewState(title = resourceManager.getString(R.string.loading_data)))
 
 	init {
 		reduce(CategoryAction.LoadData)
@@ -89,7 +88,7 @@ class CategoryViewModel(
 				CategoryType.COMPANY -> loadCompanies()
 			}
 
-			is CategoryAction.SelectItem ->  when (categoryData.categoryType) {
+			is CategoryAction.SelectItem -> when (categoryData.categoryType) {
 				CategoryType.CATEGORY -> saveCategory(action.pair)
 				CategoryType.OPTION -> saveOption(action.pair)
 				CategoryType.COMPANY -> saveCompany(action.pair)

@@ -22,10 +22,11 @@ val Context.displayType: String
 
 @StringDef(value = [MDPI, HDPI, XHDPI, XXHDPI])
 annotation class DisplayType
-const val MDPI =  "mdpi"
-const val HDPI =  "hdpi"
-const val XHDPI =  "xhdpi"
-const val XXHDPI =  "xxhdpi"
+
+const val MDPI = "mdpi"
+const val HDPI = "hdpi"
+const val XHDPI = "xhdpi"
+const val XXHDPI = "xxhdpi"
 
 
 inline fun Context.checkAnyPermission(vararg permissions: String, crossinline closure: () -> Unit) {

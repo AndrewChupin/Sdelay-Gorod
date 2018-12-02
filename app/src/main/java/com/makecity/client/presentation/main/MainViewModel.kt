@@ -10,16 +10,17 @@ import javax.inject.Inject
 
 
 // Actions
-sealed class MainAction: ActionView
-object ShowFeedAction: MainAction()
-object ShowCityAction: MainAction()
-object ShowSplash: MainAction()
-object ShowNotificationsAction: MainAction()
-object ShowMenuAction: MainAction()
+sealed class MainAction : ActionView
+
+object ShowFeedAction : MainAction()
+object ShowCityAction : MainAction()
+object ShowSplash : MainAction()
+object ShowNotificationsAction : MainAction()
+object ShowMenuAction : MainAction()
 
 
 // Reducer
-interface MainReducer: BaseReducer<MainAction>
+interface MainReducer : BaseReducer<MainAction>
 
 
 // ViewModel

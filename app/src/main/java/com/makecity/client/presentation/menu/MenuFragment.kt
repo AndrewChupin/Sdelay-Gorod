@@ -22,7 +22,7 @@ import javax.inject.Inject
 typealias MenuStatement = StatementFragment<MenuReducer, MenuViewState, MenuAction>
 
 
-class MenuFragment: MenuStatement(), ToolbarScreen {
+class MenuFragment : MenuStatement(), ToolbarScreen {
 
 	companion object {
 		fun newInstance() = MenuFragment()

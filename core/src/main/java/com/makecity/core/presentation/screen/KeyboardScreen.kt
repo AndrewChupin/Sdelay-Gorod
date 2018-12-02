@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment
 import android.view.inputmethod.InputMethodManager
 
 
-
 interface KeyboardScreen {
 
 	fun Fragment.hideKeyboard() {

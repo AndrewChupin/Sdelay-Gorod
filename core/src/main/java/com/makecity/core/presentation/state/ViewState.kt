@@ -11,5 +11,5 @@ package com.makecity.core.presentation.state
  * @author Andrew Chupin
  */
 interface ViewState {
-    val screenState: PrimaryViewState
+	val screenState: PrimaryViewState
 }

@@ -12,7 +12,7 @@ object GoogleApiHelper {
 		var height = ScreenUtils.convertDpToPixel(150f)
 
 		if (width > 640) {
-			height = height/width * 640
+			height = height / width * 640
 			width = 640f
 		}
 

@@ -28,8 +28,9 @@ class TempProblemStorageRoom @Inject constructor(
 	}
 
 	override fun getTempProblem(): Maybe<TempProblemPersistence> = Maybe.defer {
-		val result = appDatabase.getTempProblemDao().findFirst() ?: return@defer Maybe.empty<TempProblemPersistence>()
-		 Maybe.just(result)
+		val result = appDatabase.getTempProblemDao().findFirst()
+			?: return@defer Maybe.empty<TempProblemPersistence>()
+		Maybe.just(result)
 	}
 
 	override fun isTempProblemExist(): Single<Boolean> = Single.fromCallable {

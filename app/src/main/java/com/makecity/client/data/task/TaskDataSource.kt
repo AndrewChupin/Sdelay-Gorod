@@ -28,7 +28,7 @@ class ProblemDataSourceRemote @Inject constructor(
 	private val mapperProblemPersist: ProblemMapperPersistenceToCommon,
 	private val mapperCommentsDto: CommentsAuthorMapperDtoToPersistence,
 	private val mapperCommentsPersist: CommentsAuthorMapperPersistenceToCommon
-): ProblemDataSource {
+) : ProblemDataSource {
 
 	private var tasks: List<Task> = emptyList()
 
@@ -42,19 +42,21 @@ class ProblemDataSourceRemote @Inject constructor(
 
 	override fun refreshProblems(): Single<List<Task>> = geoDataSource
 		.getDefaultGeoPoint()
-		.flatMapSingle {  point ->
+		.flatMapSingle { point ->
 			authDataSource
 				.checkToken()
 				.onErrorResumeNext {
 					if (it is TokenNotFounded) {
 						Single.just(EMPTY)
-					}  else {
+					} else {
 						Single.error(it)
 					}
 				}
-				.flatMap { problemService.requestLoadProblems(
-					LoadTaskRequest(point.cityId, it)
-				)}
+				.flatMap {
+					problemService.requestLoadProblems(
+						LoadTaskRequest(point.cityId, it)
+					)
+				}
 		}
 		.map(mapperProblemDto::transformAll)
 		.map(mapperProblemPersist::transformAll)
@@ -78,13 +80,15 @@ class ProblemDataSourceRemote @Inject constructor(
 		favoriteType: FavoriteType
 	): Single<Boolean> = Single.defer {
 		authDataSource.checkToken()
-			.flatMap { problemService.requestChangeFavorite(
-				ChangeFavoriteRequest(
-					problemId = problemId,
-					favoriteType = favoriteType,
-					token = it
+			.flatMap {
+				problemService.requestChangeFavorite(
+					ChangeFavoriteRequest(
+						problemId = problemId,
+						favoriteType = favoriteType,
+						token = it
+					)
 				)
-			)}
+			}
 			.doOnSuccess { _ ->
 				tasks = tasks.map {
 					if (it.id == problemId) it.copy(isLiked = !it.isLiked)

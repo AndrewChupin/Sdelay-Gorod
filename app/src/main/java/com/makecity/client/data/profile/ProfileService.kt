@@ -38,7 +38,7 @@ interface ProfileService {
 
 class ProfileServiceRetrofit @Inject constructor(
 	private val api: Api
-): ProfileService {
+) : ProfileService {
 
 	override fun loadProfile(token: String): Single<ProfileRemote> =
 		api.getProfile(bearer(token))

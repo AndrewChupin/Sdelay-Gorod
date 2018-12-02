@@ -12,7 +12,7 @@ interface CategoryService {
 
 class CategoryServiceDefault @Inject constructor(
 	private val api: Api
-): CategoryService {
+) : CategoryService {
 
 	override fun loadCategories(): Single<List<CategoryRemote>> = api.loadCategories()
 

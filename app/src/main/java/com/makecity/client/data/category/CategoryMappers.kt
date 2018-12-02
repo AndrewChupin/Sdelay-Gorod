@@ -5,7 +5,7 @@ import com.makecity.core.utils.Symbols.EMPTY
 import javax.inject.Inject
 
 
-class CategoryMapperDtoToPersist @Inject constructor(): Mapper<CategoryRemote, CategoryPersistence> {
+class CategoryMapperDtoToPersist @Inject constructor() : Mapper<CategoryRemote, CategoryPersistence> {
 
 	override fun transform(entity: CategoryRemote): CategoryPersistence = entity.run {
 		CategoryPersistence(
@@ -21,7 +21,7 @@ class CategoryMapperDtoToPersist @Inject constructor(): Mapper<CategoryRemote, C
 	}
 }
 
-class CategoryMapperPersistToCommon @Inject constructor(): Mapper<CategoryPersistence, Category> {
+class CategoryMapperPersistToCommon @Inject constructor() : Mapper<CategoryPersistence, Category> {
 
 	override fun transform(entity: CategoryPersistence): Category = entity.run {
 		Category(

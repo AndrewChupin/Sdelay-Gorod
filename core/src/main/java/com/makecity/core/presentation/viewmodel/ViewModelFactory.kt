@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class ViewModelFactory<VM : ViewModel> @Inject constructor(
 	private val viewModel: VM
-): ViewModelProvider.Factory {
+) : ViewModelProvider.Factory {
 
 	override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 		if (modelClass.isAssignableFrom(viewModel.javaClass)) {

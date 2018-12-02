@@ -77,7 +77,6 @@ class ProblemFragment : ProblemStatement(), ToolbarScreen, TaskDetailsDelegate {
 	}
 
 
-
 	override fun render(state: ProblemViewState) {
 		when (state.screenState) {
 			is PrimaryViewState.Data -> {

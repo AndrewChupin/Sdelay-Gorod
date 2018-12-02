@@ -8,7 +8,7 @@ import com.makecity.core.utils.Symbols.EMPTY
 class ImagesPathsConverter {
 
 	@TypeConverter
-	fun fromImages(images: List<String>): String = when(images.size) {
+	fun fromImages(images: List<String>): String = when (images.size) {
 		0 -> EMPTY
 		1 -> images[0]
 		else -> images.joinToString("||") // TODO LATE
@@ -24,11 +24,11 @@ class ImagesPathsConverter {
 @TypeConverters(ImagesPathsConverter::class)
 data class TempProblemPersistence(
 	@PrimaryKey(autoGenerate = true) val id: Long,
-	@ColumnInfo(name = "category_id") val categoryId: Long?  = null,
+	@ColumnInfo(name = "category_id") val categoryId: Long? = null,
 	@ColumnInfo(name = "option_id") val optionId: Long? = null,
 	@ColumnInfo(name = "category_name") val categoryName: String = EMPTY,
 	@ColumnInfo(name = "option_name") val optionName: String = EMPTY,
-	@ColumnInfo(name = "company_id") val companyId: Long?  = null,
+	@ColumnInfo(name = "company_id") val companyId: Long? = null,
 	@ColumnInfo(name = "company_name") val companyName: String = EMPTY,
 	@ColumnInfo(name = "images") val images: List<String> = emptyList(),
 	@ColumnInfo(name = "description") val description: String = EMPTY,

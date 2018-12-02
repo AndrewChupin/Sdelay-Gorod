@@ -15,7 +15,7 @@ interface ProfileStorage {
 
 class ProfileStorageRoom @Inject constructor(
 	private val appDatabase: AppDatabase
-): ProfileStorage {
+) : ProfileStorage {
 
 	override fun saveProfile(profilePersistence: ProfilePersistence): Completable = Completable.fromCallable {
 		appDatabase.getProfileDao().insert(profilePersistence)

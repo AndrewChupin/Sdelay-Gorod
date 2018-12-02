@@ -27,8 +27,10 @@ interface DescriptionComponent {
 	interface Builder {
 		@BindsInstance
 		fun withFragment(fragment: Fragment): Builder
+
 		@BindsInstance
 		fun withData(data: DescriptionScreenData): Builder
+
 		fun build(): DescriptionComponent
 	}
 

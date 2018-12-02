@@ -62,10 +62,10 @@ class AuthDataSourceDefault @Inject constructor(
 			.flatMap { authService.setPassword(it, pass) }
 			.flatMapCompletable {
 				authStorage
-					.setAuthToken(it.token  ?: throw TokenNotFounded)
+					.setAuthToken(it.token ?: throw TokenNotFounded)
 					.andThen(authStorage.setRegistrationToken(EMPTY))
 			}
-			//.andThen { authStorage.setRegistrationToken(EMPTY) }
+		//.andThen { authStorage.setRegistrationToken(EMPTY) }
 	}
 
 	override fun checkPassword(pass: String): Completable = Completable.defer {

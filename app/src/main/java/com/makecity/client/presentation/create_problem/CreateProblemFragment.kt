@@ -33,7 +33,7 @@ class CreateProblemFragment : CreateProblemStatement(), ToolbarScreen, ProblemPr
 		fun newInstance(data: CreateProblemData) = CreateProblemFragment()
 			.withArguments {
 				putParcelable(ARGUMENT_CREATE_PROBLEM_DATA, data)
-		}
+			}
 	}
 
 	@Inject
@@ -75,7 +75,7 @@ class CreateProblemFragment : CreateProblemStatement(), ToolbarScreen, ProblemPr
 	}
 
 	override fun render(state: CreateProblemViewState) {
-		when(state.screenState) {
+		when (state.screenState) {
 			is PrimaryViewState.Data -> {
 				create_problem_coordinator.isVisible = true
 				create_problem_loader.isVisible = false

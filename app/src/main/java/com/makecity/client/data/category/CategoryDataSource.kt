@@ -15,7 +15,7 @@ class CategoryDataSourceDefault @Inject constructor(
 	private val categoryService: CategoryService,
 	private val categoryMapperDtoToPersist: Mapper<CategoryRemote, CategoryPersistence>,
 	private val categoryMapperPersistToCommon: Mapper<CategoryPersistence, Category>
-): CategoryDataSource {
+) : CategoryDataSource {
 
 	private var categories: List<Category> = emptyList()
 

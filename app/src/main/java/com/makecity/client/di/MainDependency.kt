@@ -35,13 +35,14 @@ import javax.inject.Singleton
 	CommentsDataModule::class,
 	ProfileDataModule::class
 ])
-interface MainComponent{
+interface MainComponent {
 
 	// Injects
 	fun inject(mainActivity: MainActivity)
 
 	// Subcomponents
 	fun mapPointsComponent(): MapPointsComponent.Builder
+
 	fun menuComponent(): MenuComponent.Builder
 	fun notificationComponent(): NotificationComponent.Builder
 	fun feedComponent(): FeedComponent.Builder
@@ -136,7 +137,6 @@ class AuthDefaultModule {
 		mapper: AuthNextStepMapper
 	): AuthDataSource = AuthDataSourceDefault(authService, authStorage, mapper)
 }
-
 
 
 @Module

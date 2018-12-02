@@ -9,13 +9,13 @@ import io.reactivex.Single
  * @author Andrew Chupin
  */
 interface ConnectionProvider {
-    /**
-     * Checking current connection state
-     */
-    fun isConnected(): Single<Boolean>
+	/**
+	 * Checking current connection state
+	 */
+	fun isConnected(): Single<Boolean>
 
-    /**
-     * Observe changes connection state
-     */
-    fun observeConnectionState(): Observable<Boolean>
+	/**
+	 * Observe changes connection state
+	 */
+	fun observeConnectionState(): Observable<Boolean>
 }

@@ -130,7 +130,6 @@ class EditProfileFragment : EditProfileStatement(), ToolbarScreen {
 	}
 
 
-
 	private fun getGender(id: Int): String = when (id) {
 		R.id.edit_profile_sex_male -> "male"
 		R.id.edit_profile_sex_female -> "female"

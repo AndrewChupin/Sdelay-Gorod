@@ -22,11 +22,11 @@ data class SettingsViewState(
 
 
 // Action
-class SettingsAction: ActionView
+class SettingsAction : ActionView
 
 
 // Reducer
-interface SettingsReducer: StatementReducer<SettingsViewState, SettingsAction>
+interface SettingsReducer : StatementReducer<SettingsViewState, SettingsAction>
 
 
 // ViewModel

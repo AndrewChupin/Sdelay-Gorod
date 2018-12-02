@@ -28,7 +28,7 @@ import ru.terrakok.cicerone.Router
 @Parcelize
 data class CreateProblemData(
 	val canEdit: Boolean = true
-): Parcelable
+) : Parcelable
 
 enum class ProblemPreviewDataType {
 	DESCRIPTION, PHOTO, INFO, LOCATION
@@ -48,7 +48,7 @@ data class CreateProblemViewState(
 
 
 // Action
-sealed class CreateProblemAction: ActionView {
+sealed class CreateProblemAction : ActionView {
 	data class ChangePreviewData(
 		val previewDataType: ProblemPreviewDataType
 	) : CreateProblemAction()
@@ -62,7 +62,7 @@ sealed class CreateProblemAction: ActionView {
 
 
 // Reducer
-interface CreateProblemReducer: StatementReducer<CreateProblemViewState, CreateProblemAction>
+interface CreateProblemReducer : StatementReducer<CreateProblemViewState, CreateProblemAction>
 
 
 // ViewModel

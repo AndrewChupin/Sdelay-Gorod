@@ -25,7 +25,7 @@ data class CreateTaskRequestBody(
 	@Json(name = "address") val address: String
 ) {
 
-	fun toMap() : HashMap<String, Any> = hashMapOf(
+	fun toMap(): HashMap<String, Any> = hashMapOf(
 		"latitude" to latitude.toString().part(),
 		"longitude" to longitude.toString().part(),
 		"text" to text.part(),
@@ -83,7 +83,7 @@ class TempTaskServiceRetrofit @Inject constructor(
 				val file = File(it[1])
 				val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
 				MultipartBody.Part.createFormData("img_2", file.name, fileReqBody)
-			}  else null
+			} else null
 		}
 	)
 }

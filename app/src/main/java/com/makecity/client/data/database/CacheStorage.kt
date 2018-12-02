@@ -29,25 +29,25 @@ interface CacheTime {
 }
 
 sealed class CacheStrategy {
-	object Forever: CacheStrategy()
+	object Forever : CacheStrategy()
 
-	object Soft: CacheStrategy()
+	object Soft : CacheStrategy()
 
 	data class Time(
 		override val time: Long,
 		override val unit: TimeUnit
-	): CacheStrategy(), CacheTime
+	) : CacheStrategy(), CacheTime
 
 	data class SoftTime(
 		override val time: Long,
 		override val unit: TimeUnit
-	): CacheStrategy(), CacheTime
+	) : CacheStrategy(), CacheTime
 }
 
 
 class CacheStorageInMemory(
 	defaultLruSize: Int
-): CacheStorage {
+) : CacheStorage {
 
 	private var cacheMap: MutableMap<String, Cache<*>> = mutableMapOf()
 	private var lruCache: LruCache<String, Cache<*>> = LruCache(defaultLruSize)

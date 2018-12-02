@@ -34,7 +34,7 @@ sealed class CityAction : ActionView {
 }
 
 // Reducer
-interface CityReducer: StatementReducer<CityViewState, CityAction>
+interface CityReducer : StatementReducer<CityViewState, CityAction>
 
 
 // ViewModel

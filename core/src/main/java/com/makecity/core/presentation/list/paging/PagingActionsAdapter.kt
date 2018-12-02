@@ -20,8 +20,10 @@ interface PagingActionsAdapter {
 	fun initFirstPage()
 
 	@MainThread
-	fun onPageChangedPosition(firstVisible: Int, lastVisible: Int) { /* Default implementation */ }
+	fun onPageChangedPosition(firstVisible: Int, lastVisible: Int) { /* Default implementation */
+	}
 
 	@MainThread
-	fun onPageChangedScroll(dY: Int, dX: Float) { /* Default implementation */ }
+	fun onPageChangedScroll(dY: Int, dX: Float) { /* Default implementation */
+	}
 }

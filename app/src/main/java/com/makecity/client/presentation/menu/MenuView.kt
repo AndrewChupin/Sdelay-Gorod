@@ -15,7 +15,7 @@ class MenuView(
 	@StringRes private val textId: Int,
 	@DrawableRes private val imageId: Int,
 	private val clickListener: () -> Unit = {}
-): FrameLayout(context) {
+) : FrameLayout(context) {
 
 	init {
 		inflate(getContext(), R.layout.item_menu, this)
@@ -25,7 +25,7 @@ class MenuView(
 		menu_item_container.setOnClickListener { clickListener() }
 	}
 
-	private fun setStyle(styleType: MenuItemStyle) = when(styleType) {
+	private fun setStyle(styleType: MenuItemStyle) = when (styleType) {
 		MenuItemStyle.DEFAULT -> {
 			menu_image.clearColorFilter()
 			menu_title.setTextColor(ContextCompat.getColor(context, R.color.text_dark_main))

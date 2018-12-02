@@ -29,21 +29,22 @@ data class FeedViewState(
 
 
 // Action
-sealed class FeedAction: ActionView {
+sealed class FeedAction : ActionView {
 
-	object LoadTasksAction: FeedAction()
-	object RefreshTasksAction: FeedAction()
+	object LoadTasksAction : FeedAction()
+	object RefreshTasksAction : FeedAction()
 	data class ShowProblemDetails(
 		val problemId: Long
-	): FeedAction()
+	) : FeedAction()
+
 	data class ChangeFavorite(
 		val task: Task
-	): FeedAction()
+	) : FeedAction()
 }
 
 
 // Reducer
-interface FeedReducer: StatementReducer<FeedViewState, FeedAction>
+interface FeedReducer : StatementReducer<FeedViewState, FeedAction>
 
 
 // ViewModel

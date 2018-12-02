@@ -8,7 +8,7 @@ import kotlinx.android.extensions.LayoutContainer
 
 abstract class BaseViewHolder<Item>(
 	override val containerView: View
-): RecyclerView.ViewHolder(containerView), LayoutContainer, Bindable<Item> {
+) : RecyclerView.ViewHolder(containerView), LayoutContainer, Bindable<Item> {
 
 	@CallSuper
 	override fun bind(item: Item) {
@@ -20,7 +20,7 @@ abstract class BaseViewHolder<Item>(
 abstract class ClickableViewHolder<Item>(
 	containerView: View,
 	override val itemClickDelegate: (Item) -> Unit
-): BaseViewHolder<Item>(containerView), ClickableItem<Item> {
+) : BaseViewHolder<Item>(containerView), ClickableItem<Item> {
 
 	init {
 		containerView.setOnClickListener {

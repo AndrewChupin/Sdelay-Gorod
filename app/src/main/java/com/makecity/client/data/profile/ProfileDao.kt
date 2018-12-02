@@ -6,7 +6,7 @@ import com.makecity.core.data.BaseDao
 
 
 @Dao
-abstract class ProfileDao: BaseDao<ProfilePersistence> {
+abstract class ProfileDao : BaseDao<ProfilePersistence> {
 
 	@Query("SELECT * FROM profile LIMIT 1")
 	abstract fun findFirst(): ProfilePersistence?

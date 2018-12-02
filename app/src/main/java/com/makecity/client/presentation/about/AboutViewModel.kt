@@ -17,19 +17,20 @@ import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 // Actions
-sealed class AboutAction: ActionView
-object ShowSupportScreen: AboutAction()
+sealed class AboutAction : ActionView
+
+object ShowSupportScreen : AboutAction()
 
 
 // State
 data class AboutViewState(
 	override val screenState: PrimaryViewState = PrimaryViewState.Loading,
 	override val connectionState: ConnectionState = ConnectionState.Unknown
-): ViewState, ViewStatePluginConnection
+) : ViewState, ViewStatePluginConnection
 
 
 // Reducer
-interface AboutReducer: StatementReducer<AboutViewState, AboutAction>
+interface AboutReducer : StatementReducer<AboutViewState, AboutAction>
 
 
 // View Model
@@ -40,7 +41,7 @@ class AboutViewModel @Inject constructor(
 
 	override val viewState = StateLiveData.create(AboutViewState())
 
-	override fun reduce(action: AboutAction) = when(action) {
+	override fun reduce(action: AboutAction) = when (action) {
 		is ShowSupportScreen -> router.navigateTo(AppScreens.WEB_SCREEN_KEY,
 			WebData(BuildConfig.SUPPORT_URL, Symbols.EMPTY))
 	}

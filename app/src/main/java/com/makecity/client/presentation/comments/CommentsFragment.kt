@@ -87,8 +87,10 @@ class CommentsFragment : CommentsStatement(), ToolbarScreen {
 	override fun render(state: CommentsViewState) {
 		when (state.screenState) {
 			is PrimaryViewState.Data -> commentsAdapter.calculateDiffs(state.comments)
-			is PrimaryViewState.Loading -> {}
-			is PrimaryViewState.Error -> {}
+			is PrimaryViewState.Loading -> {
+			}
+			is PrimaryViewState.Error -> {
+			}
 		}
 	}
 }

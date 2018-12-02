@@ -21,8 +21,8 @@ import javax.inject.Inject
 
 
 // Actions
-sealed class SplashAction: ActionView {
-	object PrepareData: SplashAction()
+sealed class SplashAction : ActionView {
+	object PrepareData : SplashAction()
 }
 
 
@@ -30,11 +30,11 @@ sealed class SplashAction: ActionView {
 data class SplashDataViewState(
 	override val screenState: PrimaryViewState = PrimaryViewState.Loading,
 	override val connectionState: ConnectionState = ConnectionState.Unknown
-): ViewState, ViewStatePluginConnection
+) : ViewState, ViewStatePluginConnection
 
 
 // Reducer
-interface SplashReducer: StatementReducer<SplashDataViewState, SplashAction>
+interface SplashReducer : StatementReducer<SplashDataViewState, SplashAction>
 
 
 // View Model
@@ -54,7 +54,7 @@ class SplashViewModel @Inject constructor(
 	}
 
 	override fun reduce(action: SplashAction) {
-		when(action) {
+		when (action) {
 			is SplashAction.PrepareData -> geoDataSource
 				.getDefaultGeoPoint()
 				.switchIfEmpty(Maybe.defer {

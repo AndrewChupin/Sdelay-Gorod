@@ -7,8 +7,8 @@ package com.makecity.core.utils.resources
  * @author Andrew Chupin
  */
 interface ResourceManager {
-    /**
-     * Access to [String] resources
-     */
-    fun getString(id: Int): String
+	/**
+	 * Access to [String] resources
+	 */
+	fun getString(id: Int): String
 }

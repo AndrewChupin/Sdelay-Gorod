@@ -14,4 +14,4 @@ data class CommonImageRules(
 	val url: String,
 	@DrawableRes val placeholder: Int? = null,
 	val withCircle: Boolean = false
-): ImageRules
+) : ImageRules

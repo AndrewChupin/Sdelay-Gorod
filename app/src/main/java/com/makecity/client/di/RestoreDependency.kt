@@ -25,6 +25,7 @@ interface RestoreComponent {
 	interface Builder {
 		@BindsInstance
 		fun withFragment(fragment: Fragment): Builder
+
 		fun build(): RestoreComponent
 	}
 

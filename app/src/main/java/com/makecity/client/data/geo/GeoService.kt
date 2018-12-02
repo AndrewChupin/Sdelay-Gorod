@@ -15,13 +15,13 @@ interface GeoService {
 }
 
 
-class GeoServiceRetrofit @Inject constructor (
+class GeoServiceRetrofit @Inject constructor(
 	private val api: Api
-): GeoService {
+) : GeoService {
 
 	override fun getUserIp(): Single<String> = api.getIp()
 
-	override fun getUserCity(ip: String): Single<GeoPointRemote>  = api.getCity(ip)
+	override fun getUserCity(ip: String): Single<GeoPointRemote> = api.getCity(ip)
 
 	override fun loadActiveCities(): Single<List<GeoPointRemote>> = api.getCities()
 }

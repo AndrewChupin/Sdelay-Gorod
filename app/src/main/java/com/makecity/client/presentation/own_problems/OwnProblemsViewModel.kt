@@ -22,11 +22,11 @@ data class OwnProblemsViewState(
 
 
 // Action
-class OwnProblemsAction: ActionView
+class OwnProblemsAction : ActionView
 
 
 // Reducer
-interface OwnProblemsReducer: StatementReducer<OwnProblemsViewState, OwnProblemsAction>
+interface OwnProblemsReducer : StatementReducer<OwnProblemsViewState, OwnProblemsAction>
 
 
 // ViewModel

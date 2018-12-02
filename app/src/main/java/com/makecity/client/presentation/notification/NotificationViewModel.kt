@@ -22,11 +22,11 @@ data class NotificationViewState(
 
 
 // Action
-class NotificationAction: ActionView
+class NotificationAction : ActionView
 
 
 // Reducer
-interface NotificationReducer: StatementReducer<NotificationViewState, NotificationAction>
+interface NotificationReducer : StatementReducer<NotificationViewState, NotificationAction>
 
 
 // ViewModel

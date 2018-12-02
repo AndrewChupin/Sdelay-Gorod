@@ -18,8 +18,7 @@ class AddressDataSourceDefault @Inject constructor(
 	private val mapper: Mapper<AddressRemote, Address>
 ) : AddressDataSource {
 
-	override fun getAddress(location: Location)
-		= addressService.locationUpdated(AddressRequest(location, BuildConfig.GOOGLE_MAPS_KEY))
+	override fun getAddress(location: Location) = addressService.locationUpdated(AddressRequest(location, BuildConfig.GOOGLE_MAPS_KEY))
 
 	override fun observeAddress(): Observable<Address> = addressService
 		.observeAddress()

@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import com.makecity.core.presentation.view.map.BaseMapView
 
 
-class ProblemsMapView: BaseMapView {
+class ProblemsMapView : BaseMapView {
 
 	constructor(context: Context) : super(context)
 

@@ -4,7 +4,7 @@ import com.makecity.core.domain.Mapper
 import javax.inject.Inject
 
 
-class AddressMapperRemoteToCommon @Inject constructor (): Mapper<AddressRemote, Address> {
+class AddressMapperRemoteToCommon @Inject constructor() : Mapper<AddressRemote, Address> {
 
 	override fun transform(entity: AddressRemote): Address = entity.run {
 		Address(

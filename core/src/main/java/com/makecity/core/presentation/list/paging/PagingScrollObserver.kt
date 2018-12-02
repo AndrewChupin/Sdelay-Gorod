@@ -9,4 +9,4 @@ interface PagingScrollObserver {
 }
 
 
-abstract class RecyclerPagingScrollObserver: RecyclerView.OnScrollListener(), PagingScrollObserver
+abstract class RecyclerPagingScrollObserver : RecyclerView.OnScrollListener(), PagingScrollObserver

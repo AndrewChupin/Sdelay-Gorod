@@ -25,7 +25,7 @@ interface AuthInteractor {
 }
 
 
-class AuthInteractorDefault @Inject constructor (
+class AuthInteractorDefault @Inject constructor(
 	private val authDataSource: AuthDataSource,
 	private val geoDataSource: GeoDataSource,
 	private val validatorContent: Validator<AuthValidationRequest, AuthValidationResponse>,

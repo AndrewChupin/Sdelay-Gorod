@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 data class WebData(
 	val url: String,
 	val title: String
-): Parcelable
+) : Parcelable
 
 
 typealias WebStatement = StatementFragment<WebReducer, WebViewState, WebAction>
@@ -120,9 +120,7 @@ class WebFragment : WebStatement(), ToolbarScreen, WebViewDelegate {
 	// IMPLEMENT - WebViewDelegate
 	override fun onPageFinished(view: WebView, url: String) = reducer.reduce(WebAction.Success)
 
-	override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError)
-		= reducer.reduce(WebAction.Error)
+	override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) = reducer.reduce(WebAction.Error)
 
-	override fun onReceivedErrorOld(view: WebView, errorCode: Int, description: String, failingUrl: String)
-		= reducer.reduce(WebAction.Error)
+	override fun onReceivedErrorOld(view: WebView, errorCode: Int, description: String, failingUrl: String) = reducer.reduce(WebAction.Error)
 }

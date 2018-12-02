@@ -18,7 +18,7 @@ import com.makecity.core.extenstion.addMarker
 import com.makecity.core.presentation.view.map.BaseMapView
 
 
-class MapPointsView: BaseMapView, GoogleMap.OnMarkerClickListener {
+class MapPointsView : BaseMapView, GoogleMap.OnMarkerClickListener {
 
 	constructor(context: Context) : super(context)
 

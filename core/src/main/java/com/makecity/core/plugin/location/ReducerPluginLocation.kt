@@ -15,7 +15,7 @@ data class LocationPluginConfig(
 )
 
 
-interface ReducerPluginLocation: ReactiveActions {
+interface ReducerPluginLocation : ReactiveActions {
 
 	val permissionManager: PermissionManager
 	val locationProvider: LocationProvider

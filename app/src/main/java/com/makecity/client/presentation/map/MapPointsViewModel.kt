@@ -43,7 +43,7 @@ data class MapPointsViewState(
 
 
 // Action
-sealed class MapPointsAction: ActionView {
+sealed class MapPointsAction : ActionView {
 	object CreateTask : MapPointsAction()
 	object PrepareData : MapPointsAction()
 	object ShowProblemsAsList : MapPointsAction()
@@ -61,7 +61,7 @@ sealed class MapPointsAction: ActionView {
 
 
 // Reducer
-interface MapPointsReducer: StatementReducer<MapPointsViewState, MapPointsAction>
+interface MapPointsReducer : StatementReducer<MapPointsViewState, MapPointsAction>
 
 
 // ViewModel
@@ -151,7 +151,7 @@ class MapPointsViewModel(
 
 	}
 
-	override fun onLocationChanged(locationState: LocationState)  = when (locationState) {
+	override fun onLocationChanged(locationState: LocationState) = when (locationState) {
 		is LocationState.Founded -> viewState.updateValue {
 			state.copy(locationState = locationState)
 		}

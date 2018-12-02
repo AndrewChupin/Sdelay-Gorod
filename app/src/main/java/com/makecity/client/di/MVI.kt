@@ -7,14 +7,14 @@ interface IState
 interface IEffect
 interface IAction
 
-interface Reducer<E: IEffect, S: IState>{
+interface Reducer<E : IEffect, S : IState> {
 	fun reduce(effect: E, state: S): S
 }
 
 typealias Actor<Action, E> = (Action, Emitter<E>) -> Unit
 typealias Emitter<E> = (E) -> Unit
 
-abstract class Dispatcher<A: IAction, E: IEffect, S: IState> {
+abstract class Dispatcher<A : IAction, E : IEffect, S : IState> {
 
 	abstract var store: Store<S>
 	abstract var reducer: Reducer<E, S>
@@ -30,9 +30,6 @@ abstract class Dispatcher<A: IAction, E: IEffect, S: IState> {
 }
 
 
-
-
-
 abstract class FeedDispatcher(
 	override var reducer: Reducer<Effect, State> = ReducerImpl(),
 	override var store: Store<State>
@@ -45,7 +42,7 @@ abstract class FeedDispatcher(
 }
 
 
-class ReducerImpl: Reducer<Effect, State> {
+class ReducerImpl : Reducer<Effect, State> {
 	override fun reduce(effect: Effect, state: State): State = when (effect) {
 		is Effect.DataSuccess -> state.copy(comments = effect.comments)
 	}
@@ -62,16 +59,16 @@ interface Store<State> {
 
 data class State(
 	val comments: List<Comment> = emptyList()
-): IState
+) : IState
 
 
-sealed class Action: IAction {
-	object Click: Action()
+sealed class Action : IAction {
+	object Click : Action()
 }
 
-sealed class Effect: IEffect {
+sealed class Effect : IEffect {
 	data class DataSuccess(
 		val comments: List<Comment>
-	): Effect()
+	) : Effect()
 }
 

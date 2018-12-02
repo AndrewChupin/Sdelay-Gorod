@@ -8,7 +8,7 @@ import com.makecity.core.presentation.state.ViewState
  * You can use it with [com.makecity.core.presentation.BaseViewModel]
  * [ViewState] and [com.makecity.core.presentation.BaseFragment]
  */
-interface RenderableView<in State: ViewState> {
+interface RenderableView<in State : ViewState> {
 
 	/**
 	 * This function must be refresh all screen valueOrInitial

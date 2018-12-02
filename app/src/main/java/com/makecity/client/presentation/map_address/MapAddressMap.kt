@@ -8,7 +8,7 @@ import com.google.android.gms.maps.model.MapStyleOptions
 import com.makecity.client.R
 import com.makecity.core.presentation.view.map.BaseMapView
 
-class MapAddressMap: BaseMapView {
+class MapAddressMap : BaseMapView {
 
 	constructor(context: Context) : super(context)
 

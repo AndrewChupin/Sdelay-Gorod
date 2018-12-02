@@ -20,7 +20,7 @@ class GeoDataSourceDefault @Inject constructor(
 	private val geoPointStorage: GeoPointStorage,
 	private val mapperRemoteToPersist: Mapper<GeoPointRemote, GeoPointPersistence>,
 	private val mapperPersistToCommon: Mapper<GeoPointPersistence, GeoPoint>
-): GeoDataSource {
+) : GeoDataSource {
 
 	override fun refreshCity(): Completable = geoService
 		.getUserIp()
@@ -41,7 +41,8 @@ class GeoDataSourceDefault @Inject constructor(
 
 
 	override fun setDefaultCity(getPoint: GeoPoint): Completable = geoPointStorage
-		.replaceGeoPoint(getPoint.run { // TODO LATE CREATE MAPPER
+		.replaceGeoPoint(getPoint.run {
+			// TODO LATE CREATE MAPPER
 			GeoPointPersistence(
 				cityId = cityId,
 				countryId = countryId,

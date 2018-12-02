@@ -25,12 +25,12 @@ class ProfileDataSourceDefault @Inject constructor(
 	private val authStorage: AuthStorage,
 	private val mapperRemote: Mapper<ProfileRemote, ProfilePersistence>,
 	private val mapperPersist: Mapper<ProfilePersistence, Profile>
-): ProfileDataSource {
+) : ProfileDataSource {
 
 	override fun refreshProfile(): Single<Profile> = Single.defer {
 		authStorage
 			.getAuthToken()
-			.map { if (it.isEmpty()) throw TokenNotFounded else it  }
+			.map { if (it.isEmpty()) throw TokenNotFounded else it }
 			.flatMap(profileService::loadProfile)
 			.map(mapperRemote::transform)
 			.blockingCompletable { profileStorage.deleteAll() }

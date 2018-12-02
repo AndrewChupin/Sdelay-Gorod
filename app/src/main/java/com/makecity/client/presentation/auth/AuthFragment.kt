@@ -243,7 +243,7 @@ class AuthFragment : AuthStatement(), ToolbarScreen, KeyboardScreen, SimpleAnima
 			auth_info_title.text = getString(R.string.auth_phone_title)
 			auth_info_description.text = getString(R.string.auth_phone_description)
 
-			auth_next_button clickReduce  {
+			auth_next_button clickReduce {
 				AuthAction.CreatePassword(auth_input_field.text.toString())
 			}
 		}

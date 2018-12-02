@@ -357,7 +357,7 @@ class ProblemPreviewButtonViewHolder(
 }
 
 
-class ProblemPreviewDiffUtils: SingleDiffUtil<TempProblem>() {
+class ProblemPreviewDiffUtils : SingleDiffUtil<TempProblem>() {
 
 	override fun areItemsTheSame(oldIndex: Int, newIndex: Int): Boolean {
 		if (itemOld == null || itemNew == null) return false

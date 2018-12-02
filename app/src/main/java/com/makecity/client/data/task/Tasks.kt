@@ -63,7 +63,6 @@ data class TaskCategoryRemote(
 )
 
 
-
 // PERSISTENCE MODELS
 @Persistence
 data class TaskPersistence(
@@ -112,7 +111,7 @@ data class TaskCategoryPersistence(
 
 // COMMON MODELS
 @Common
-data class Task (
+data class Task(
 	override val id: Long,
 	val status: String,
 	val title: String,

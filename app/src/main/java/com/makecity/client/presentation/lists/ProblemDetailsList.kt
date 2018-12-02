@@ -363,7 +363,7 @@ class ProblemShowMoreViewHolder(
 	}
 }
 
-class ProblemDiffUtils: SingleDiffUtil<ProblemDetail>() {
+class ProblemDiffUtils : SingleDiffUtil<ProblemDetail>() {
 
 	override fun areItemsTheSame(oldIndex: Int, newIndex: Int): Boolean {
 		/*val old = itemOld ?: return false
@@ -403,7 +403,7 @@ class ProblemDiffUtils: SingleDiffUtil<ProblemDetail>() {
 		return new.comments.size + ADDITIONAL_CELLS_COUNT
 	}
 
-	override fun areContentsTheSame(oldIndex: Int, newIndex: Int): Boolean{
+	override fun areContentsTheSame(oldIndex: Int, newIndex: Int): Boolean {
 		/*val old = itemOld ?: return false
 		val new = itemNew ?: return false
 

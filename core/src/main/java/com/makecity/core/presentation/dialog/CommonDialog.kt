@@ -13,7 +13,7 @@ data class DialogTwoWaysData(
 	val message: String,
 	val positiveButton: String,
 	val negativeButton: String
-): Parcelable
+) : Parcelable
 
 
 interface DialogTwoWaysDelegate {
@@ -22,7 +22,7 @@ interface DialogTwoWaysDelegate {
 }
 
 
-class TwoWaysDialog: DialogFragment() {
+class TwoWaysDialog : DialogFragment() {
 
 	companion object {
 		const val ARGUMENT_DIALOG_TWO_WAY = "ARGUMENT_DIALOG_TWO_WAY"
@@ -39,21 +39,21 @@ class TwoWaysDialog: DialogFragment() {
 		?.getParcelable<DialogTwoWaysData>(ARGUMENT_DIALOG_TWO_WAY)
 		?.run {
 			AlertDialog.Builder(requireContext())
-			.setCancelable(true)
-			.setMessage(message)
-			.setNegativeButton(negativeButton) { dialog, _ ->
-				val target = targetFragment
-				if (target is DialogTwoWaysDelegate) {
-					target.onNegativeClick(dialog)
+				.setCancelable(true)
+				.setMessage(message)
+				.setNegativeButton(negativeButton) { dialog, _ ->
+					val target = targetFragment
+					if (target is DialogTwoWaysDelegate) {
+						target.onNegativeClick(dialog)
+					}
 				}
-			}
-			.setPositiveButton(positiveButton) { dialog, _ ->
-				val target = targetFragment
-				if (target is DialogTwoWaysDelegate) {
-					target.onPositiveClick(dialog)
+				.setPositiveButton(positiveButton) { dialog, _ ->
+					val target = targetFragment
+					if (target is DialogTwoWaysDelegate) {
+						target.onPositiveClick(dialog)
+					}
 				}
-			}
-			.create()
-	} ?: throw IllegalArgumentException("arguments dialog must keep DialogTwoWaysData")
+				.create()
+		} ?: throw IllegalArgumentException("arguments dialog must keep DialogTwoWaysData")
 
 }

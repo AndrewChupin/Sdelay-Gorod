@@ -33,7 +33,7 @@ inline fun TextView.textWithExecutableHref(htmlText: String, crossinline onExecu
 				val indexFrom = result.indexOfFirst { it == '<' && result[result.indexOf(it).inc()] == 'a' }
 				result = result.replaceFirst("<a href=\"[^>]+\">".toRegex(), "")
 					.replaceFirst("</a>", "")
-				groups[url] = ExecutableRange(indexFrom , indexFrom + match.length)
+				groups[url] = ExecutableRange(indexFrom, indexFrom + match.length)
 			} else {
 				url = match
 			}

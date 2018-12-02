@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class PagingActionsAdapterDefault @Inject constructor(
 	private val pagingConfig: PagingConfig
-): PagingActionsAdapter {
+) : PagingActionsAdapter {
 
 	override var pagingDataActions: PagingDataDelegate? = null
 

@@ -12,7 +12,7 @@ class InfoView(
 	@DrawableRes private val imageId: Int,
 	title: String,
 	value: String
-): FrameLayout(context) {
+) : FrameLayout(context) {
 
 	init {
 		inflate(getContext(), R.layout.item_info, this)

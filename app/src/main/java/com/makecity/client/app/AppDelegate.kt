@@ -9,7 +9,7 @@ import com.makecity.client.di.AppComponent
 import com.makecity.client.di.common.DefaultInjectorPlugin
 
 
-class AppDelegate: MultiDexApplication() {
+class AppDelegate : MultiDexApplication() {
 
 	private lateinit var appComponent: AppComponent
 

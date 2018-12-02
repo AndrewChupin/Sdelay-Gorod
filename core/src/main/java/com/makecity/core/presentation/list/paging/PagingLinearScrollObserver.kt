@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class PagingLinearScrollObserver @Inject constructor(
 	private var layoutManager: LinearLayoutManager
-): RecyclerPagingScrollObserver() {
+) : RecyclerPagingScrollObserver() {
 
 	private var adapters: MutableList<WeakReference<PagingActionsAdapter>> = mutableListOf()
 

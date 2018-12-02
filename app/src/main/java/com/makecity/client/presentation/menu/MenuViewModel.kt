@@ -31,10 +31,10 @@ data class MenuViewState(
 
 
 // Action
-sealed class MenuAction: ActionView {
-	data class ItemSelected(val item: MenuType): MenuAction()
-	object ShowProfile: MenuAction()
-	object RefreshProfileData: MenuAction()
+sealed class MenuAction : ActionView {
+	data class ItemSelected(val item: MenuType) : MenuAction()
+	object ShowProfile : MenuAction()
+	object RefreshProfileData : MenuAction()
 }
 
 enum class MenuType {
@@ -42,7 +42,7 @@ enum class MenuType {
 }
 
 // Reducer
-interface MenuReducer: StatementReducer<MenuViewState, MenuAction>
+interface MenuReducer : StatementReducer<MenuViewState, MenuAction>
 
 
 // ViewModel
@@ -86,13 +86,16 @@ class MenuViewModel(
 	}
 
 	private fun reduceItem(type: MenuType) = when (type) {
-		MenuType.SETTINGS -> {}
+		MenuType.SETTINGS -> {
+		}
 		MenuType.PARTNERS -> router.navigateTo(AppScreens.WEB_SCREEN_KEY,
 			WebData(BuildConfig.PARTNERS_URL, EMPTY))
 		MenuType.SUPPORT -> router.navigateTo(AppScreens.WEB_SCREEN_KEY,
 			WebData(BuildConfig.SUPPORT_URL, EMPTY))
-		MenuType.ARCHIVE -> {}
-		MenuType.HELP -> {}
+		MenuType.ARCHIVE -> {
+		}
+		MenuType.HELP -> {
+		}
 		MenuType.ABOUT_PROJECT -> router.navigateTo(AppScreens.ABOUT_SCREEN_KEY)
 		MenuType.NOTIFICATIONS -> router.navigateTo(AppScreens.NOTIFICATION_SCREEN_KEY)
 	}

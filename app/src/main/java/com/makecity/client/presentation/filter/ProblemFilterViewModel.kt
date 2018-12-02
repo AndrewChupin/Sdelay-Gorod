@@ -22,11 +22,11 @@ data class ProblemFilterViewState(
 
 
 // Action
-class ProblemFilterAction: ActionView
+class ProblemFilterAction : ActionView
 
 
 // Reducer
-interface ProblemFilterReducer: StatementReducer<ProblemFilterViewState, ProblemFilterAction>
+interface ProblemFilterReducer : StatementReducer<ProblemFilterViewState, ProblemFilterAction>
 
 
 // ViewModel

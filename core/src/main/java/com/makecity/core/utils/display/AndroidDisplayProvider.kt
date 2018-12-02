@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class AndroidDisplayProvider @Inject constructor(
 	private val context: Context
-): DisplayInfoProvider {
+) : DisplayInfoProvider {
 
 	override fun provideDisplayType(): String = context.displayType
 

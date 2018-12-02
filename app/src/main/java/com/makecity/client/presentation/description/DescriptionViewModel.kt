@@ -25,7 +25,7 @@ import ru.terrakok.cicerone.Router
 @Parcelize
 data class DescriptionScreenData(
 	val problemCreatingType: ProblemCreatingType
-): Parcelable
+) : Parcelable
 
 
 // State
@@ -37,16 +37,17 @@ data class DescriptionViewState(
 
 
 // Action
-sealed class DescriptionAction: ActionView {
+sealed class DescriptionAction : ActionView {
 	data class DescriptionComplete(
 		val description: String
-	): DescriptionAction()
-	object CheckData: DescriptionAction()
+	) : DescriptionAction()
+
+	object CheckData : DescriptionAction()
 }
 
 
 // Reducer
-interface DescriptionReducer: StatementReducer<DescriptionViewState, DescriptionAction>
+interface DescriptionReducer : StatementReducer<DescriptionViewState, DescriptionAction>
 
 
 // ViewModel

@@ -31,8 +31,10 @@ interface CategoryComponent {
 	interface Builder {
 		@BindsInstance
 		fun withFragment(fragment: Fragment): Builder
+
 		@BindsInstance
 		fun withData(categoryData: CategoryScreenData): Builder
+
 		fun build(): CategoryComponent
 	}
 

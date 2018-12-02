@@ -30,10 +30,10 @@ import ru.terrakok.cicerone.Router
 @Parcelize
 data class CameraScreenData(
 	val problemCreatingType: ProblemCreatingType
-): Parcelable
+) : Parcelable
 
 
-data class Image (
+data class Image(
 	val path: String
 )
 
@@ -47,7 +47,7 @@ data class CameraViewState(
 
 
 // Action
-sealed class CameraAction: ActionView {
+sealed class CameraAction : ActionView {
 	object PickCameraPhoto : CameraAction()
 	object PhotosComplete : CameraAction()
 	object CheckImageData : CameraAction()
@@ -64,7 +64,7 @@ sealed class CameraAction: ActionView {
 
 
 // Reducer
-interface CameraReducer: StatementReducer<CameraViewState, CameraAction>
+interface CameraReducer : StatementReducer<CameraViewState, CameraAction>
 
 
 // ViewModel
@@ -89,24 +89,24 @@ class CameraViewModel(
 			Manifest.permission.WRITE_EXTERNAL_STORAGE,
 			Manifest.permission.CAMERA
 		).bindSubscribe(
-				scheduler = AndroidSchedulers.mainThread(),
-				onNext = {
-					when {
-						it.granted -> {
-							Log.d("Logod", "granted ${it.name}")
-						}
-						it.shouldShowRequestPermissionRationale -> {
-							// TODO LATE
-							Log.d("Logod", "shouldShowRequestPermissionRationale")
-						}
-						else -> {
-							Log.d("Logod", "danie")
-						}
+			scheduler = AndroidSchedulers.mainThread(),
+			onNext = {
+				when {
+					it.granted -> {
+						Log.d("Logod", "granted ${it.name}")
 					}
-				},
-				onError = {
-					it.printStackTrace()
-				})
+					it.shouldShowRequestPermissionRationale -> {
+						// TODO LATE
+						Log.d("Logod", "shouldShowRequestPermissionRationale")
+					}
+					else -> {
+						Log.d("Logod", "danie")
+					}
+				}
+			},
+			onError = {
+				it.printStackTrace()
+			})
 	}
 
 	override fun reduce(action: CameraAction) {
