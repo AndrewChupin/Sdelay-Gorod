@@ -1,6 +1,8 @@
 package com.makecity.client.presentation.lists
 
+import android.app.job.JobService
 import android.graphics.drawable.GradientDrawable
+import android.support.v4.app.JobIntentService
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +10,7 @@ import android.view.ViewGroup
 import com.makecity.client.R
 import com.makecity.client.data.comments.Comment
 import com.makecity.client.data.problem.ProblemDetail
+import com.makecity.client.data.task.History
 import com.makecity.client.data.task.ProblemStatus
 import com.makecity.client.data.task.Task
 import com.makecity.client.presentation.lists.TaskDetailAdapter.Companion.ADDITIONAL_CELLS_COUNT
@@ -25,6 +28,7 @@ import com.makecity.core.utils.image.CommonImageRules
 import com.makecity.core.utils.image.ImageManager
 import kotlinx.android.synthetic.main.fragment_auth.*
 import kotlinx.android.synthetic.main.item_comment.*
+import kotlinx.android.synthetic.main.item_history.*
 import kotlinx.android.synthetic.main.item_problem_content.*
 import kotlinx.android.synthetic.main.item_problem_info.*
 import kotlinx.android.synthetic.main.item_problem_location.*
@@ -89,6 +93,9 @@ class TaskDetailAdapter(
 			containerView = LayoutInflater.from(parent.context).inflate(R.layout.item_problem_show_more, parent, false),
 			showMoreDelegate = delegate::showMoreCommentsClicked
 		)
+		R.layout.item_history -> ProblemHistoryViewHolder(
+			containerView = LayoutInflater.from(parent.context).inflate(R.layout.item_history, parent, false)
+		)
 		else -> CommentViewHolder(
 			imageManager = imageManager,
 			containerView = LayoutInflater.from(parent.context).inflate(R.layout.item_comment, parent, false),
@@ -98,7 +105,7 @@ class TaskDetailAdapter(
 
 	override fun getItemCount(): Int {
 		val size = data?.let { it ->
-			it.comments.size + ADDITIONAL_CELLS_COUNT
+			it.comments.size + it.task.history.size + ADDITIONAL_CELLS_COUNT
 		}
 		return size ?: 0
 	}
@@ -127,10 +134,24 @@ class TaskDetailAdapter(
 			is ProblemTitleViewHolder -> data?.let {
 				holder.bind(it.task)
 			}
+			is ProblemHistoryViewHolder -> data?.let {
+				val commentsSize = data?.comments?.size ?: 0
+				val offset = ADDITIONAL_CELLS_COUNT - 1 + commentsSize// Show more
+				holder.bind(it.task.history[position - offset])
+			}
 		}
 	}
 
 	override fun getItemViewType(position: Int): Int {
+		data?.let { details ->
+			val commentsCount = details.comments.size
+			if (commentsCount > 0
+				&& position > 4
+				&& position < 5 + commentsCount) {
+				return R.layout.item_comment
+			}
+		}
+
 		return when (position) {
 			0 -> R.layout.item_problem_content
 			1 -> R.layout.item_problem_location
@@ -138,7 +159,7 @@ class TaskDetailAdapter(
 			3 -> R.layout.item_problem_photo
 			4 -> R.layout.item_problem_title
 			itemCount - 1 -> R.layout.item_problem_show_more
-			else -> R.layout.item_comment
+			else -> R.layout.item_history
 		}
 	}
 }
@@ -356,7 +377,7 @@ class ProblemShowMoreViewHolder(
 	override fun bind(item: Task) {
 		super.bind(item)
 
-		if (item.commentsCount < 10) { // TODO LATE
+		if (item.commentsCount < 10) {
 			containerView.isVisible = false
 			containerView.layoutParams = containerView.layoutParams.apply {
 				height = 0
@@ -367,6 +388,18 @@ class ProblemShowMoreViewHolder(
 				height = ViewGroup.LayoutParams.WRAP_CONTENT
 			}
 		}
+	}
+}
+
+class ProblemHistoryViewHolder(
+	containerView: View
+): BaseViewHolder<History>(containerView) {
+
+	override lateinit var item: History
+
+	override fun bind(item: History) {
+		super.bind(item)
+		item_history_title.text = item.text
 	}
 }
 

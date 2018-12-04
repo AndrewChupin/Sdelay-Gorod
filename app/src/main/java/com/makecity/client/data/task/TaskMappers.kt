@@ -46,7 +46,20 @@ class ProblemMapperDtoToPersistence @Inject constructor() : Mapper<TaskRemote, T
 				),
 				sub = categories.sub?.run { TaskCategoryPersistence(id, name.capitalize()) }
 			),
-			companyName = companies?.first()?.name ?: EMPTY
+			companyName = companies?.first()?.name ?: EMPTY,
+			history = history?.map { concreteHistory ->
+				concreteHistory.run {
+					HistoryPersistence(
+						id = id,
+						text = text ?: EMPTY,
+						createTime = createdTime,
+						updateTime = updateTime,
+						imageSecond = imageSecond ?: EMPTY,
+						imageFirst = imageFirst ?: EMPTY,
+						problemId = problemId
+					)
+				}
+			} ?: emptyList()
 		)
 	}
 }
@@ -91,7 +104,20 @@ class ProblemMapperPersistenceToCommon @Inject constructor() : Mapper<TaskPersis
 				),
 				sub = categories.sub?.run { TaskCategory(id, name) }
 			),
-			companyName = companyName
+			companyName = companyName,
+			history = history.map { concreteHistory ->
+				concreteHistory.run {
+					History(
+						id = id,
+						text = text,
+						createTime = createdTime,
+						updateTime = updateTime,
+						imageSecond = imageSecond,
+						imageFirst = imageFirst,
+						problemId = problemId
+					)
+				}
+			}
 		)
 	}
 }

@@ -39,7 +39,8 @@ data class TaskRemote(
 	@Json(name = "author") val author: AuthorRemote,
 	@Json(name = "likeIs") val isLiked: Boolean?,
 	@Json(name = "category") val categories: TaskCategoriesRemote,
-	@Json(name = "orgs") val companies: List<CompanyRemote>?
+	@Json(name = "orgs") val companies: List<CompanyRemote>?,
+	@Json(name = "history") val history: List<HistoryRemote>?
 )
 
 @Dto
@@ -48,18 +49,28 @@ data class StatusRemote(
 	@Json(name = "name") val name: String?
 )
 
-
 @Dto
 data class TaskCategoriesRemote(
 	@Json(name = "main") val main: TaskCategoryRemote?,
 	@Json(name = "sub") val sub: TaskCategoryRemote?
 )
 
-
 @Dto
 data class TaskCategoryRemote(
 	@Json(name = "id") val id: Long,
 	@Json(name = "name") val name: String
+)
+
+@Dto
+data class HistoryRemote(
+	@Json(name = "id") val id: Long,
+	@Json(name = "text") val text: String?,
+	@Json(name = "img_1") val imageFirst: String?,
+	@Json(name = "img_2") val imageSecond: String?,
+	@Json(name = "created_at") val createTime: Long,
+	@Json(name = "updated_at") val updateTime: Long,
+	@Json(name = "problem_id") val problemId: Long,
+	@Json(name = "history") val history: List<HistoryPersistence>
 )
 
 
@@ -87,8 +98,10 @@ data class TaskPersistence(
 	val author: AuthorPersistence,
 	val isLiked: Boolean,
 	val categories: TaskCategoriesPersistence,
-	val companyName: String
+	val companyName: String,
+	val history: List<HistoryPersistence>
 )
+
 
 @Persistence
 data class StatusPersistence(
@@ -102,11 +115,21 @@ data class TaskCategoriesPersistence(
 	val sub: TaskCategoryPersistence?
 )
 
-
 @Persistence
 data class TaskCategoryPersistence(
 	val id: Long,
 	val name: String
+)
+
+@Persistence
+data class HistoryPersistence(
+	val id: Long,
+	val text: String,
+	val imageFirst: String,
+	val imageSecond: String,
+	val createTime: Long,
+	val updateTime: Long,
+	val problemId: Long
 )
 
 // COMMON MODELS
@@ -129,7 +152,8 @@ data class Task(
 	val author: Author,
 	val isLiked: Boolean,
 	val categories: TaskCategories,
-	val companyName: String
+	val companyName: String,
+	val history: List<History>
 ) : Identical
 
 
@@ -139,9 +163,19 @@ data class TaskCategories(
 	val sub: TaskCategory?
 )
 
-
 @Common
 data class TaskCategory(
 	val id: Long,
 	val name: String
+)
+
+@Persistence
+data class History(
+	val id: Long,
+	val text: String,
+	val imageFirst: String,
+	val imageSecond: String,
+	val createTime: Long,
+	val updateTime: Long,
+	val problemId: Long
 )
