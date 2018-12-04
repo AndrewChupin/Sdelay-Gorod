@@ -64,41 +64,43 @@ class ProblemViewModel @Inject constructor(
 
 	override val viewState = StateLiveData.create(ProblemViewState())
 
-	override fun reduce(action: ProblemAction) = when (action) {
-		is ProblemAction.LoadProblem -> {
-			interactor.loadProblemComments(problemData.id)
+	override fun reduce(action: ProblemAction) {
+		when (action) {
+			is ProblemAction.LoadProblem -> {
+				interactor.loadProblemComments(problemData.id)
+					.bindSubscribe(onSuccess = {
+						viewState.updateValue {
+							copy(screenState = PrimaryViewState.Data, problemDetail = it)
+						}
+					}, onError = {
+						it.printStackTrace()
+					})
+			}
+			is ProblemAction.ShowMoreComments -> {
+				router.navigateTo(AppScreens.COMMENTS_SCREEN_KEY, CommentsScreenData(problemData.id))
+			}
+			is ProblemAction.ChangeFavorite -> interactor
+				.changeFavorite(
+					action.task.id,
+					if (action.task.isLiked) FavoriteType.COMMON else FavoriteType.LIKE
+				).bindSubscribe(onSuccess = { _ ->
+					state.problemDetail?.task?.apply {
+						copy(isLiked = !isLiked)
+					}?.let {
+						viewState.updateValue {
+							val newDetails = problemDetail?.copy(task = it)
+							copy(problemDetail = newDetails)
+						}
+					}
+				})
+			is ProblemAction.CreateComment -> interactor
+				.createComment(problemData.id, action.text)
+				.andThen(interactor.loadProblemComments(problemData.id))
 				.bindSubscribe(onSuccess = {
 					viewState.updateValue {
 						copy(screenState = PrimaryViewState.Data, problemDetail = it)
 					}
-				}, onError = {
-					it.printStackTrace()
 				})
 		}
-		is ProblemAction.ShowMoreComments -> {
-			router.navigateTo(AppScreens.COMMENTS_SCREEN_KEY, CommentsScreenData(problemData.id))
-		}
-		is ProblemAction.ChangeFavorite -> interactor
-			.changeFavorite(
-				action.task.id,
-				if (action.task.isLiked) FavoriteType.COMMON else FavoriteType.LIKE
-			).bindSubscribe(onSuccess = { _ ->
-				state.problemDetail?.task?.apply {
-					copy(isLiked = !isLiked)
-				}?.let {
-					viewState.updateValue {
-						val newDetails = problemDetail?.copy(task = it)
-						copy(problemDetail = newDetails)
-					}
-				}
-			})
-		is ProblemAction.CreateComment -> interactor
-			.createComment(problemData.id, action.text)
-			.flatMap { interactor.loadProblemComments(problemData.id) }
-			.bindSubscribe(onSuccess = {
-				viewState.updateValue {
-					copy(screenState = PrimaryViewState.Data, problemDetail = it)
-				}
-			})
 	}
 }

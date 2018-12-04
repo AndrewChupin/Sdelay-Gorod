@@ -14,6 +14,7 @@ import com.makecity.core.presentation.screen.ToolbarScreen
 import com.makecity.core.presentation.view.StatementFragment
 import kotlinx.android.synthetic.main.fragment_notification.*
 import kotlinx.android.synthetic.main.toolbar.*
+import java.util.*
 
 
 typealias NotificationStatement = StatementFragment<NotificationReducer, NotificationViewState, NotificationAction>

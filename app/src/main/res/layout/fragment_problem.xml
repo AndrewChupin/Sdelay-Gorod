@@ -97,14 +97,14 @@
         android:id="@+id/problem_send_comment_button"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:background="@color/white"
+        android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/et_chat_message_input"
         app:layout_constraintTop_toTopOf="@+id/et_chat_message_input">
 
         <ImageButton
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

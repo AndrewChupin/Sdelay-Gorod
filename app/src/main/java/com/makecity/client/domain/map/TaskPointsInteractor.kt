@@ -7,6 +7,7 @@ import com.makecity.client.data.problem.ProblemDetail
 import com.makecity.client.data.task.FavoriteType
 import com.makecity.client.data.task.ProblemDataSource
 import com.makecity.client.data.task.Task
+import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -16,7 +17,7 @@ interface TaskPointsInteractor {
 	fun getProblems(): Single<List<Task>>
 	fun loadProblemComments(problemId: Long): Single<ProblemDetail>
 	fun changeFavorite(problemId: Long, favoriteType: FavoriteType): Single<Boolean>
-	fun createComment(problemId: Long, text: String): Single<Boolean>
+	fun createComment(problemId: Long, text: String): Completable
 	fun getComments(page: Int, problemId: Long): Single<List<Comment>>
 }
 
@@ -51,9 +52,11 @@ class TaskInteractorReactive @Inject constructor(
 	override fun createComment(
 		problemId: Long,
 		text: String
-	): Single<Boolean> = Single.defer {
+	): Completable = Completable.defer {
 		authDataSource.checkToken()
-			.flatMap { commentsDataSource.createComment(text, problemId) }
+			.flatMapCompletable { token ->
+				commentsDataSource.createComment(token, text, problemId)
+			}
 	}
 
 	override fun getComments(

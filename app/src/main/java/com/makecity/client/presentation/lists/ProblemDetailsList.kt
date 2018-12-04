@@ -23,11 +23,15 @@ import com.makecity.core.presentation.list.ClickableViewHolder
 import com.makecity.core.utils.diff.SingleDiffUtil
 import com.makecity.core.utils.image.CommonImageRules
 import com.makecity.core.utils.image.ImageManager
+import kotlinx.android.synthetic.main.fragment_auth.*
 import kotlinx.android.synthetic.main.item_comment.*
 import kotlinx.android.synthetic.main.item_problem_content.*
 import kotlinx.android.synthetic.main.item_problem_info.*
 import kotlinx.android.synthetic.main.item_problem_location.*
 import kotlinx.android.synthetic.main.item_problem_photo.*
+import ru.tinkoff.decoro.MaskImpl
+import ru.tinkoff.decoro.slots.PredefinedSlots
+import ru.tinkoff.decoro.watchers.MaskFormatWatcher
 import java.util.*
 
 
@@ -159,9 +163,8 @@ class ProblemViewHolder(
 		super.bind(item)
 
 		item.apply {
-			task_item_title.text = title
+			task_item_title.text = text
 			task_item_time.text = DateHelper.convertDateToFormat(Date(updatedTime))
-			task_item_content.text = text
 			task_item_status.text = status
 			val shapeDrawable = task_item_status.background as GradientDrawable
 			shapeDrawable.setColor(when (statusType) {
@@ -319,7 +322,11 @@ class CommentViewHolder(
 
 		item.apply {
 			comment_date.text = DateHelper.convertDateToFormat(Date(updatedTime))
-			comment_user_name.text = author.userName
+			comment_user_name.text = when {
+				author.userName.isNotEmpty() -> author.userName
+				author.phone.isNotEmpty() -> author.phone
+				else -> containerView.context.getString(R.string.name_undefined)
+			}
 			comment_message.text = text
 
 			imageManager.apply(

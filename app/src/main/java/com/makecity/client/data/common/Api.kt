@@ -3,6 +3,7 @@ package com.makecity.client.data.common
 import com.makecity.client.data.auth.*
 import com.makecity.client.data.category.CategoryRemote
 import com.makecity.client.data.comments.CommentRemote
+import com.makecity.client.data.comments.CreateCommentRequest
 import com.makecity.client.data.company.CompanyRemote
 import com.makecity.client.data.geo.GeoPointRemote
 import com.makecity.client.data.profile.ProfileRemote
@@ -25,11 +26,11 @@ interface Api {
 		@Query("page") page: Long
 	): Single<List<CommentRemote>>
 
-	@POST("auth/phone-auth")
+	@POST("comment")
 	fun createComment(
-		@Field("text") text: String,
-		@Field("problem_id") problemId: Long
-	): Single<Boolean>
+		@Header("Authorization") token: String,
+		@Body request: CreateCommentRequest
+	): Single<CommentRemote>
 
 	@GET("comment/problem/{problem_id}?page=1&expand=likeIs,org,count_likes,history,author")
 	fun loadComments(

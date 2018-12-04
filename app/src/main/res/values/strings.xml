@@ -85,6 +85,7 @@
     <string name="add_profile">Добавить аккаунт</string>
     <string name="show_profile">Перейти в профиль</string>
     <string name="name_undefined">Имя неизвестно</string>
+    <string name="anonymous">Аноним</string>
     <string name="name_format">%1$s %2$s</string>
     <string name="need_auth">Необходимо авторизоваться!</string>
     <string name="cities">Выберите город</string>

@@ -1,12 +1,13 @@
 package com.makecity.client.data.comments
 
 import com.makecity.core.domain.Mapper
+import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
 interface CommentsDataSource {
 	fun getComments(page: Int, problemId: Long): Single<List<Comment>>
-	fun createComment(text: String, problemId: Long): Single<Boolean>
+	fun createComment(auth: String, text: String, problemId: Long): Completable
 }
 
 class CommentsDataSourceDefault @Inject constructor(
@@ -22,9 +23,9 @@ class CommentsDataSourceDefault @Inject constructor(
 	}
 
 
-	override fun createComment(text: String, problemId: Long): Single<Boolean> = Single.defer {
-		commentService.requestCreateComment(CreateCommentRequest(
-			text, problemId
-		))
+	override fun createComment(auth: String, text: String, problemId: Long): Completable = Completable.defer {
+		commentService
+			.requestCreateComment(auth, CreateCommentRequest(text, problemId))
+			.ignoreElement()
 	}
 }

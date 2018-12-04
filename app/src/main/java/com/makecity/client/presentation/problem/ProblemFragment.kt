@@ -12,6 +12,7 @@ import com.makecity.client.presentation.lists.TaskDetailsDelegate
 import com.makecity.core.extenstion.calculateDiffs
 import com.makecity.core.extenstion.isVisible
 import com.makecity.core.extenstion.withArguments
+import com.makecity.core.presentation.screen.KeyboardScreen
 import com.makecity.core.presentation.screen.ToolbarConfig
 import com.makecity.core.presentation.screen.ToolbarScreen
 import com.makecity.core.presentation.state.PrimaryViewState
@@ -24,7 +25,7 @@ import javax.inject.Inject
 typealias ProblemStatement = StatementFragment<ProblemReducer, ProblemViewState, ProblemAction>
 
 
-class ProblemFragment : ProblemStatement(), ToolbarScreen, TaskDetailsDelegate {
+class ProblemFragment : ProblemStatement(), ToolbarScreen, TaskDetailsDelegate, KeyboardScreen {
 
 	companion object {
 		private const val ARGUMENT_PROBLEM_DATA = "ARGUMENT_PROBLEM_DATA"
@@ -57,10 +58,13 @@ class ProblemFragment : ProblemStatement(), ToolbarScreen, TaskDetailsDelegate {
 		problem_refresh.setOnRefreshListener {
 			reducer.reduce(ProblemAction.LoadProblem)
 		}
-
-		problem_send_comment_button.clickReduce {
+		textView.setOnClickListener {
+			reducer.reduce(ProblemAction.CreateComment(et_chat_message_input.text.toString()))
 			et_chat_message_input.setText(EMPTY)
-			ProblemAction.CreateComment(et_chat_message_input.text.toString())
+		}
+		problem_send_comment_button.setOnClickListener {
+			reducer.reduce(ProblemAction.CreateComment(et_chat_message_input.text.toString()))
+			et_chat_message_input.setText(EMPTY)
 		}
 
 		problem_recycler.layoutManager = LinearLayoutManager(context)
@@ -76,6 +80,11 @@ class ProblemFragment : ProblemStatement(), ToolbarScreen, TaskDetailsDelegate {
 		ViewCompat.setElevation(problem_message_group, 100f)
 	}
 
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+		hideKeyboard()
+	}
 
 	override fun render(state: ProblemViewState) {
 		when (state.screenState) {

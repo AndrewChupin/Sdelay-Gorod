@@ -14,7 +14,7 @@ data class CommentRemote(
 	@Json(name = "created_at") val createdTime: Long,
 	@Json(name = "updated_at") val updatedTime: Long,
 	@Json(name = "user_id") val userId: Long,
-	@Json(name = "problemId") val problemId: Long,
+	@Json(name = "problem_id") val problemId: Long,
 	@Json(name = "name_guest") val nameGuest: String?,
 	@Json(name = "status") val status: Int,
 	@Json(name = "author") val author: AuthorRemote

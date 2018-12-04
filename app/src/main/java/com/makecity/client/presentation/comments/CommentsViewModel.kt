@@ -68,7 +68,7 @@ class CommentsViewModel(
 		when (action) {
 			is CommentsAction.CreateComment -> interactor
 				.createComment(data.problemId, action.text)
-				.flatMap { interactor.getComments(pagingAdapter.state.pageCounts, data.problemId) }
+				.andThen(interactor.getComments(pagingAdapter.state.pageCounts, data.problemId))
 				.bindSubscribe(onSuccess = {
 
 				})
