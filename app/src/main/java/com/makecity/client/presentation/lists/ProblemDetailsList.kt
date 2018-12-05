@@ -26,6 +26,7 @@ import com.makecity.core.presentation.list.ClickableViewHolder
 import com.makecity.core.utils.diff.SingleDiffUtil
 import com.makecity.core.utils.image.CommonImageRules
 import com.makecity.core.utils.image.ImageManager
+import com.makecity.core.utils.log
 import kotlinx.android.synthetic.main.fragment_auth.*
 import kotlinx.android.synthetic.main.item_comment.*
 import kotlinx.android.synthetic.main.item_history.*
@@ -392,34 +393,60 @@ class ProblemHistoryViewHolder(
 	}
 }
 
+/**
+ * 0 - content
+ * 1 - location - optional
+ * 2 - info
+ * 3 - photos - optional
+ * 4 - comments title
+ * 5 - show more - optional
+ */
 class ProblemDiffUtils : SingleDiffUtil<ProblemDetail>() {
 
 	override fun areItemsTheSame(oldIndex: Int, newIndex: Int): Boolean {
-		/*val old = itemOld ?: return false
+		val old = itemOld ?: return false
 		val new = itemNew ?: return false
 
 		if (oldIndex == 0 && newIndex == 0) {
-			return old.task.id == new.task.id
+			return old.task.text == new.task.text
 		}
 
 		if (oldIndex == 1 && newIndex == 1) {
-			return true
+			return old.task.latitude == new.task.latitude
+				&& old.task.longitude == new.task.longitude
 		}
 
 		if (oldIndex == 2 && newIndex == 2) {
-			return true
+			return old.task.categories == new.task.categories
+				&& old.task.companyName == new.task.companyName
 		}
 
-		if (oldIndex == 3 && newIndex == 3
-			&& (old.task.imageFirst.isNotEmpty() || new.task.imageFirst.isNotEmpty())) {
+		if (oldIndex == 3 && newIndex == 3) {
 			return old.task.imageFirst == new.task.imageFirst && old.task.imageSecond == new.task.imageSecond
 		}
 
-		if (oldIndex > 0 && newIndex > 0) {
-			return old.comments[oldIndex].id == new.comments[newIndex].id
-		}*/
+		if (oldIndex == 4 && newIndex == 4) {
+			return old.comments.isNotEmpty() && old.comments.isNotEmpty()
+		}
 
-		return false
+		if (oldIndex < 5 || newIndex < 5) {
+			return false
+		}
+
+		var lastIndexOld = TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + old.comments.size - 1
+		var lastIndexNew = TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + new.comments.size - 1
+		if (oldIndex == lastIndexOld && newIndex == lastIndexNew) {
+			return old.comments.isNotEmpty() && old.comments.isNotEmpty()
+		}
+
+		if (oldIndex == lastIndexOld || newIndex == lastIndexNew) {
+			return false
+		}
+
+		lastIndexOld = oldIndex - TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + 1
+		lastIndexNew = newIndex - TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + 1
+		log("old $oldIndex new $newIndex lastIndexOld $lastIndexOld lastIndexNew $lastIndexNew")
+		return old.comments[lastIndexOld].id == new.comments[lastIndexNew].id
 	}
 
 	override fun getOldListSize(): Int {
@@ -433,30 +460,48 @@ class ProblemDiffUtils : SingleDiffUtil<ProblemDetail>() {
 	}
 
 	override fun areContentsTheSame(oldIndex: Int, newIndex: Int): Boolean {
-		/*val old = itemOld ?: return false
+		val old = itemOld ?: return false
 		val new = itemNew ?: return false
 
 		if (oldIndex == 0 && newIndex == 0) {
-			return old.task == new.task
+			return old.task.text == new.task.text
 		}
 
 		if (oldIndex == 1 && newIndex == 1) {
-			return true
+			return old.task.latitude == new.task.latitude
+				&& old.task.longitude == new.task.longitude
 		}
 
 		if (oldIndex == 2 && newIndex == 2) {
-			return true
+			return old.task.categories == new.task.categories
+				&& old.task.companyName == new.task.companyName
 		}
 
-		if (oldIndex == 3 && newIndex == 3
-			&& (old.task.imageFirst.isNotEmpty() || new.task.imageFirst.isNotEmpty())) {
+		if (oldIndex == 3 && newIndex == 3) {
 			return old.task.imageFirst == new.task.imageFirst && old.task.imageSecond == new.task.imageSecond
 		}
 
-		if (oldIndex > 0 && newIndex > 0) {
-			return old.comments[oldIndex] == new.comments[newIndex]
-		}*/
+		if (oldIndex == 4 && newIndex == 4) {
+			return old.comments.isNotEmpty() && old.comments.isNotEmpty()
+		}
 
-		return false
+		if (oldIndex < 5 || newIndex < 5) {
+			return false
+		}
+
+		var lastIndexOld = TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + old.comments.size - 1
+		var lastIndexNew = TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + new.comments.size - 1
+		if (oldIndex == lastIndexOld && newIndex == lastIndexNew) {
+			return old.comments.size > 10 && old.comments.size > 10
+		}
+
+		if (oldIndex == lastIndexOld || newIndex == lastIndexNew) {
+			return false
+		}
+
+		lastIndexOld = oldIndex - TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + 1
+		lastIndexNew = newIndex - TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + 1
+		log("old $oldIndex new $newIndex lastIndexOld $lastIndexOld lastIndexNew $lastIndexNew")
+		return old.comments[lastIndexOld].id == new.comments[lastIndexNew].id
 	}
 }

@@ -8,7 +8,7 @@ import android.view.inputmethod.InputMethodManager
 interface KeyboardScreen {
 
 	fun Fragment.hideKeyboard() {
-		requireActivity().currentFocus.let {
+		requireActivity().currentFocus?.let {
 			val inputManager = requireActivity()
 				.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 			inputManager.hideSoftInputFromWindow(it.windowToken, 0)
