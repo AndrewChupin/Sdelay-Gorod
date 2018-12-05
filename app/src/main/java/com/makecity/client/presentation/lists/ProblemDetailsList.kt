@@ -105,7 +105,7 @@ class TaskDetailAdapter(
 
 	override fun getItemCount(): Int {
 		val size = data?.let { it ->
-			it.comments.size + it.task.history.size + ADDITIONAL_CELLS_COUNT
+			it.comments.size + ADDITIONAL_CELLS_COUNT
 		}
 		return size ?: 0
 	}
@@ -142,25 +142,14 @@ class TaskDetailAdapter(
 		}
 	}
 
-	override fun getItemViewType(position: Int): Int {
-		data?.let { details ->
-			val commentsCount = details.comments.size
-			if (commentsCount > 0
-				&& position > 4
-				&& position < 5 + commentsCount) {
-				return R.layout.item_comment
-			}
-		}
-
-		return when (position) {
-			0 -> R.layout.item_problem_content
-			1 -> R.layout.item_problem_location
-			2 -> R.layout.item_problem_info
-			3 -> R.layout.item_problem_photo
-			4 -> R.layout.item_problem_title
-			itemCount - 1 -> R.layout.item_problem_show_more
-			else -> R.layout.item_history
-		}
+	override fun getItemViewType(position: Int): Int = when (position) {
+		0 -> R.layout.item_problem_content
+		1 -> R.layout.item_problem_location
+		2 -> R.layout.item_problem_info
+		3 -> R.layout.item_problem_photo
+		4 -> R.layout.item_problem_title
+		itemCount - 1 -> R.layout.item_problem_show_more
+		else -> R.layout.item_comment
 	}
 }
 

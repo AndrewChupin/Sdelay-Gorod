@@ -5,6 +5,14 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
+    <View
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:background="@color/colorAccent"/>
+
+
     <TextView
         android:id="@+id/item_history_title"
         android:layout_width="match_parent"

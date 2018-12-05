@@ -9,6 +9,8 @@ import com.makecity.client.app.AppInjector
 import com.makecity.client.data.task.Task
 import com.makecity.client.presentation.lists.TaskDetailAdapter
 import com.makecity.client.presentation.lists.TaskDetailsDelegate
+import com.makecity.client.utils.GoogleApiHelper
+import com.makecity.core.data.entity.Location
 import com.makecity.core.extenstion.calculateDiffs
 import com.makecity.core.extenstion.isVisible
 import com.makecity.core.extenstion.withArguments
@@ -17,9 +19,13 @@ import com.makecity.core.presentation.screen.ToolbarConfig
 import com.makecity.core.presentation.screen.ToolbarScreen
 import com.makecity.core.presentation.state.PrimaryViewState
 import com.makecity.core.presentation.view.StatementFragment
+import com.makecity.core.utils.ScreenUtils
 import com.makecity.core.utils.Symbols.EMPTY
+import com.makecity.core.utils.image.CommonImageRules
 import com.makecity.core.utils.image.ImageManager
+import kotlinx.android.synthetic.main.fragment_auth.*
 import kotlinx.android.synthetic.main.fragment_problem.*
+import kotlinx.android.synthetic.main.item_problem_location.*
 import javax.inject.Inject
 
 typealias ProblemStatement = StatementFragment<ProblemReducer, ProblemViewState, ProblemAction>
