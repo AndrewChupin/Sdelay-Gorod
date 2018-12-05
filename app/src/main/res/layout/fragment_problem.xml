@@ -90,7 +90,7 @@
         android:id="@+id/problem_send_comment_button"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/et_chat_message_input"
