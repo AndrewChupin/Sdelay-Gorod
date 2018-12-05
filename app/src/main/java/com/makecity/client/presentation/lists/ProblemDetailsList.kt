@@ -403,51 +403,7 @@ class ProblemHistoryViewHolder(
  */
 class ProblemDiffUtils : SingleDiffUtil<ProblemDetail>() {
 
-	override fun areItemsTheSame(oldIndex: Int, newIndex: Int): Boolean {
-		val old = itemOld ?: return false
-		val new = itemNew ?: return false
-
-		if (oldIndex == 0 && newIndex == 0) {
-			return old.task.text == new.task.text
-		}
-
-		if (oldIndex == 1 && newIndex == 1) {
-			return old.task.latitude == new.task.latitude
-				&& old.task.longitude == new.task.longitude
-		}
-
-		if (oldIndex == 2 && newIndex == 2) {
-			return old.task.categories == new.task.categories
-				&& old.task.companyName == new.task.companyName
-		}
-
-		if (oldIndex == 3 && newIndex == 3) {
-			return old.task.imageFirst == new.task.imageFirst && old.task.imageSecond == new.task.imageSecond
-		}
-
-		if (oldIndex == 4 && newIndex == 4) {
-			return old.comments.isNotEmpty() && old.comments.isNotEmpty()
-		}
-
-		if (oldIndex < 5 || newIndex < 5) {
-			return false
-		}
-
-		var lastIndexOld = TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + old.comments.size - 1
-		var lastIndexNew = TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + new.comments.size - 1
-		if (oldIndex == lastIndexOld && newIndex == lastIndexNew) {
-			return old.comments.isNotEmpty() && old.comments.isNotEmpty()
-		}
-
-		if (oldIndex == lastIndexOld || newIndex == lastIndexNew) {
-			return false
-		}
-
-		lastIndexOld = oldIndex - TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + 1
-		lastIndexNew = newIndex - TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + 1
-		log("old $oldIndex new $newIndex lastIndexOld $lastIndexOld lastIndexNew $lastIndexNew")
-		return old.comments[lastIndexOld].id == new.comments[lastIndexNew].id
-	}
+	override fun areItemsTheSame(oldIndex: Int, newIndex: Int): Boolean  = check(oldIndex, newIndex)
 
 	override fun getOldListSize(): Int {
 		val old = itemOld ?: return 0
@@ -459,7 +415,9 @@ class ProblemDiffUtils : SingleDiffUtil<ProblemDetail>() {
 		return new.comments.size + ADDITIONAL_CELLS_COUNT
 	}
 
-	override fun areContentsTheSame(oldIndex: Int, newIndex: Int): Boolean {
+	override fun areContentsTheSame(oldIndex: Int, newIndex: Int): Boolean = check(oldIndex, newIndex)
+
+	private fun check(oldIndex: Int, newIndex: Int): Boolean {
 		val old = itemOld ?: return false
 		val new = itemNew ?: return false
 
@@ -484,24 +442,20 @@ class ProblemDiffUtils : SingleDiffUtil<ProblemDetail>() {
 		if (oldIndex == 4 && newIndex == 4) {
 			return old.comments.isNotEmpty() && old.comments.isNotEmpty()
 		}
-
-		if (oldIndex < 5 || newIndex < 5) {
-			return false
-		}
-
-		var lastIndexOld = TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + old.comments.size - 1
-		var lastIndexNew = TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + new.comments.size - 1
+		val lastIndexOld = TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + old.comments.size - 1
+		val lastIndexNew = TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + new.comments.size - 1
 		if (oldIndex == lastIndexOld && newIndex == lastIndexNew) {
 			return old.comments.size > 10 && old.comments.size > 10
-		}
+		}/*
 
-		if (oldIndex == lastIndexOld || newIndex == lastIndexNew) {
-			return false
+		lastIndexOld = (TaskDetailAdapter.ADDITIONAL_CELLS_COUNT - 2) + old.comments.size
+		lastIndexNew = (TaskDetailAdapter.ADDITIONAL_CELLS_COUNT - 2) + new.comments.size
+		if (oldIndex == lastIndexOld && newIndex == lastIndexNew) {
+			lastIndexOld = oldIndex - TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + 1
+			lastIndexNew = newIndex - TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + 1
+			return old.comments[lastIndexOld].id == new.comments[lastIndexNew].id
 		}
-
-		lastIndexOld = oldIndex - TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + 1
-		lastIndexNew = newIndex - TaskDetailAdapter.ADDITIONAL_CELLS_COUNT + 1
-		log("old $oldIndex new $newIndex lastIndexOld $lastIndexOld lastIndexNew $lastIndexNew")
-		return old.comments[lastIndexOld].id == new.comments[lastIndexNew].id
+*/
+		return false
 	}
 }
