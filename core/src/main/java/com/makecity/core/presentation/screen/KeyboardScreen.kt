@@ -2,6 +2,7 @@ package com.makecity.core.presentation.screen
 
 import android.content.Context
 import android.support.v4.app.Fragment
+import android.support.v4.app.JobIntentService
 import android.view.inputmethod.InputMethodManager
 
 

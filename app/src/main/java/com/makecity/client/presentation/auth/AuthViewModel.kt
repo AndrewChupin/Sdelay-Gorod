@@ -86,7 +86,7 @@ class AuthViewModel(
 	override var channel: ((DefaultMessage) -> Unit)? = null
 
 	private var lastContent = EMPTY
-	private var rememberedPassword = EMPTY
+	private var rememberedPassword = EMPTY // TODO CHANGE TO MUTABLE DATA FOR RELEASE
 	private val atomicInteger = AtomicInteger(SECURE_RETRY_TIMEOUT)
 	private var timerDisposable: Disposable? = null
 
