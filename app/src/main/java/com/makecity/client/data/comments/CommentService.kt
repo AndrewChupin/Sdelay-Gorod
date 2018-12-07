@@ -24,7 +24,7 @@ class CommentServiceRetrofit @Inject constructor(
 
 	override fun loadComments(
 		page: Int, problemId: Long
-	): Single<List<CommentRemote>> = api.loadCommentsPage(page, problemId)
+	): Single<List<CommentRemote>> = api.loadCommentsPage(problemId, page)
 
 	override fun requestCreateComment(
 		auth: String, request: CreateCommentRequest

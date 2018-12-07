@@ -8,6 +8,7 @@ import com.makecity.client.data.comments.CommentsAuthorMapperPersistenceToCommon
 import com.makecity.client.data.geo.GeoDataSource
 import com.makecity.client.data.problem.ProblemDetail
 import com.makecity.core.utils.Symbols.EMPTY
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import javax.inject.Inject
@@ -17,6 +18,7 @@ interface ProblemDataSource {
 	fun getProblems(): Single<List<Task>>
 	fun refreshProblems(): Single<List<Task>>
 	fun getProblemComments(problemId: Long): Single<ProblemDetail>
+	fun incrementCommentsCount(problemId: Long): Completable
 	fun changeFavorite(problemId: Long, favoriteType: FavoriteType): Single<Boolean>
 }
 
@@ -67,6 +69,16 @@ class ProblemDataSourceRemote @Inject constructor(
 		Single.zip(getComments(problemId), task, BiFunction<List<Comment>, Task, ProblemDetail> { t1, t2 ->
 			ProblemDetail(t2, t1)
 		})
+	}
+
+	override fun incrementCommentsCount(problemId: Long): Completable = Completable.fromAction {
+		tasks = tasks
+			.map {
+				if (it.id == problemId)
+					it.copy(commentsCount = it.commentsCount.inc())
+				else
+					it
+			}
 	}
 
 	private fun getComments(problemId: Long): Single<List<Comment>> = Single.defer {

@@ -20,10 +20,10 @@ interface Api {
 	/**
 	 * MARK - Comments
 	 */
-	@GET("/comment/problem/{problem_id}?page=2&expand=author")
+	@GET("/comment/problem/{problem_id}?expand=author")
 	fun loadCommentsPage(
-		@Path("problem_id") problemId: Int,
-		@Query("page") page: Long
+		@Path("problem_id") problemId: Long,
+		@Query("page") page: Int
 	): Single<List<CommentRemote>>
 
 	@POST("comment")

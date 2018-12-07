@@ -17,6 +17,7 @@ import com.makecity.core.presentation.state.ViewState
 import com.makecity.core.presentation.viewmodel.ActionView
 import com.makecity.core.presentation.viewmodel.BaseViewModel
 import com.makecity.core.presentation.viewmodel.StatementReducer
+import com.makecity.core.utils.log
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.parcel.Parcelize
 import ru.terrakok.cicerone.Router
@@ -88,10 +89,10 @@ class CommentsViewModel(
 				copy(screenState = PrimaryViewState.Data, comments = comments.concat(it))
 			}
 		}, onError = {
+			log(it)
 			viewState.updateValue {
 				copy(screenState = PrimaryViewState.Error(it))
 			}
-			it.printStackTrace()
 			result(0)
 		})
 }

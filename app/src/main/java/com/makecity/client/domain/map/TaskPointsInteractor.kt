@@ -55,7 +55,8 @@ class TaskInteractorReactive @Inject constructor(
 	): Completable = Completable.defer {
 		authDataSource.checkToken()
 			.flatMapCompletable { token ->
-				commentsDataSource.createComment(token, text, problemId)
+				problemDataSource.incrementCommentsCount(problemId)
+					.andThen(commentsDataSource.createComment(token, text, problemId))
 			}
 	}
 
