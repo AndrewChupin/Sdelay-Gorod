@@ -92,7 +92,7 @@ class AuthViewModel(
 
 	init {
 		if (authData.authType == AuthType.SMS) {
-			startTimer()
+			checkSmsDiffTome()
 			updatePhone()
 		}
 	}
@@ -236,11 +236,26 @@ class AuthViewModel(
 			})
 	}
 
-
 	// MARK - SMS Actions
+	private fun startTimerWithUpdate() {
+		timerDisposable?.dispose()
+		timerDisposable = authInteractor.saveSmsTimestamp(System.currentTimeMillis())
+			.andThen(Observable.interval(0, 1, TimeUnit.SECONDS, Schedulers.computation()))
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribeOn(Schedulers.io())
+			.subscribe {
+				val lostTime = atomicInteger.decrementAndGet()
+				if (lostTime == 0) {
+					stopTimer()
+				}
+				viewState.updateValue { copy(blockingSeconds = lostTime, isResetContent = false) }
+			}
+	}
 	private fun startTimer() {
+		timerDisposable?.dispose()
 		timerDisposable = Observable.interval(0, 1, TimeUnit.SECONDS, Schedulers.computation())
 			.observeOn(AndroidSchedulers.mainThread())
+			.subscribeOn(Schedulers.io())
 			.subscribe {
 				val lostTime = atomicInteger.decrementAndGet()
 				if (lostTime == 0) {
@@ -250,13 +265,26 @@ class AuthViewModel(
 			}
 	}
 
+	private fun checkSmsDiffTome() {
+		authInteractor.getSmsDiffTimestamp()
+			.bindSubscribe(onSuccess = { timeDiffMillis ->
+				val timeDiffSec = TimeUnit.MILLISECONDS.toSeconds(timeDiffMillis).toInt()
+				if (timeDiffMillis < TimeUnit.SECONDS.toMillis(SECURE_RETRY_TIMEOUT.toLong())) {
+					atomicInteger.set(SECURE_RETRY_TIMEOUT - timeDiffSec)
+					startTimer()
+				} else {
+					startTimerWithUpdate()
+				}
+			})
+	}
+
 	private fun onRefreshSms() {
 		onLoading()
 		authInteractor
 			.refreshSms()
 			.bindSubscribe(onSuccess = {
 				onSuccess()
-				startTimer()
+				startTimerWithUpdate()
 				updatePhone()
 			})
 	}

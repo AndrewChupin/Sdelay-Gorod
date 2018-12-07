@@ -6,6 +6,7 @@ import com.makecity.core.utils.Symbols.EMPTY
 import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
+import kotlin.math.absoluteValue
 
 
 data class NextAuthStep(
@@ -27,6 +28,10 @@ interface AuthDataSource {
 	fun findPhone(): Single<String>
 
 	fun refreshSms(): Single<Boolean>
+
+	fun saveSmsTimestamp(timestamp: Long): Completable
+
+	fun getSmsTimestampDiff(): Single<Long>
 }
 
 
@@ -37,11 +42,12 @@ class AuthDataSourceDefault @Inject constructor(
 ) : AuthDataSource {
 
 	override fun getCode(phone: String, cityId: Long): Single<NextAuthStep> = Single.defer {
-		authService
+		/*authService
 			.sendPhone(phone, cityId)
 			.map { it.nextStep ?: EMPTY }
 			.map(authStepMapper::transform)
-			.blockingCompletable { authStorage.setPhone(phone) }
+			.blockingCompletable { authStorage.setPhone(phone) }*/
+		Single.just(NextAuthStep(AuthType.SMS))
 	}
 
 	override fun saveCode(code: String): Single<NextAuthStep> = Single.defer {
@@ -85,4 +91,16 @@ class AuthDataSourceDefault @Inject constructor(
 	override fun refreshSms(): Single<Boolean> = authStorage
 		.getPhone()
 		.flatMap { authService.getNewSms(it) }
+
+
+	override fun getSmsTimestampDiff(): Single<Long> = Single.defer {
+		authStorage.getSmsTimestamp()
+			.map { timestamp ->
+				(timestamp - System.currentTimeMillis()).absoluteValue
+			}
+	}
+
+	override fun saveSmsTimestamp(timestamp: Long): Completable = Completable.defer {
+		authStorage.setSmsTimestamp(timestamp)
+	}
 }

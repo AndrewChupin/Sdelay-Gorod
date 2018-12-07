@@ -17,6 +17,9 @@ interface AuthStorage {
 
 	fun getPhone(): Single<String>
 	fun setPhone(phone: String): Completable
+
+	fun getSmsTimestamp(): Single<Long>
+	fun setSmsTimestamp(timestamp: Long): Completable
 }
 
 
@@ -28,6 +31,7 @@ class AuthStoragePreferences @Inject constructor(
 		private const val KEY_AUTH_REG_TOKEN = "KEY_AUTH_REG_TOKEN"
 		private const val KEY_AUTH_TOKEN = "KEY_AUTH_TOKEN"
 		private const val KEY_AUTH_PHONE = "KEY_AUTH_PHONE"
+		private const val KEY_SMS_TIMESTAMP = "KEY_SMS_TIMESTAMP"
 	}
 
 
@@ -67,6 +71,20 @@ class AuthStoragePreferences @Inject constructor(
 	override fun setPhone(phone: String): Completable = Completable.defer {
 		val isSuccess = preferences.edit()
 			.putString(KEY_AUTH_PHONE, phone)
+			.commit()
+
+		if (isSuccess) Completable.complete() else Completable.error(WritePersistenceException)
+	}
+
+
+	// Phone
+	override fun getSmsTimestamp(): Single<Long> = Single.fromCallable {
+		preferences.getLong(KEY_SMS_TIMESTAMP, 0)
+	}
+
+	override fun setSmsTimestamp(timestamp: Long): Completable = Completable.defer {
+		val isSuccess = preferences.edit()
+			.putLong(KEY_SMS_TIMESTAMP, timestamp)
 			.commit()
 
 		if (isSuccess) Completable.complete() else Completable.error(WritePersistenceException)

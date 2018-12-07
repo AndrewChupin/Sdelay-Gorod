@@ -22,6 +22,8 @@ interface AuthInteractor {
 	fun checkPassword(password: String): Completable
 	fun getPhone(): Single<String>
 	fun refreshSms(): Single<Boolean>
+	fun getSmsDiffTimestamp(): Single<Long>
+	fun saveSmsTimestamp(timestamp: Long): Completable
 }
 
 
@@ -81,5 +83,14 @@ class AuthInteractorDefault @Inject constructor(
 
 	override fun refreshSms(): Single<Boolean> = Single.defer {
 		authDataSource.refreshSms()
+	}
+
+
+	override fun getSmsDiffTimestamp(): Single<Long> = Single.defer {
+		authDataSource.getSmsTimestampDiff()
+	}
+
+	override fun saveSmsTimestamp(timestamp: Long): Completable = Completable.defer {
+		authDataSource.saveSmsTimestamp(timestamp)
 	}
 }
